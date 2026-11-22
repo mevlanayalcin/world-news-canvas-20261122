@@ -1,11 +1,14 @@
-"""Draw the World Ledger front page and write it to entry.png (1024 x 1024, 8-bit RGB).
+"""Draw the World Ledger visual front-page poster for Sunday 22 November 2026 (1024 x 1024, 8-bit RGB PNG).
 
     python3 tools/render.py            # writes ../entry.png
     python3 tools/render.py out.png    # writes somewhere else
 
-Shapes and illustrations are drawn oversized and box-filtered down (see art.py); all type is set at final
-resolution so small glyphs stay sharp. While it draws, the page remembers the box of every piece of text it
-places, then refuses to save if any text leaves its allotted space or touches another piece of text.
+One clear, breathable editorial composition designed to excel at both full resolution and 300px thumbnails:
+  - Giant broadsheet date masthead (56px serif)
+  - 2 centerpiece illustrated hero stories (30px serif headlines)
+  - 4 x 2 illustrated global grid (19.5px serif headlines)
+  - Clean large-type World Briefs + explicit Sat-21-Nov-UTC Exclusion strip (14 verified stories, 2 per region)
+Every text placement is checked for strict bounds and zero overlap before saving.
 """
 
 import os
@@ -20,17 +23,18 @@ import art
 import stories
 
 SIDE = 1024
-MARGIN = 8
-PAPER = "#F5F1E7"
-CARD_BG = "#FFFDF8"
-INK = "#141923"
-BODY = "#2A3240"
+MARGIN = 12
+PAPER = "#F5F1E8"
+CARD_BG = "#FFFDF9"
+TINT = "#EFE9DB"
+NAVY = "#121A2A"
+INK = "#121A2A"
+BODY = "#2B3445"
 WHITE = "#FFFFFF"
-RED = "#B3261E"
-AMBER = "#9A6200"
+RED = "#B8251E"
+GOLD = "#FDE68A"
 SOFT = "#4B5563"
-TINT = "#EBE5D7"
-RULE = "#BEB7A7"
+RULE = "#CFC8B8"
 
 LATO = "/usr/share/fonts/truetype/lato/"
 FONT_FILES = {
@@ -58,7 +62,6 @@ def width_of(text, name, size):
 
 
 def wrap(text, name, size, width, max_lines):
-    """Greedy word wrap; raises if the text cannot fit the lines it is allowed."""
     lines, current = [], ""
     for word in text.split():
         trial = (current + " " + word).strip()
@@ -77,11 +80,10 @@ class Page:
     def __init__(self):
         self.image = Image.new("RGB", (SIDE, SIDE), PAPER)
         self.draw = ImageDraw.Draw(self.image)
-        self.placed = []  # (bbox, text, allowed box)
+        self.placed = []
         self.problems = []
 
     def box(self, x0, y0, x1, y1, colour):
-        """Filled rectangle covering pixels x0..x1-1, y0..y1-1."""
         self.draw.rectangle([x0, y0, x1 - 1, y1 - 1], fill=colour)
 
     def text(self, x, y, string, name, size, colour, anchor="ls", within=None):
@@ -92,11 +94,10 @@ class Page:
         if within is not None:
             x0, y0, x1, y1 = within
             if bbox[0] < x0 - 0.01 or bbox[1] < y0 - 0.01 or bbox[2] > x1 + 0.01 or bbox[3] > y1 + 0.01:
-                self.problems.append(f"CLIPPED {string!r}: text box {tuple(round(v, 1) for v in bbox)} outside {within}")
+                self.problems.append(f"CLIPPED {string!r}: {tuple(round(v, 1) for v in bbox)} outside {within}")
         return bbox
 
     def audit(self):
-        """Every pair of text boxes must be disjoint."""
         for i in range(len(self.placed)):
             a = self.placed[i][0]
             for j in range(i + 1, len(self.placed)):
@@ -106,304 +107,157 @@ class Page:
         return self.problems
 
 
-REGION_COLOUR = {name: colour for name, _, colour in stories.REGIONS}
-REGION_CODE = {name: code for name, code, _ in stories.REGIONS}
-GRADE_COLOUR = {name: colour for name, _, colour, _ in stories.GRADES}
-GRADE_LETTER = {name: letter for name, letter, _, _ in stories.GRADES}
+REGION_COLOUR = {name: colour for name, colour in stories.REGIONS}
 
 
 def masthead(page):
-    # Top editorial micro-bar
-    brand = "WORLD LEDGER"
-    page.text(MARGIN, 11, brand, "black", 10.5, RED, "lm", within=(0, 3, 240, 19))
-    brand_end = MARGIN + width_of(brand, "black", 10.5)
-    page.text(brand_end + 6, 11, f"\u00b7  {stories.EDITION_CLOSE} UTC EDITION", "black", 10.5, INK, "lm",
-              within=(MARGIN, 3, 420, 19))
-    right_meta = (
-        f"{len(stories.all_stories())} VERIFIED STORIES  \u00b7  {len(stories.REGIONS)} REGIONS  \u00b7  "
-        f"{len(stories.EXCLUDED)} PRE-SUNDAY EXCLUDED"
-    )
-    page.text(SIDE - MARGIN, 11, right_meta, "bold", 10, SOFT, "rm", within=(440, 3, SIDE, 19))
-    page.box(MARGIN, 19, SIDE - MARGIN, 20, RULE)
-    # Huge full-width centered broadsheet date (survives effortlessly at 300px)
-    page.text(SIDE / 2, 47.5, stories.EDITION_DAY, "serif", 54, INK, "mm", within=(MARGIN, 20, SIDE - MARGIN, 75))
-    # One-line summary of the four lead stories
-    page.text(SIDE / 2, 81, stories.LEAD_SUMMARY, "bold", 13.5, INK, "mm", within=(MARGIN, 73, SIDE - MARGIN, 91))
+    page.box(0, 0, SIDE, 32, NAVY)
+    title_end = page.text(MARGIN + 2, 16, "WORLD NEWS", "black", 16.5, WHITE, "lm", within=(0, 0, 260, 32))
+    page.text(title_end[2] + 10, 16, f"\u00b7  {stories.EDITION_CLOSE} EDITION", "bold", 12.5, GOLD, "lm",
+              within=(100, 0, 500, 32))
+    pill_txt = f"7 REGIONS  \u00b7  {len(stories.all_stories())} VERIFIED STORIES  \u00b7  22 NOV UTC"
+    pill_w = int(width_of(pill_txt, "black", 11.5)) + 20
+    px0 = SIDE - MARGIN - pill_w
+    page.box(px0, 5, SIDE - MARGIN, 27, RED)
+    page.text(px0 + pill_w / 2, 16, pill_txt, "black", 11.5, WHITE, "mm", within=(px0, 5, SIDE - MARGIN, 27))
+    # Giant full-width centered broadsheet date (unmistakable even at 250px wide)
+    page.text(SIDE / 2, 67, stories.EDITION_DAY, "serif", 56, INK, "mm", within=(MARGIN, 33, SIDE - MARGIN, 102))
     # Classic broadsheet double rule
-    page.box(MARGIN, 91, SIDE - MARGIN, 94, INK)
-    page.box(MARGIN, 96, SIDE - MARGIN, 97, INK)
-    return 97
+    page.box(MARGIN, 102, SIDE - MARGIN, 105, NAVY)
+    page.box(MARGIN, 107, SIDE - MARGIN, 108, RED)
+    return 108
 
 
-def timeline_strip(page, top):
-    height = 19
-    tag_w = 98
-    page.box(MARGIN, top, MARGIN + tag_w, top + height, INK)
-    page.text(MARGIN + tag_w / 2, top + height / 2, "THE DAY IN UTC", "black", 9.5, WHITE, "mm",
-              within=(MARGIN, top, MARGIN + tag_w, top + height))
-    strip_left = MARGIN + tag_w
-    strip_right = SIDE - MARGIN
-    page.box(strip_left, top, strip_right, top + height, TINT)
-    page.box(strip_left, top, strip_right, top + 1, RULE)
-    page.box(strip_left, top + height - 1, strip_right, top + height, RULE)
-    page.box(strip_right - 1, top, strip_right, top + height, RULE)
-
-    items = stories.TIMELINE
-    item_widths = []
-    for ts, label in items:
-        item_widths.append(width_of(ts, "black", 10.2) + 3 + width_of(label, "bold", 10.2))
-    sep = "\u00b7"
-    sep_w = width_of(sep, "black", 10.2)
-    avail = (strip_right - strip_left) - 22
-    gap = (avail - sum(item_widths) - sep_w * (len(items) - 1)) / (2 * (len(items) - 1))
-    x = strip_left + 10
-    mid = top + height / 2
-    for idx, (ts, label) in enumerate(items):
-        end = page.text(x, mid, ts, "black", 10.2, RED, "lm", within=(strip_left + 4, top, strip_right - 4, top + height))
-        end2 = page.text(end[2] + 3, mid, label, "bold", 10.2, INK, "lm", within=(strip_left + 4, top, strip_right - 4, top + height))
-        x = end2[2]
-        if idx < len(items) - 1:
-            x += gap
-            page.text(x + sep_w / 2, mid, sep, "black", 10.2, SOFT, "mm", within=(strip_left + 4, top, strip_right - 4, top + height))
-            x += sep_w + gap
-    return top + height
-
-
-def region_bar(page, top):
-    counts = stories.region_counts()
-    total = sum(counts.values())
-    height = 16
-    span = SIDE - 2 * MARGIN
-    x = MARGIN
-    running = 0
-    for name, _, colour in stories.REGIONS:
-        running += counts[name]
-        right = MARGIN + round(span * running / total)
-        page.box(x, top, right, top + height, colour)
-        page.text((x + right) / 2, top + height / 2, f"{name} {counts[name]}", "black", 10, WHITE, "mm",
-                  within=(x + 2, top, right - 2, top + height))
-        if right < SIDE - MARGIN:
-            page.box(right - 1, top, right + 1, top + height, PAPER)
-        x = right
-    return top + height
-
-
-def card(page, story, x, y, width, art_height, caption_height):
-    lead = width > 250
-    total_h = art_height + caption_height
-    border = INK if lead else RULE
-    page.box(x, y, x + width, y + total_h, border)
-    page.box(x + 1, y + art_height, x + width - 1, y + total_h - 1, CARD_BG)
-    picture, labels = art.render_scene(story["art"], width - 2, art_height - 1, 4, story.get("note", ""))
+def hero_card(page, story, x, y, width, height):
+    art_h = 186
+    page.box(x, y, x + width, y + height, NAVY)
+    page.box(x + 1, y + art_h, x + width - 1, y + height - 1, CARD_BG)
+    picture, labels = art.render_scene(story["art"], width - 2, art_h - 1, 4, story.get("note", ""))
     page.image.paste(picture, (x + 1, y + 1))
     for lx, ly, string, size, colour, name, anchor in labels:
         page.text(x + 1 + lx, y + 1 + ly, string, name, size, colour, anchor,
-                  within=(x + 1, y + 1, x + width - 1, y + art_height))
-    region = story["region"]
-    rule_h = 3 if lead else 2
-    page.box(x + 1, y + art_height, x + width - 1, y + art_height + rule_h, REGION_COLOUR[region])
-    # number + region tag, top left
-    tag_height = 16 if lead else 13
-    number_size, region_size = (12, 10) if lead else (10, 9)
-    number = str(story["n"])
-    number_box = int(width_of(number, "black", number_size)) + (10 if lead else 7)
-    page.box(x + 1, y + 1, x + 1 + number_box, y + 1 + tag_height, INK)
-    page.text(x + 1 + number_box / 2, y + 1 + tag_height / 2, number, "black", number_size, WHITE, "mm",
-              within=(x + 1, y + 1, x + 1 + number_box, y + 1 + tag_height))
-    region_box = int(width_of(region, "black", region_size)) + (11 if lead else 8)
-    page.box(x + 1 + number_box, y + 1, x + 1 + number_box + region_box, y + 1 + tag_height, REGION_COLOUR[region])
-    page.text(x + 1 + number_box + region_box / 2, y + 1 + tag_height / 2, region, "black", region_size, WHITE, "mm",
-              within=(x + 1 + number_box, y + 1, x + 1 + number_box + region_box, y + 1 + tag_height))
-    # verification tag, top right (full label on lead cards, clean letter chip on secondary cards to cut clutter)
-    grade = story["grade"]
-    if lead:
-        grade_box = int(width_of(grade, "black", 10)) + 11
-        page.box(x + width - 1 - grade_box, y + 1, x + width - 1, y + 1 + tag_height, GRADE_COLOUR[grade])
-        page.text(x + width - 1 - grade_box / 2, y + 1 + tag_height / 2, grade, "black", 10, WHITE, "mm",
-                  within=(x + width - 1 - grade_box, y + 1, x + width - 1, y + 1 + tag_height))
-    else:
-        chip_w = 14
-        page.box(x + width - 1 - chip_w, y + 1, x + width - 1, y + 1 + tag_height, GRADE_COLOUR[grade])
-        page.text(x + width - 1 - chip_w / 2, y + 1 + tag_height / 2, GRADE_LETTER[grade], "black", 9.5, WHITE, "mm",
-                  within=(x + width - 1 - chip_w, y + 1, x + width - 1, y + 1 + tag_height))
-    # High-contrast black serif headlines on warm white paper
-    top = y + art_height + rule_h
-    pad = 8 if lead else 6
-    inner = (x + pad - 2, top, x + width - pad + 2, y + total_h - 1)
-    if lead:
-        lines = wrap(story["head"], "serif", 20, width - 2 * pad, 2)
-        baseline = top + 21
-        for line in lines:
-            page.text(x + pad, baseline, line, "serif", 20, INK, within=inner)
-            baseline += 22.5
-        page.text(x + pad, top + 64, story["deck"], "medium", 12, BODY, within=inner)
-        when_end = page.text(x + pad, top + 80, story["when"], "black", 11, RED, within=inner)
-        sources_txt = "  \u00b7  " + ", ".join(story["sources"])
-        page.text(when_end[2] + 1, top + 80, sources_txt, "bold", 11, SOFT, within=inner)
-    else:
-        head_size = 14.5
-        lines = wrap(story["head"], "serif", head_size, width - 2 * pad, 2)
-        baseline = top + 17.5
-        for line in lines:
-            page.text(x + pad, baseline, line, "serif", head_size, INK, within=inner)
-            baseline += 17.5
-        when_txt = story["when"]
-        src_txt = "\u00b7 " + ", ".join(story["sources"])
-        meta_size = 10.5
-        if width_of(when_txt, "black", meta_size) + 5 + width_of(src_txt, "bold", meta_size) > width - 2 * pad:
-            meta_size = 10
-        when_end = page.text(x + pad, top + 51, when_txt, "black", meta_size, RED, within=inner)
-        page.text(when_end[2] + 4, top + 51, src_txt, "bold", meta_size, SOFT, within=inner)
+                  within=(x + 1, y + 1, x + width - 1, y + art_h))
+    colour = REGION_COLOUR[story["region"]]
+    page.box(x + 1, y + art_h, x + width - 1, y + art_h + 4, colour)
+    pill = f"{story['region']}  \u00b7  {story['beat']}"
+    pill_w = int(width_of(pill, "black", 12)) + 16
+    page.box(x + 1, y + 1, x + 1 + pill_w, y + 23, colour)
+    page.text(x + 1 + pill_w / 2, y + 12, pill, "black", 12, WHITE, "mm",
+              within=(x + 1, y + 1, x + 1 + pill_w, y + 23))
+    top = y + art_h + 4
+    pad = 12
+    inner = (x + pad - 2, top, x + width - pad + 2, y + height - 2)
+    lines = wrap(story["head"], "serif", 30, width - 2 * pad, 2)
+    baseline = top + 32
+    for line in lines:
+        page.text(x + pad, baseline, line, "serif", 30, INK, within=inner)
+        baseline += 34
+    page.text(x + pad, top + 93, story["deck"], "medium", 15.5, BODY, within=inner)
+    when_end = page.text(x + pad, top + 117, story["when"], "black", 13, RED, within=inner)
+    src_txt = "  \u00b7  " + ", ".join(story["sources"])
+    page.text(when_end[2] + 2, top + 117, src_txt, "bold", 13, SOFT, within=inner)
 
 
-def cards(page, top):
-    lead_width, lead_gap = 332, 6
-    for index, story in enumerate(stories.CARDS[:3]):
-        card(page, story, MARGIN + index * (lead_width + lead_gap), top, lead_width, 96, 92)
-    top += 96 + 92 + 6
-    lefts = (8, 211, 414, 617, 819)
-    for row in range(2):
-        for index in range(5):
-            card(page, stories.CARDS[3 + row * 5 + index], lefts[index], top, 197, 52, 59)
-        top += 52 + 59 + 6
-    return top - 6
+def grid_card(page, story, x, y, width, height):
+    art_h = 112
+    page.box(x, y, x + width, y + height, RULE)
+    page.box(x + 1, y + art_h, x + width - 1, y + height - 1, CARD_BG)
+    picture, labels = art.render_scene(story["art"], width - 2, art_h - 1, 4, story.get("note", ""))
+    page.image.paste(picture, (x + 1, y + 1))
+    for lx, ly, string, size, colour, name, anchor in labels:
+        page.text(x + 1 + lx, y + 1 + ly, string, name, size, colour, anchor,
+                  within=(x + 1, y + 1, x + width - 1, y + art_h))
+    colour = REGION_COLOUR[story["region"]]
+    page.box(x + 1, y + art_h, x + width - 1, y + art_h + 3, colour)
+    pill = f"{story['region']} \u00b7 {story['beat']}"
+    pill_w = int(width_of(pill, "black", 10.5)) + 12
+    page.box(x + 1, y + 1, x + 1 + pill_w, y + 20, colour)
+    page.text(x + 1 + pill_w / 2, y + 10.5, pill, "black", 10.5, WHITE, "mm",
+              within=(x + 1, y + 1, x + 1 + pill_w, y + 20))
+    top = y + art_h + 3
+    pad = 9
+    inner = (x + pad - 2, top, x + width - pad + 2, y + height - 2)
+    lines = wrap(story["head"], "serif", 19.5, width - 2 * pad, 2)
+    baseline = top + 23
+    for line in lines:
+        page.text(x + pad, baseline, line, "serif", 19.5, INK, within=inner)
+        baseline += 22.5
+    page.text(x + pad, top + 70, story["deck"], "medium", 12.5, BODY, within=inner)
+    when_txt = story["when"]
+    src_txt = "\u00b7 " + ", ".join(story["sources"])
+    meta_size = 11.5
+    if width_of(when_txt, "black", meta_size) + 5 + width_of(src_txt, "bold", meta_size) > width - 2 * pad:
+        meta_size = 11
+    when_end = page.text(x + pad, top + 95, when_txt, "black", meta_size, RED, within=inner)
+    page.text(when_end[2] + 4, top + 95, src_txt, "bold", meta_size, SOFT, within=inner)
 
 
-def wire(page, top):
-    page.box(MARGIN, top, SIDE - MARGIN, top + 17, INK)
-    first, last = stories.WIRE[0]["n"], stories.WIRE[-1]["n"]
-    title = f"WIRE  \u00b7  {len(stories.WIRE)} MORE DATED DISPATCHES (#{first}\u2013#{last})  \u00b7  TIME = UTC OF EVENT OR FIRST REPORT; SUN = SUNDAY 22 NOV"
-    page.text(MARGIN + 6, top + 8.5, title, "black", 10.5, WHITE, "lm", within=(MARGIN, top, SIDE - MARGIN, top + 17))
-    top += 19
-    pitch = 17
-    column_width = 500
-    rows = (len(stories.WIRE) + 1) // 2
-    for index, story in enumerate(stories.WIRE):
-        column, row = divmod(index, rows)
-        x = MARGIN + column * (column_width + 8)
-        y = top + row * pitch
-        if row % 2 == 0:
-            page.box(x, y, x + column_width, y + pitch, TINT)
-        allowed = (x, y, x + column_width, y + pitch)
-        middle = y + pitch / 2
-        page.text(x + 3, middle, str(story["n"]), "black", 10.5, INK, "lm", within=allowed)
-        page.box(x + 21, y + 2, x + 50, y + pitch - 2, REGION_COLOUR[story["region"]])
-        page.text(x + 35.5, middle + 0.5, REGION_CODE[story["region"]], "black", 9, WHITE, "mm",
-                  within=(x + 21, y + 1, x + 50, y + pitch))
-        page.text(x + 55, middle, story["when"], "bold", 10.5, INK, "lm", within=allowed)
-        body = story["text"]
-        credit = "\u2014 " + ", ".join(story["sources"])
-        chip = x + column_width - 16
-        end = page.text(x + 90, middle, body, "regular", 11.5, INK, "lm", within=allowed)
-        credit_x = end[2] + 6
-        if credit_x + width_of(credit, "bold", 11.5) > chip - 4:
-            page.problems.append(f"TOO LONG wire #{story['n']} by {credit_x + width_of(credit, 'bold', 11.5) - (chip - 4):.0f}px: {body + ' ' + credit!r}")
-        page.text(credit_x, middle, credit, "bold", 11.5, INK, "lm", within=allowed)
-        page.box(chip, y + 2, chip + 13, y + pitch - 2, GRADE_COLOUR[story["grade"]])
-        page.text(chip + 6.5, middle + 0.5, GRADE_LETTER[story["grade"]], "black", 9.5, WHITE, "mm",
-                  within=(chip, y + 1, chip + 13, y + pitch))
-    return top + rows * pitch
-
-
-def atlas_panel(page, left, top, width, height):
-    page.box(left, top, left + 44, top + 14, INK)
-    page.text(left + 22, top + 7, "ATLAS", "black", 10, WHITE, "mm", within=(left, top, left + 44, top + 14))
-    page.text(left + 50, top + 7, "pins 1\u201313 match the card numbers  \u00b7  Natural Earth projection", "bold", 9.5, INK, "lm",
-              within=(left + 44, top, left + width, top + 14))
-    map_top = top + 16
-    world = art.Atlas(width, height - 16)
-    bubbles = []
-    for story in stories.CARDS:
-        lon, lat = story["place"]
-        dx, dy = story["hang"]
-        bubbles.append((story["n"], world.pin(lon, lat, dx, dy, REGION_COLOUR[story["region"]])))
-    page.image.paste(world.finish(), (left, map_top))
-    for number, (bx, by) in bubbles:
-        size = 9.5 if number < 10 else 8.5
-        page.text(left + bx, map_top + by, str(number), "black", size, WHITE, "mm",
-                  within=(left, map_top, left + width, map_top + height - 16))
-
-
-def flow(page, items, mark, mark_colour, left, top, right, size=10, leading=12.5):
-    """Set short items one after another, wrapping whole items; returns the y below the last line."""
-    x, y = left, top
-    gap = 13
-    for item in items:
-        needed = width_of(mark + " ", "black", size) + width_of(item, "medium", size)
-        if x > left and x + needed > right:
-            x = left
-            y += leading
-        if x + needed > right:
-            page.problems.append(f"TOO LONG ledger item: {item!r}")
-        page.text(x, y, mark, "black", size, mark_colour, within=(left - 1, top - 12, right + 1, y + 4))
-        page.text(x + width_of(mark + " ", "black", size), y, item, "medium", size, INK, within=(left - 1, top - 12, right + 1, y + 4))
-        x += needed + gap
-    return y + 4
-
-
-def date_check(page, left, top, width, height):
-    right = left + width
-    page.box(left, top, right, top + height, INK)
+def briefs_and_datecheck(page, top):
+    # Clean, high-legibility 2x2 World Briefs panel (Finance, Diplomacy, African Politics, Health) + Sat UTC Date Check
+    height = 90
+    left, right = MARGIN, SIDE - MARGIN
+    page.box(left, top, right, top + height, NAVY)
     page.box(left + 1, top + 1, right - 1, top + height - 1, CARD_BG)
-    page.box(left, top, right, top + 17, INK)
-    page.text(left + 7, top + 8.5, "DATE CHECK", "black", 11, WHITE, "lm", within=(left, top, right, top + 17))
-    page.text(left + 86, top + 8.5, "two ledgers kept so only Sunday 22 Nov UTC runs as today\u2019s news", "bold", 10, WHITE, "lm",
-              within=(left, top, right, top + 17))
-    y = top + 22
-    title = f"EXCLUDED ({len(stories.EXCLUDED)})  \u00b7  dated Sat 21 Nov UTC or earlier"
-    tag = int(width_of(title, "bold", 10)) + 14
-    page.box(left + 7, y, left + 7 + tag, y + 15, RED)
-    page.text(left + 14, y + 7.5, title, "bold", 10, WHITE, "lm", within=(left + 7, y, left + 7 + tag, y + 15))
-    y = flow(page, stories.EXCLUDED, "\u00d7", RED, left + 8, y + 27, right - 7, size=10.2, leading=13)
-    y += 4
-    title = f"NOT  YET ({len(stories.PENDING)})  \u00b7  open at the {stories.EDITION_CLOSE} UTC close"
-    tag = int(width_of(title, "bold", 10)) + 14
-    page.box(left + 7, y, left + 7 + tag, y + 15, AMBER)
-    page.text(left + 14, y + 7.5, title, "bold", 10, WHITE, "lm", within=(left + 7, y, left + 7 + tag, y + 15))
-    y = flow(page, stories.PENDING, "?", AMBER, left + 8, y + 27, right - 7, size=10.2, leading=13)
-    if y > top + height - 2:
-        page.problems.append(f"OVERFLOW date check box by {y - (top + height - 2):.0f}px")
-
-
-def footer(page, top):
-    page.box(MARGIN, top, SIDE - MARGIN, top + 2, INK)
-    y = top + 13
-    page.text(MARGIN, y, "VERIFICATION", "black", 10.5, INK, "lm", within=(0, top + 3, SIDE, top + 23))
-    x = MARGIN + 88
-    counts = stories.grade_counts()
-    for name, letter, colour, meaning in stories.GRADES:
-        pill = int(width_of(name, "black", 9.5)) + 10
-        page.box(x, y - 6, x + pill, y + 7, colour)
-        page.text(x + pill / 2, y, name, "black", 9.5, WHITE, "mm", within=(x, y - 6, x + pill, y + 7))
-        note = f"{meaning} ({counts[name]})"
-        page.text(x + pill + 5, y, note, "bold", 10, INK, "lm", within=(x, top + 3, SIDE - MARGIN, top + 23))
-        x += pill + 5 + int(width_of(note, "bold", 10)) + 16
-    rule = ("DATELINE RULE  Only events or first reports on Sunday 22 November 2026 UTC run as today\u2019s news; "
-            "Sat 21 Nov UTC items are logged in Date Check.")
-    page.text(MARGIN, top + 29, rule, "medium", 10, INK, "lm", within=(0, top + 22, SIDE, top + 37))
-    note = (f"Grade chips: C confirmed, O official, R reported, X claim.  Counts add to {len(stories.all_stories())}.  "
-            f"Compiled from {len(stories.named_sources())} named outlets up to {stories.EDITION_CLOSE} UTC; no unnamed sources.")
-    page.text(MARGIN, top + 41, note, "medium", 10, SOFT, "lm", within=(0, top + 35, SIDE, SIDE))
+    # 2 rows of 2 spacious briefs (each row 30px tall, >= 13px crisp type!)
+    row_h = 30
+    page.box(left + 1, top + row_h, right - 1, top + row_h + 1, RULE)
+    page.box(SIDE // 2, top + 1, SIDE // 2 + 1, top + 2 * row_h, RULE)
+    col_starts = (left + 10, SIDE // 2 + 10)
+    col_ends = (SIDE // 2 - 8, right - 8)
+    for idx, b in enumerate(stories.BRIEFS):
+        row, col = divmod(idx, 2)
+        cy = top + row * row_h + row_h / 2
+        x0, x1 = col_starts[col], col_ends[col]
+        colour = REGION_COLOUR[b["region"]]
+        tag_w = int(width_of(b["tag"], "black", 10)) + 12
+        page.box(x0, cy - 8, x0 + tag_w, cy + 8, colour)
+        page.text(x0 + tag_w / 2, cy, b["tag"], "black", 10, WHITE, "mm", within=(x0, cy - 9, x0 + tag_w, cy + 9))
+        tx = x0 + tag_w + 8
+        src = " \u00b7 " + ", ".join(b["sources"])
+        t_size = 12.5
+        if width_of(b["text"], "bold", t_size) + width_of(src, "medium", 11.5) > (x1 - tx):
+            t_size = 12
+        end = page.text(tx, cy, b["text"], "bold", t_size, INK, "lm", within=(tx - 1, cy - 12, x1, cy + 12))
+        page.text(end[2] + 2, cy, src, "medium", 11.5, SOFT, "lm", within=(tx - 1, cy - 12, x1 + 2, cy + 12))
+    # Bottom explicit Sunday-UTC Date Check bar inside the panel (y = top + 61 .. top + 89)
+    bar_y = top + 2 * row_h + 1
+    bar_h = height - 2 * row_h - 2
+    page.box(left + 1, bar_y, right - 1, top + height - 1, TINT)
+    page.box(left + 1, bar_y, right - 1, bar_y + 1, RULE)
+    cy = bar_y + bar_h / 2
+    excl_tag = "EXCLUDED (SAT 21 NOV UTC)"
+    et_w = int(width_of(excl_tag, "black", 10.5)) + 14
+    page.box(left + 10, cy - 9, left + 10 + et_w, cy + 9, RED)
+    page.text(left + 10 + et_w / 2, cy, excl_tag, "black", 10.5, WHITE, "mm",
+              within=(left + 10, cy - 9, left + 10 + et_w, cy + 9))
+    page.text(left + 10 + et_w + 10, cy, stories.EXCLUDED_LINE, "bold", 12, BODY, "lm",
+              within=(left + 10 + et_w + 6, bar_y, right - 8, top + height - 1))
 
 
 def paint():
     stories.check()
     page = Page()
     y = masthead(page)
-    y = timeline_strip(page, y + 3)
-    y = region_bar(page, y + 4)
-    y = cards(page, y + 5)
-    y = wire(page, y + 6)
-    band_top = y + 6
-    band_height = 186
-    atlas_panel(page, MARGIN, band_top, 412, band_height)
-    date_check(page, MARGIN + 420, band_top, SIDE - 2 * MARGIN - 420, band_height)
-    footer(page, band_top + band_height + 4)
+    # Top hero row: 2 giant panels (492 x 322, 16px gutter)
+    hero_y = y + 8
+    hero_w, hero_h, hero_gap = 492, 322, 16
+    for i, story in enumerate(stories.HEROES):
+        hero_card(page, story, MARGIN + i * (hero_w + hero_gap), hero_y, hero_w, hero_h)
+    # 4 x 2 global grid (241 x 230, 12px horizontal gutter, 10px vertical gutter)
+    grid_y = hero_y + hero_h + 10
+    card_w, card_h, col_gap, row_gap = 241, 230, 12, 10
+    for idx, story in enumerate(stories.CARDS):
+        row, col = divmod(idx, 4)
+        cx = MARGIN + col * (card_w + col_gap)
+        cy = grid_y + row * (card_h + row_gap)
+        grid_card(page, story, cx, cy, card_w, card_h)
+    # Clean World Briefs (Finance, Diplomacy, Africa, Health) + Sat-UTC Date Check bar
+    briefs_and_datecheck(page, grid_y + 2 * card_h + row_gap + 10)
     return page
 
 
 def png_bytes(pixels):
-    """Smallest lossless 8-bit RGB PNG we can find: try several row-filter plans and keep the shortest stream."""
+    """Smallest lossless 8-bit RGB PNG via optimal per-row filter plan + zlib-9."""
     height, width, _ = pixels.shape
     a = pixels.astype(np.int16)
     left = np.zeros_like(a)
