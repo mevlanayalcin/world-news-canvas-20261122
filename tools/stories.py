@@ -1,4 +1,4 @@
-"""The edition's content: forty stories dated Sunday 22 November 2026, each with its time, sources and grade.
+"""The edition's content: thirty-five stories dated Sunday 22 November 2026 UTC, each with its time, sources and grade.
 
 Nothing here is computed from the network at render time. Every line was checked by hand against the named
 outlets while the edition was compiled, and the page's counters are derived from these lists so they cannot
@@ -27,16 +27,6 @@ TIMELINE = [
     ("03:50Z", "IG Metall"),
     ("04:00Z", "HK 83%"),
     ("05:35Z", "Vegas GP"),
-]
-
-# Six real Sunday 22 Nov 2026 news-stat tiles: (big figure, label, region, emphasis)
-NEWS_STATS = [
-    ("03:00 UTC", "COP31 draft objections shut", "GLOBAL", False),
-    ("2h CUTS", "Iran nationwide power cuts", "MIDDLE EAST", True),
-    ("83%", "Hong Kong noon turnout", "ASIA", False),
-    ("19 PLANTS", "IG Metall 24-hr strikes", "EUROPE", False),
-    ("720/9d", "India record Test in NZ", "OCEANIA", False),
-    ("36 MISSING", "Banten Sunday SAR search", "ASIA", True),
 ]
 
 # name, three-letter code, colour
@@ -83,13 +73,13 @@ CARDS = [
     },
     {
         "n": 4, "region": "EUROPE", "art": "igmetall", "note": "24h",
-        "head": "IG Metall calls 24h strikes at 19 German plants",
+        "head": "IG Metall: 24h strikes at 19 German plants",
         "when": "03:50 UTC", "sources": ["tagesschau", "DLF"], "grade": "CONFIRMED",
         "place": (10.0, 53.55), "hang": (-17, -6),
     },
     {
         "n": 5, "region": "EUROPE", "art": "kharkiv", "note": "",
-        "head": "Russian drone hits Kharkiv, starts fire: mayor",
+        "head": "Russian drone hits Kharkiv, sparks fire",
         "when": "03:22 UTC", "sources": ["Interfax-UA", "TSN"], "grade": "OFFICIAL",
         "place": (36.23, 49.99), "hang": (14, -12),
     },
@@ -113,7 +103,7 @@ CARDS = [
     },
     {
         "n": 9, "region": "ASIA", "art": "banten", "note": "",
-        "head": "Banten fire: Sunday SAR hunts 36 missing, 3 dead",
+        "head": "Indonesia: 36 missing, 3 dead in Banten",
         "when": "01:04 UTC", "sources": ["Kompas", "Antara"], "grade": "CONFIRMED",
         "place": (106.35, -6.2), "hang": (-14, 12),
     },
@@ -143,36 +133,30 @@ CARDS = [
     },
 ]
 
-# Wire dispatches 14-40. "when" is the UTC time of the event or of the first cited report; "SUN" marks an item
-# dated Sunday 22 November 2026 whose exact UTC minute was not published.
+# Wire dispatches 14-35 (22 airy Sunday-UTC dispatches, 35 verified stories total across all 7 regions).
 WIRE = [
-    {"n": 14, "region": "EUROPE", "when": "04:17", "text": "Voronezh governor: 23 drones downed overnight, no one hurt", "sources": ["RIA Novosti"], "grade": "OFFICIAL"},
-    {"n": 15, "region": "EUROPE", "when": "01:34", "text": "Krasnodar: OSINT places drone-raid fire at Rosgvardia HQ", "sources": ["Astra", "DW"], "grade": "CLAIM"},
-    {"n": 16, "region": "EUROPE", "when": "04:09", "text": "Finland: crews fought fire on drone-hit Sparta II all night", "sources": ["Helsingin Sanomat"], "grade": "OFFICIAL"},
-    {"n": 17, "region": "ASIA", "when": "03:42", "text": "Rajasthan: 9 of a family die as van rams parked truck", "sources": ["HT", "Indian Express"], "grade": "CONFIRMED"},
-    {"n": 18, "region": "ASIA", "when": "03:43", "text": "Taiwan logs 24 PLA aircraft, 11 warships, 2 balloons in 24 h", "sources": ["Taiwan MND"], "grade": "OFFICIAL"},
-    {"n": 19, "region": "ASIA", "when": "SUN", "text": "Japan: top-tier landslide warning in Niigata; heavy snow north", "sources": ["NHK"], "grade": "OFFICIAL"},
-    {"n": 20, "region": "ASIA", "when": "02:19", "text": "Malaysia \u2018respects\u2019 ICJ ruling of Myanmar genocide", "sources": ["New Straits Times"], "grade": "OFFICIAL"},
-    {"n": 21, "region": "ASIA", "when": "02:04", "text": "South Korea: Gyeongbu line trains normal after derailment", "sources": ["Yonhap"], "grade": "REPORTED"},
-    {"n": 22, "region": "ASIA", "when": "SUN", "text": "Philippines: 50\u2013100 mm rain warning for Cagayan, Isabela", "sources": ["PAGASA", "Manila Times"], "grade": "OFFICIAL"},
-    {"n": 23, "region": "ASIA", "when": "01:39", "text": "Indian team in Dhaka before Ganga water treaty lapses 12 Dec", "sources": ["The Hindu"], "grade": "REPORTED"},
-    {"n": 24, "region": "ASIA", "when": "SUN", "text": "Indonesia: M4.8 shallow quake hits near Sentani, Papua", "sources": ["BMKG", "QNA"], "grade": "OFFICIAL"},
-    {"n": 25, "region": "MIDDLE EAST", "when": "04:42", "text": "Bahrain rejects IRGC radar-strike claim, urges UN to act", "sources": ["Iran Intl"], "grade": "REPORTED"},
-    {"n": 26, "region": "MIDDLE EAST", "when": "04:14", "text": "\u2018Line-breaker\u2019 tanker signal near Hormuz was fake: trackers", "sources": ["Iran Intl"], "grade": "REPORTED"},
-    {"n": 27, "region": "MIDDLE EAST", "when": "SUN", "text": "Syria: Israeli troops detain five in Quneitra night raids", "sources": ["SANA"], "grade": "REPORTED"},
-    {"n": 28, "region": "AMERICAS", "when": "05:25", "text": "Sinaloa: 90% of roads blocked after capo\u2019s capture reopen", "sources": ["Sinaloa Govt"], "grade": "OFFICIAL"},
-    {"n": 29, "region": "AMERICAS", "when": "03:00", "text": "NBA: Knicks edge Blazers 97\u201396 at buzzer; Spurs, Mavs win", "sources": ["CBS", "RealGM"], "grade": "CONFIRMED"},
-    {"n": 30, "region": "AMERICAS", "when": "05:00", "text": "S\u00e3o Paulo runs four metro lines all night in 24-hour trial", "sources": ["Matutino"], "grade": "REPORTED"},
-    {"n": 31, "region": "AFRICA", "when": "04:48", "text": "Zimbabwe police: 10 dead in three road crashes in 24 hours", "sources": ["NewZimbabwe"], "grade": "OFFICIAL"},
-    {"n": 32, "region": "AFRICA", "when": "04:06", "text": "Mali: JNIM hits army, Africa Corps posts near Niono", "sources": ["RFI"], "grade": "REPORTED"},
-    {"n": 33, "region": "AFRICA", "when": "SUN", "text": "Nigeria, 55 days to polls: parties trade blame for attacks", "sources": ["Vanguard"], "grade": "REPORTED"},
-    {"n": 34, "region": "OCEANIA", "when": "01:50", "text": "NZ minister Nicola Grigg on leave after cancer diagnosis: PM", "sources": ["RNZ"], "grade": "OFFICIAL"},
-    {"n": 35, "region": "OCEANIA", "when": "SUN", "text": "Fiji asks all businesses to cut water use 30% from December", "sources": ["FBC News"], "grade": "REPORTED"},
-    {"n": 36, "region": "OCEANIA", "when": "05:11", "text": "Autopilot barred on new Spirit of Tasmania ferries", "sources": ["ABC News"], "grade": "REPORTED"},
-    {"n": 37, "region": "OCEANIA", "when": "02:33", "text": "Melbourne marks 70 years since its 1956 Olympics opened", "sources": ["ABC News"], "grade": "REPORTED"},
-    {"n": 38, "region": "GLOBAL", "when": "05:00", "text": "Bitcoin slips 1.4% to $59,200, near its 52-week low", "sources": ["CoinDesk", "Binance"], "grade": "CONFIRMED"},
-    {"n": 39, "region": "GLOBAL", "when": "SUN", "text": "Pacific island states refuse a \u2018weak\u2019 COP31 text", "sources": ["Fiji Times"], "grade": "REPORTED"},
-    {"n": 40, "region": "GLOBAL", "when": "SUN", "text": "COP31 draft backs \u201835 by 35\u2019 grid goal, omits finance floor", "sources": ["Climate Home", "DTE"], "grade": "CONFIRMED"},
+    {"n": 14, "region": "EUROPE", "when": "04:17", "text": "Voronezh governor: 23 drones downed overnight, no hurt", "sources": ["RIA Novosti"], "grade": "OFFICIAL"},
+    {"n": 15, "region": "EUROPE", "when": "01:34", "text": "Krasnodar: OSINT places fire at Rosgvardia HQ", "sources": ["Astra", "DW"], "grade": "CLAIM"},
+    {"n": 16, "region": "EUROPE", "when": "04:09", "text": "Finland: crews fought Sparta II fire all night", "sources": ["Helsingin Sanomat"], "grade": "OFFICIAL"},
+    {"n": 17, "region": "ASIA", "when": "03:42", "text": "Rajasthan: 9 of a family die as van rams truck", "sources": ["HT", "Indian Express"], "grade": "CONFIRMED"},
+    {"n": 18, "region": "ASIA", "when": "03:43", "text": "Taiwan logs 24 PLA jets, 11 ships, 2 balloons", "sources": ["Taiwan MND"], "grade": "OFFICIAL"},
+    {"n": 19, "region": "ASIA", "when": "SUN", "text": "Japan: top landslide alert in Niigata; heavy snow", "sources": ["NHK"], "grade": "OFFICIAL"},
+    {"n": 20, "region": "ASIA", "when": "02:19", "text": "Malaysia \u2018respects\u2019 ICJ Myanmar genocide ruling", "sources": ["New Straits Times"], "grade": "OFFICIAL"},
+    {"n": 21, "region": "ASIA", "when": "SUN", "text": "Philippines: 50\u2013100 mm rain alert in Cagayan", "sources": ["PAGASA", "Manila Times"], "grade": "OFFICIAL"},
+    {"n": 22, "region": "MIDDLE EAST", "when": "04:42", "text": "Bahrain rejects IRGC radar claim, urges UN act", "sources": ["Iran Intl"], "grade": "REPORTED"},
+    {"n": 23, "region": "MIDDLE EAST", "when": "04:14", "text": "\u2018Line-breaker\u2019 Hormuz tanker signal was fake", "sources": ["Iran Intl"], "grade": "REPORTED"},
+    {"n": 24, "region": "MIDDLE EAST", "when": "SUN", "text": "Syria: Israeli troops detain 5 in Quneitra raids", "sources": ["SANA"], "grade": "REPORTED"},
+    {"n": 25, "region": "AMERICAS", "when": "05:25", "text": "Sinaloa: 90% of roads shut after arrest reopen", "sources": ["Sinaloa Govt"], "grade": "OFFICIAL"},
+    {"n": 26, "region": "AMERICAS", "when": "03:00", "text": "NBA: Knicks beat Blazers 97\u201396; Spurs, Mavs win", "sources": ["CBS", "RealGM"], "grade": "CONFIRMED"},
+    {"n": 27, "region": "AFRICA", "when": "04:48", "text": "Zimbabwe: 10 dead in three crashes in 24 hours", "sources": ["NewZimbabwe"], "grade": "OFFICIAL"},
+    {"n": 28, "region": "AFRICA", "when": "04:06", "text": "Mali: JNIM hits army, Africa Corps near Niono", "sources": ["RFI"], "grade": "REPORTED"},
+    {"n": 29, "region": "AFRICA", "when": "SUN", "text": "Nigeria, 55 days to polls: blame over attacks", "sources": ["Vanguard"], "grade": "REPORTED"},
+    {"n": 30, "region": "OCEANIA", "when": "01:50", "text": "NZ minister Nicola Grigg on cancer leave: PM", "sources": ["RNZ"], "grade": "OFFICIAL"},
+    {"n": 31, "region": "OCEANIA", "when": "SUN", "text": "Fiji asks firms to cut water 30% from Dec", "sources": ["FBC News"], "grade": "REPORTED"},
+    {"n": 32, "region": "OCEANIA", "when": "05:11", "text": "Autopilot barred on new Spirit of Tasmania", "sources": ["ABC News"], "grade": "REPORTED"},
+    {"n": 33, "region": "GLOBAL", "when": "05:00", "text": "Bitcoin slips 1.4% to $59,200, near 52-wk low", "sources": ["CoinDesk", "Binance"], "grade": "CONFIRMED"},
+    {"n": 34, "region": "GLOBAL", "when": "SUN", "text": "Pacific island states refuse \u2018weak\u2019 COP31 text", "sources": ["Fiji Times"], "grade": "REPORTED"},
+    {"n": 35, "region": "GLOBAL", "when": "SUN", "text": "COP31 backs \u201835 by 35\u2019 grid goal, no floor", "sources": ["Climate Home", "DTE"], "grade": "CONFIRMED"},
 ]
 
 # Ledger one: real stories that broke on Saturday 21 November UTC or earlier and are therefore NOT carried as
@@ -234,10 +218,10 @@ def named_sources():
 def check():
     """Fail loudly if the lists stop adding up."""
     assert len(CARDS) == 13, len(CARDS)
-    assert len(WIRE) == 27, len(WIRE)
-    assert [s["n"] for s in all_stories()] == list(range(1, 41))
-    assert sum(region_counts().values()) == 40
-    assert sum(grade_counts().values()) == 40
+    assert len(WIRE) == 22, len(WIRE)
+    assert [s["n"] for s in all_stories()] == list(range(1, 36))
+    assert sum(region_counts().values()) == 35
+    assert sum(grade_counts().values()) == 35
     assert all(count >= 4 for count in region_counts().values()), region_counts()
     for story in all_stories():
         assert story["sources"], story["n"]
