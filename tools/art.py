@@ -497,17 +497,118 @@ def art_storm(a):
     a.rect(323.5, 42, 326.5, 44.5, "#141923")
 
 
+def art_spacex(a):
+    """Vandenberg SLC-4E dawn liftoff: Falcon 9 rising on gold flame above coastal ridge and launch tower."""
+    a.bg("#162844")
+    a.rect(0, 44, 352, 74, "#2B466E")
+    a.rect(0, 68, 352, 100, "#D98A4E")
+    # Coastal ridge silhouette
+    a.poly([(0, 100), (0, 82), (76, 76), (146, 84), (240, 78), (352, 85), (352, 100)], "#1A2234")
+    # Launch tower & strongback (left of rocket)
+    a.rect(108, 36, 113, 86, "#475569")
+    a.rect(120, 42, 124, 86, "#334155")
+    for y in (44, 54, 64, 74):
+        a.line([(110, y), (122, y + 6)], "#64748B", 1.2)
+        a.line([(122, y), (110, y + 6)], "#64748B", 1.2)
+    a.line([(124, 46), (144, 52)], "#94A3B8", 1.8)
+    # Expanding launchpad steam plumes
+    smoke(a, ((148, 86, 16), (170, 84, 18), (194, 86, 17), (218, 88, 15), (128, 90, 13)), "#E2E8F0")
+    smoke(a, ((160, 82, 11), (186, 82, 12), (208, 86, 10)), "#F8FAFC")
+    # Radiant rocket exhaust flame
+    a.poly([(168, 56), (184, 56), (196, 88), (156, 88)], "#F97316")
+    a.poly([(171, 56), (181, 56), (189, 86), (163, 86)], "#FACC15")
+    a.poly([(174, 56), (178, 56), (182, 80), (170, 80)], "#FFFBEB")
+    # Falcon 9 vehicle (clean vertical white cylinder, dark interstage, fairing)
+    a.poly([(171, 16), (176, 6), (181, 16)], "#F8FAFC")
+    a.rect(171, 16, 181, 26, "#F8FAFC")
+    a.rect(172.5, 26, 179.5, 56, "#F1F5F9")
+    a.rect(172.5, 31, 179.5, 35, "#1E293B")
+    a.rect(169.5, 32, 172.5, 34.5, "#334155")
+    a.rect(179.5, 32, 182.5, 34.5, "#334155")
+    a.rect(171.5, 53, 180.5, 56.5, "#334155")
+    # Crisp mission plaque right
+    a.rect(226, 20, 340, 48, "#0F172A")
+    a.rect(228, 22, 338, 46, "#1E293B")
+    a.rect(228, 22, 233, 46, "#38BDF8")
+    a.label(285, 34, a.note or "NROL-136", 13.5, "#FDE68A", "black", "mm")
+
+
+def art_sudan_un(a):
+    """Khartoum dawn skyline: damaged UN humanitarian compound under smoke plume with RSF drone overhead."""
+    a.bg("#E6C697")
+    a.disc(56, 30, 11, "#FAF0D7")
+    a.rect(0, 82, 352, 100, "#A98F6B")
+    # Surrounding Khartoum skyline silhouettes
+    for x, top, width in ((8, 58, 36), (50, 50, 38), (222, 54, 42), (270, 48, 38), (314, 60, 32)):
+        a.rect(x, top, x + width, 84, "#6C5B48")
+        a.rect(x + 4, top + 6, x + width - 4, top + 11, "#4E4133")
+    # UN compound building (centre-left)
+    a.rect(96, 42, 212, 84, "#F8FAFC")
+    a.rect(96, 42, 212, 51, "#2574B9")
+    for wx in (106, 128, 150, 172):
+        a.rect(wx, 57, wx + 13, 68, "#CBD5E1")
+    a.rect(144, 71, 164, 84, "#475569")
+    # UN blue emblem disc on facade
+    a.disc(124, 71, 10, "#2574B9")
+    a.label(124, 71, a.note or "UN", 10, "#FFFFFF", "black", "mm")
+    # Blast damage & rising dark smoke on right corner of UN building
+    smoke(a, ((202, 36, 16), (222, 24, 18), (246, 16, 16), (270, 12, 13)), "#3F3F46")
+    smoke(a, ((208, 32, 10), (228, 22, 11)), "#5B5B63")
+    a.star(198, 46, 20, 9, 8, 12, "#E4572E")
+    a.star(198, 46, 12, 5.5, 8, 34, "#F6A21B")
+    a.star(198, 46, 6, 3, 8, 12, "#FFE08A")
+    # Attack drone & trajectory upper-right
+    a.poly([(272, 28), (304, 18), (298, 29), (308, 38)], "#1E293B")
+    a.dash([(268, 30), (242, 36), (218, 42)], "#334155", 1.3, 3.5, 3)
+
+
+def art_anfield(a):
+    """Floodlit Anfield night match: pitch, goal net, football, red card icon, and LIV 3-0 MUN scoreboard."""
+    a.bg("#0E1729")
+    # Floodlight glow beams
+    a.poly([(24, 14), (72, 42), (44, 42)], "#1E2E4D")
+    a.poly([(328, 14), (308, 42), (280, 42)], "#1E2E4D")
+    a.rect(18, 10, 32, 16, "#E2E8F0")
+    a.rect(320, 10, 334, 16, "#E2E8F0")
+    # Mown green pitch
+    a.rect(0, 40, 352, 100, "#1D703E")
+    for i in range(0, 8, 2):
+        a.rect(i * 44, 40, i * 44 + 44, 100, "#24834A")
+    a.rect(0, 38, 352, 41, "#B8251E")
+    # Penalty area & goal frame (left-centre)
+    a.poly([(30, 86), (62, 56), (178, 56), (210, 86)], "#1D703E")
+    a.line([(30, 86), (62, 56), (178, 56), (210, 86), (30, 86)], "#FFFFFF", 1.5)
+    a.rect(76, 30, 164, 56, "#163B2A")
+    for gx in range(84, 164, 10):
+        a.line([(gx, 32), (gx, 56)], "#94A3B8", 0.7)
+    for gy in (38, 45, 51):
+        a.line([(76, gy), (164, gy)], "#94A3B8", 0.7)
+    a.line([(76, 56), (76, 30), (164, 30), (164, 56)], "#FFFFFF", 2.4)
+    # Football striking top corner with trail
+    a.dash([(108, 76), (124, 62), (140, 44)], "#FDE68A", 1.6, 4, 3)
+    a.disc(144, 41, 7.5, "#FFFFFF")
+    a.star(144, 41, 3.6, 2.2, 5, -90, "#141923")
+    # Red card badge (Yoro 8')
+    a.rotbox(40, 62, 14, 20, -12, "#DC2626")
+    # Prominent Anfield scoreboard right (generous padding around LIV 3-0 MUN)
+    a.rect(196, 22, 346, 64, "#141923")
+    a.rect(198, 24, 344, 62, "#1F2937")
+    a.rect(198, 24, 344, 30, "#C81E1E")
+    a.rect(266, 64, 276, 90, "#141923")
+    a.label(271, 47, a.note or "LIV 3\u20130 MUN", 12.8, "#FDE68A", "black", "mm")
+
+
 SCENES = {
     "cop31": art_cop31,
     "iran_grid": art_iran_grid,
-    "vegas": art_vegas,
+    "spacex": art_spacex,
     "igmetall": art_igmetall,
     "hongkong": art_hongkong,
-    "benghazi": art_benghazi,
-    "kharkiv": art_kharkiv,
+    "sudan_un": art_sudan_un,
+    "anfield": art_anfield,
     "banten": art_banten,
+    "vegas": art_vegas,
     "cricket": art_cricket,
-    "storm": art_storm,
 }
 
 
