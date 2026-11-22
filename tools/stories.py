@@ -10,8 +10,34 @@ Grades:  CONFIRMED  two or more independent outlets
          CLAIM      an unverified claim by an interested party
 """
 
-EDITION_DAY = "SUNDAY 22 NOVEMBER 2026"
+EDITION_DAY = "Sunday 22 November 2026"
 EDITION_CLOSE = "05:50"  # UTC time at which the edition closed
+LEAD_SUMMARY = (
+    "COP31 text omits fossil fuels  \u00b7  Iran starts rolling power cuts  \u00b7  "
+    "Verstappen wins Las Vegas GP  \u00b7  IG Metall hits 19 German plants"
+)
+
+# Chronological Sunday 22 Nov 2026 UTC strip (every timestamp matches the cards below).
+TIMELINE = [
+    ("01:04Z", "Banten SAR"),
+    ("02:08Z", "Benghazi blast"),
+    ("02:26Z", "AU peptides"),
+    ("02:30Z", "India 720/9d"),
+    ("03:00Z", "COP31 draft"),
+    ("03:50Z", "IG Metall"),
+    ("04:00Z", "HK 83%"),
+    ("05:35Z", "Vegas GP"),
+]
+
+# Six real Sunday 22 Nov 2026 news-stat tiles: (big figure, label, region, emphasis)
+NEWS_STATS = [
+    ("03:00 UTC", "COP31 draft objections shut", "GLOBAL", False),
+    ("2h CUTS", "Iran nationwide power cuts", "MIDDLE EAST", True),
+    ("83%", "Hong Kong noon turnout", "ASIA", False),
+    ("19 PLANTS", "IG Metall 24-hr strikes", "EUROPE", False),
+    ("720/9d", "India record Test in NZ", "OCEANIA", False),
+    ("36 MISSING", "Banten Sunday SAR search", "ASIA", True),
+]
 
 # name, three-letter code, colour
 REGIONS = [
@@ -57,61 +83,61 @@ CARDS = [
     },
     {
         "n": 4, "region": "EUROPE", "art": "igmetall", "note": "24h",
-        "head": "Germany: IG Metall calls 24-hr strikes at 19 northern plants",
+        "head": "IG Metall calls 24h strikes at 19 German plants",
         "when": "03:50 UTC", "sources": ["tagesschau", "DLF"], "grade": "CONFIRMED",
         "place": (10.0, 53.55), "hang": (-17, -6),
     },
     {
         "n": 5, "region": "EUROPE", "art": "kharkiv", "note": "",
-        "head": "Russian drone hits Kharkiv overnight, starting a fire: mayor",
+        "head": "Russian drone hits Kharkiv, starts fire: mayor",
         "when": "03:22 UTC", "sources": ["Interfax-UA", "TSN"], "grade": "OFFICIAL",
         "place": (36.23, 49.99), "hang": (14, -12),
     },
     {
         "n": 6, "region": "AFRICA", "art": "benghazi", "note": "",
-        "head": "Blast rips ammunition depot at Benghazi naval base in Libya",
+        "head": "Blast rips ammo depot at Benghazi naval base",
         "when": "02:08 UTC", "sources": ["AA", "CGTN"], "grade": "CONFIRMED",
         "place": (20.07, 32.12), "hang": (-15, 10),
     },
     {
         "n": 7, "region": "ASIA", "art": "hongkong", "note": "",
-        "head": "Hong Kong picks Election Committee; 83% vote by noon",
+        "head": "Hong Kong committee vote hits 83% by noon",
         "when": "04:00 UTC", "sources": ["SCMP", "Standard"], "grade": "CONFIRMED",
         "place": (114.17, 22.3), "hang": (14, -12),
     },
     {
         "n": 8, "region": "OCEANIA", "art": "peptides", "note": "",
-        "head": "Australia orders urgent inquiry into unapproved peptides",
+        "head": "Australia orders urgent inquiry on peptides",
         "when": "02:26 UTC", "sources": ["ABC News", "SBS"], "grade": "CONFIRMED",
         "place": (149.13, -35.28), "hang": (-16, 8),
     },
     {
         "n": 9, "region": "ASIA", "art": "banten", "note": "",
-        "head": "Indonesia: Sunday SAR hunts 36 missing, 3 dead in Banten",
+        "head": "Banten fire: Sunday SAR hunts 36 missing, 3 dead",
         "when": "01:04 UTC", "sources": ["Kompas", "Antara"], "grade": "CONFIRMED",
         "place": (106.35, -6.2), "hang": (-14, 12),
     },
     {
         "n": 10, "region": "AFRICA", "art": "coalition", "note": "",
-        "head": "South Africa: ANC, ActionSA, EFF, MK near pact for 3 metros",
-        "when": "Sun \u00b7 due Mon", "sources": ["News24", "IOL"], "grade": "CONFIRMED",
+        "head": "ANC, ActionSA, EFF, MK near 3-metro pact",
+        "when": "S. Africa \u00b7 Sun", "sources": ["News24", "IOL"], "grade": "CONFIRMED",
         "place": (28.05, -26.2), "hang": (16, 8),
     },
     {
         "n": 11, "region": "MIDDLE EAST", "art": "knesset", "note": "",
-        "head": "Israel: Eisenkot team due to open coalition talks with Likud",
+        "head": "Israel: Eisenkot set for talks with Likud",
         "when": "Sun, Jerusalem", "sources": ["ToI", "AA"], "grade": "CONFIRMED",
         "place": (35.22, 31.78), "hang": (10, 12),
     },
     {
         "n": 12, "region": "AMERICAS", "art": "storm", "note": "",
-        "head": "Brazil\u2019s south on storm alert after 5 die in RS gales",
+        "head": "Brazil\u2019s south on storm alert after 5 die in RS",
         "when": "05:00 UTC", "sources": ["R7", "Cemaden"], "grade": "OFFICIAL",
         "place": (-53.84, -29.08), "hang": (16, 6),
     },
     {
         "n": 13, "region": "OCEANIA", "art": "cricket", "note": "720/9d",
-        "head": "India declare on a record 720/9; New Zealand bat to save Test",
+        "head": "India declare on record 720/9 in Wellington",
         "when": "02:30 UTC", "sources": ["The Hindu", "Cricbuzz"], "grade": "CONFIRMED",
         "place": (174.78, -41.29), "hang": (12, -13),
     },

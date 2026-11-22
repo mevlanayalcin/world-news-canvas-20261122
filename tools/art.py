@@ -149,23 +149,22 @@ def flame(a, cx, base, width, height):
 
 
 def art_cop31(a):
-    """Plenary stage: the third draft with the fossil-fuel line struck, a warming globe, and a waiting gavel."""
+    """Plenary stage: the third draft omitting fossil fuels, a warming globe, and a waiting gavel."""
     a.bg("#0E5560")
     for i in range(1, 8):
         a.rect(i * 44 - 0.6, 0, i * 44 + 0.6, 84, "#126572")
     a.rect(0, 84, 352, 100, "#093E46")
-    # the draft decision
-    a.rect(21, 13, 115, 93, "#083238")
-    a.rect(17, 9, 111, 89, "#FBFAF4")
-    a.rect(25, 16, 103, 27, "#141923")
-    a.label(64, 21.5, "FINAL DRAFT 3", 9.5, "#FFFFFF", "bold", "mm")
-    for y, length in ((33, 74), (39, 60), (45, 70)):
-        a.rect(25, y, 25 + length, y + 2.6, "#B9C0C8")
-    a.label(25, 60, "fossil fuels", 11.5, "#141923", "bold", "ls")
-    a.line([(22, 55.5), (99, 55.5)], "#D92D20", 2.0)
-    a.label(25, 71.5, "NOT IN THE TEXT", 9, "#C0271B", "heavy", "ls")
-    for y, length in ((77, 66), (83, 44)):
-        a.rect(25, y, 25 + length, y + 2.6, "#B9C0C8")
+    # the draft decision (clean uncrossed type so OCR and readers never misread it)
+    a.rect(17, 13, 121, 95, "#083238")
+    a.rect(13, 9, 117, 91, "#FBFAF4")
+    a.rect(18, 18, 112, 30, "#141923")
+    a.label(65, 24, "FINAL DRAFT 3", 9, "#FFFFFF", "bold", "mm")
+    for y, length in ((35, 82), (41, 62)):
+        a.rect(20, y, 20 + length, y + 2.2, "#C4CBD3")
+    a.label(65, 55.5, "FOSSIL FUELS", 11, "#141923", "bold", "mm")
+    a.rect(20, 65, 110, 81, "#C0271B")
+    a.label(65, 73, "OMITTED", 10.5, "#FFFFFF", "bold", "mm")
+    a.rect(20, 85, 82, 87.2, "#C4CBD3")
     # the globe
     a.disc(172, 49, 32, "#0A3F47")
     a.disc(172, 48, 30, "#3D94D6")
@@ -246,11 +245,11 @@ def art_iran_grid(a):
                 if (row * 2 + col * 3 + index) % 4 == 0:
                     a.rect(x + 3 + col * 7, top + 4 + row * 8, x + 6.5 + col * 7, top + 7.5 + row * 8, "#1E293B")
     # power-cut status plaque (generous padding, clear of top-right CONFIRMED badge)
-    a.rect(246, 22, 346, 56, "#334155")
-    a.rect(248, 24, 344, 54, "#0B1124")
-    a.rect(248, 24, 253, 54, "#EF4444")
-    a.label(299, 34.5, a.note or "2h CUTS", 13.5, "#FDE68A", "black", "mm")
-    a.label(299, 47.5, "GRID RATIONING", 8.5, "#E2E8F0", "bold", "mm")
+    a.rect(244, 24, 346, 60, "#334155")
+    a.rect(246, 26, 344, 58, "#0B1124")
+    a.rect(246, 26, 251, 58, "#EF4444")
+    a.label(298, 37, a.note or "2h CUTS", 13, "#FDE68A", "black", "mm")
+    a.label(298, 50.5, "GRID RATIONING", 8.5, "#E2E8F0", "bold", "mm")
 
 
 def art_vegas(a):
@@ -595,11 +594,11 @@ def art_cricket(a):
     a.poly(turned_box(98.5, 27.5, 5, 22, 24), "#334155")
     a.disc(118, 84, 8, "#A01818")
     a.line(ellipse_points(118, 84, 8, 3, 200, 340, 10), "#FFFFFF", 0.9)
-    # scoreboard
-    a.rect(246, 22, 342, 60, "#141923")
-    a.rect(250, 26, 338, 56, "#1F2937")
-    a.rect(290, 60, 298, 84, "#141923")
-    a.label(294, 41.5, a.note or "", 12, "#FDE68A", "black", "mm")
+    # scoreboard (positioned cleanly below the top-right CONFIRMED badge)
+    a.rect(244, 30, 344, 68, "#141923")
+    a.rect(248, 34, 340, 64, "#1F2937")
+    a.rect(290, 68, 298, 90, "#141923")
+    a.label(294, 49, a.note or "", 11.5, "#FDE68A", "black", "mm")
 
 
 SCENES = {
