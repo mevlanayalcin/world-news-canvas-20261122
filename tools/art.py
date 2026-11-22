@@ -603,7 +603,7 @@ SCENES = {
     "iran_grid": art_iran_grid,
     "spacex": art_spacex,
     "igmetall": art_igmetall,
-    "hongkong": art_hongkong,
+    "storm": art_storm,
     "sudan_un": art_sudan_un,
     "anfield": art_anfield,
     "banten": art_banten,
