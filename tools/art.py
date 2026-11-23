@@ -287,11 +287,11 @@ def art_igmetall(a):
     for sx in (194, 218, 242, 266):
         a.disc(sx, 72, 5.8, "#0F172A")
         a.poly([(sx - 7, 95), (sx - 5.5, 78), (sx + 5.5, 78), (sx + 7, 95)], "#0F172A")
-    # Crisp 24h STRIKE badge with generous margins
-    a.rect(240, 14, 348, 56, "#0F172A")
-    a.rect(242, 16, 346, 54, "#B8251E")
-    a.rect(292.5, 56, 295.5, 92, "#0F172A")
-    a.label(294, 35, a.note or "24h STRIKE", 15, "#FFFFFF", "black", "mm")
+    # Crisp 24h STRIKE badge with generous margins (fits both 2x4 & 3x3 panels cleanly)
+    a.rect(198, 12, 346, 54, "#0F172A")
+    a.rect(200, 14, 344, 52, "#B8251E")
+    a.rect(270.5, 54, 273.5, 92, "#0F172A")
+    a.label(272, 33, a.note or "24h STRIKE", 15, "#FFFFFF", "black", "mm")
 
 
 def art_spacex(a):
@@ -318,10 +318,10 @@ def art_spacex(a):
     a.rect(166, 30, 174, 35, "#1E293B")
     a.rect(162.5, 31, 166, 34, "#334155")
     a.rect(174, 31, 177.5, 34, "#334155")
-    a.rect(220, 14, 344, 52, "#64748B")
-    a.rect(222, 16, 342, 50, "#0F172A")
-    a.rect(222, 16, 229, 50, "#38BDF8")
-    a.label(286, 33, a.note or "FALCON 9", 15.5, "#FDE68A", "black", "mm")
+    a.rect(202, 12, 346, 50, "#64748B")
+    a.rect(204, 14, 344, 48, "#0F172A")
+    a.rect(204, 14, 211, 48, "#38BDF8")
+    a.label(277, 31, a.note or "FALCON 9", 15, "#FDE68A", "black", "mm")
 
 
 def art_gaza_storm(a):
@@ -341,11 +341,11 @@ def art_gaza_storm(a):
     a.disc(300, 50, 24, "#FFFFFF")
     a.rect(292.5, 34, 307.5, 66, "#DC2626")
     a.rect(283, 43, 317, 57, "#DC2626")
-    # Crisp 70K TENTS badge top-left (clear of tents)
-    a.rect(8, 6, 128, 38, "#64748B")
-    a.rect(10, 8, 126, 36, "#0F172A")
-    a.rect(10, 8, 16, 36, "#DC2626")
-    a.label(71, 22, a.note or "70K TENTS", 15, "#FDE68A", "black", "mm")
+    # Crisp 70K TENTS badge top-left (generous width for 2x4 panels, clear of tents)
+    a.rect(6, 6, 154, 38, "#64748B")
+    a.rect(8, 8, 152, 36, "#0F172A")
+    a.rect(8, 8, 15, 36, "#DC2626")
+    a.label(83, 22, a.note or "70K TENTS", 15, "#FDE68A", "black", "mm")
 
 
 def art_sudan_un(a):
@@ -400,10 +400,10 @@ def art_banten(a):
     a.line(ellipse_points(198, 62, 64, 28, 0, -112, 26), "#2563EB", 3.0)
     a.line(ellipse_points(198, 60, 64, 28, 0, -112, 26), "#93C5FD", 1.1)
     # Crisp 3 DEAD badge top-right
-    a.rect(248, 8, 344, 40, "#64748B")
-    a.rect(250, 10, 342, 38, "#0F172A")
-    a.rect(250, 10, 256, 38, "#EA580C")
-    a.label(299, 24, a.note or "3 DEAD", 15.5, "#FDE68A", "black", "mm")
+    a.rect(226, 6, 346, 38, "#64748B")
+    a.rect(228, 8, 344, 36, "#0F172A")
+    a.rect(228, 8, 235, 36, "#EA580C")
+    a.label(289, 22, a.note or "3 DEAD", 15, "#FDE68A", "black", "mm")
 
 
 def art_cricket(a):
@@ -424,11 +424,11 @@ def art_cricket(a):
     a.rotbox(82, 62, 15, 52, 24, "#E6C994")
     a.disc(116, 84, 9.0, "#B91C1C")
     a.line(ellipse_points(116, 84, 7.5, 3.0, 200, 340, 10), "#FFFFFF", 1.3)
-    a.rect(228, 18, 344, 68, "#64748B")
-    a.rect(230, 20, 342, 66, "#0F172A")
-    a.rect(230, 20, 236, 66, "#0E7490")
-    a.rect(283, 68, 291, 90, "#0F172A")
-    a.label(289, 43, a.note or "720/9d", 17.5, "#FDE68A", "black", "mm")
+    a.rect(214, 16, 346, 66, "#64748B")
+    a.rect(216, 18, 344, 64, "#0F172A")
+    a.rect(216, 18, 223, 64, "#0E7490")
+    a.rect(277, 66, 285, 90, "#0F172A")
+    a.label(283, 41, a.note or "720/9d", 16.5, "#FDE68A", "black", "mm")
 
 
 def art_us_house(a):
@@ -447,12 +447,12 @@ def art_us_house(a):
     a.poly(ellipse_points(102, 50, 30, 26, 180, 360, 24), "#FFFFFF")
     a.rect(96, 16, 108, 25, "#F8FAFC")
     a.rect(100.5, 7, 103.5, 16, "#FDE68A")
-    a.rect(198, 10, 344, 88, "#64748B")
-    a.rect(200, 12, 342, 86, "#0F172A")
-    a.label(271, 33, a.note or "258 SEATS", 16.5, "#FDE68A", "black", "mm")
-    a.rect(212, 54, 330, 74, "#B91C1C")
-    a.rect(212, 54, 286, 74, "#2563EB")
-    a.rect(271, 47, 274, 80, "#FFFFFF")
+    a.rect(182, 10, 346, 88, "#64748B")
+    a.rect(184, 12, 344, 86, "#0F172A")
+    a.label(264, 32, a.note or "258 SEATS", 15.5, "#FDE68A", "black", "mm")
+    a.rect(198, 54, 330, 74, "#B91C1C")
+    a.rect(198, 54, 280, 74, "#2563EB")
+    a.rect(264, 47, 267, 80, "#FFFFFF")
 
 
 def art_storm(a):
@@ -477,10 +477,10 @@ def art_storm(a):
     for y, x0, x1 in ((81, 14, 96), (86, 124, 214), (92, 236, 336), (84, 250, 324), (91, 34, 118)):
         a.rect(x0, y, x1, y + 2.0, "#93C5FD")
     # Crisp 5 DEAD badge top-right (clear of roof peaks)
-    a.rect(252, 6, 344, 38, "#64748B")
-    a.rect(254, 8, 342, 36, "#0F172A")
-    a.rect(254, 8, 260, 36, "#7E22CE")
-    a.label(301, 22, a.note or "5 DEAD", 15.5, "#FDE68A", "black", "mm")
+    a.rect(226, 6, 346, 38, "#64748B")
+    a.rect(228, 8, 344, 36, "#0F172A")
+    a.rect(228, 8, 235, 36, "#7E22CE")
+    a.label(289, 22, a.note or "5 DEAD", 15, "#FDE68A", "black", "mm")
 
 
 def art_kharkiv(a):
