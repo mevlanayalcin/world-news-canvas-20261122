@@ -1,9 +1,9 @@
-"""Verified Sunday 22 November 2026 world news dataset for the v10 Open Archival 3x3 Visual World Atlas.
+"""Verified Sunday 22 November 2026 world news dataset for the v11 Museum Flat-Vector 3x3 Visual World Atlas.
 
 18 verified pure Sunday 22 November 2026 stories across all 7 world regions and 14 beats:
-  - 2 Tall Illustrated Hero Lead Panels (23.5-24px serif heads + 15px bold decks)
-  - 9 Wide Panoramic Illustrated Cards (3 rows x 3 columns, 324 x 168 each, giant 22px serif heads)
-  - 4 Giant 17.5px Bold White Footer Lines covering 7 additional global & regional beats
+  - 2 Full-Header Illustrated Hero Panels (23.5px bold serif heads + 17px bold decks)
+  - 9 Wide Panoramic Museum Flat-Vector Cards (3 rows x 3 columns, balanced 21.5px Lato-Black heads, zero widows)
+  - 4 Giant 18.5px Bold White Footer Lines covering 7 additional global & regional beats
 Strict >= 15px global typography floor; soft archival hairline rules; 6 giant 18px open-ocean map callouts.
 """
 
@@ -66,7 +66,7 @@ CARDS = [
         "beat": "LABOUR",
         "colour": REGION_COLOUR["EUROPE"],
         "art": "igmetall",
-        "note": "24h",
+        "note": "24h STRIKE",
         "head": "IG Metall strikes 19 German plants",
         "lon": 10.0,
         "lat": 53.5,
@@ -88,7 +88,7 @@ CARDS = [
         "beat": "AID",
         "colour": REGION_COLOUR["MIDDLE EAST"],
         "art": "gaza_storm",
-        "note": "",
+        "note": "70K TENTS",
         "head": "Gaza storms flood 70,000 tents",
         "lon": 34.5,
         "lat": 31.5,
@@ -110,7 +110,7 @@ CARDS = [
         "beat": "DISASTER",
         "colour": REGION_COLOUR["ASIA"],
         "art": "banten",
-        "note": "",
+        "note": "3 DEAD",
         "head": "Banten fire: 3 dead, dozens missing",
         "lon": 106.4,
         "lat": -6.2,
@@ -143,7 +143,7 @@ CARDS = [
         "beat": "STORM",
         "colour": REGION_COLOUR["S. AMERICA"],
         "art": "storm",
-        "note": "",
+        "note": "5 DEAD",
         "head": "Brazil floods kill 5 in south",
         "lon": -51.2,
         "lat": -30.0,
@@ -175,9 +175,9 @@ MAP_CALLOUTS = [
     ("SPACEX", -120.6, 34.7, 78, 128, REGION_COLOUR["AMERICAS"]),
     ("BRAZIL", -51.2, -30.0, 120, 210, REGION_COLOUR["S. AMERICA"]),
     ("#1 COP31", 30.7, 36.9, 442, 42, GLOBAL_COLOUR),
-    ("#2 IRAN", 51.4, 35.7, 422, 146, REGION_COLOUR["MIDDLE EAST"]),
+    ("#2 IRAN", 51.4, 35.7, 394, 154, REGION_COLOUR["MIDDLE EAST"]),
     ("KHARTOUM", 32.5, 15.6, 256, 172, REGION_COLOUR["AFRICA"]),
-    ("BANTEN", 106.4, -6.2, 518, 134, REGION_COLOUR["ASIA"]),
+    ("BANTEN", 106.4, -6.2, 524, 114, REGION_COLOUR["ASIA"]),
 ]
 
 
@@ -204,4 +204,4 @@ def check():
 
 if __name__ == "__main__":
     check()
-    print(f"OK: {total_stories()} verified Sunday 22 Nov 2026 stories (v10 Open Archival 3x3 Atlas, >=15px floor)")
+    print(f"OK: {total_stories()} verified Sunday 22 Nov 2026 stories (v11 Museum Flat-Vector 3x3 Atlas, >=15px floor)")

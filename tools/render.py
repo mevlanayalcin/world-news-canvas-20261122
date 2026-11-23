@@ -1,15 +1,14 @@
-"""Draw the v10 Open Archival 3x3 Visual World Atlas for Sunday 22 November 2026 (1024 x 1024, RGB PNG).
+"""Draw the v11 Museum Flat-Vector 3x3 Visual World Atlas for Sunday 22 November 2026 (1024 x 1024, RGB PNG).
 
     python3 tools/render.py            # writes ../entry.png
     python3 tools/render.py out.png    # writes somewhere else
 
-Open, museum-grade editorial composition with soft archival hairline rules and strict >= 15px typography floor:
+Unified museum-grade flat-vector editorial composition with soft archival hairlines & strict >= 15px floor:
   - Giant broadsheet serif date masthead (50px C059-Bold) + clean 7-region 18-story top ribbon
-  - Airy Natural Earth World Hotspots Map (588 x 306) with high-contrast sea/land & ONLY 6 giant 18px callouts
-  - 2 Tall Illustrated Hero Lead Panels (23.5-24px bold serif heads + 15px bold takeaways)
-  - 3 x 3 Gallery of 9 Wide Panoramic Cards (324 x 168, soft 1px #D6CCBA hairline rules, 15px header ribbons,
-    giant 22px bold serif headlines — ZERO heavy black grid cages, ZERO tiny text)
-  - Deep-navy 2 x 2 Giant Wire Footer (15px jewel badges + 17.5px bold pure white lines)
+  - High-contrast Natural Earth World Hotspots Map (584 x 306) with 6 giant 18px callouts & uncovered Java dot
+  - 2 Full-Header Illustrated Hero Panels (unobstructed art + 23.5px bold serif heads + 16.5px bold decks)
+  - 3 x 3 Gallery of 9 Wide Panoramic Museum Vector Cards (balanced zero-widow 21.5px Lato-Black heads + crisp badges)
+  - Deep-navy 2 x 2 Giant Wire Footer (15px jewel badges + 18.5px bold pure white lines)
 Every text placement is strictly audited for >= 15px floor, exact bounds, and zero overlap before saving.
 """
 
@@ -75,6 +74,26 @@ def wrap_plain(text, name, size, width, max_lines):
     if len(lines) > max_lines or any(width_of(line, name, size) > width for line in lines):
         raise ValueError(f"does not fit {max_lines} line(s) of {width:.0f}px at {size}px: {text!r} -> {lines}")
     return lines
+
+
+def wrap_balanced(text, name, size, width, max_lines):
+    """Wrap text cleanly up to max_lines with visually balanced line widths (zero 1-word widows)."""
+    if width_of(text, name, size) <= width:
+        return [text]
+    words = text.split()
+    if max_lines >= 2:
+        best = None
+        for i in range(1, len(words)):
+            l1 = " ".join(words[:i])
+            l2 = " ".join(words[i:])
+            w1, w2 = width_of(l1, name, size), width_of(l2, name, size)
+            if w1 <= width and w2 <= width:
+                score = abs(w1 - w2) + (8 if w2 > w1 + 12 else 0)
+                if best is None or score < best[0]:
+                    best = (score, [l1, l2])
+        if best is not None:
+            return best[1]
+    return wrap_plain(text, name, size, width, max_lines)
 
 
 class Page:
@@ -244,53 +263,53 @@ def atlas_panel(page, x, y, width, height):
 
 
 def hero_panel(page, story, x, y, width, height):
-    """Upper-right tall illustrated hero lead card: soft archival hairline + giant 23.5-24px serif head + 15px deck."""
-    art_h = 84
+    """Upper-right illustrated hero panel: clean full-width header + unobstructed vector art + 23.5px head + 16.5px deck."""
+    header_h = 22
+    art_h = 72
     page.outline_box(x, y, x + width, y + height, CARD_BG, HAIRLINE)
 
-    picture, labels = art.render_scene(story["art"], width - 2, art_h - 1, 4, story.get("note", ""))
-    page.image.paste(picture, (x + 1, y + 1))
-    for lx, ly, string, size, colour, name, anchor in labels:
-        page.text(
-            x + 1 + lx,
-            y + 1 + ly,
-            string,
-            name,
-            size,
-            colour,
-            anchor,
-            within=(x + 1, y + 1, x + width - 1, y + art_h),
-        )
-
     colour = story["colour"]
-    page.box(x + 1, y + art_h, x + width - 1, y + art_h + 3, colour)
-
+    page.box(x, y, x + width, y + header_h, colour)
     pill = f"#{story['n']} {story['region']} \u00b7 {story['beat']}"
-    pill_w = int(width_of(pill, "black", 15)) + 16
-    page.box(x + 1, y + 1, x + 1 + pill_w, y + 24, colour)
     page.text(
-        x + 1 + pill_w / 2,
-        y + 12.5,
+        x + 10,
+        y + header_h / 2,
         pill,
         "black",
         15,
         WHITE,
-        "mm",
-        within=(x + 1, y + 1, x + 1 + pill_w, y + 24),
+        "lm",
+        within=(x + 2, y, x + width - 2, y + header_h),
     )
 
-    top = y + art_h + 3
+    ax0, ay0 = x + 1, y + header_h
+    picture, labels = art.render_scene(story["art"], width - 2, art_h, 4, story.get("note", ""))
+    page.image.paste(picture, (ax0, ay0))
+    for lx, ly, string, size, lcol, lname, lanchor in labels:
+        page.text(
+            ax0 + lx,
+            ay0 + ly,
+            string,
+            lname,
+            size,
+            lcol,
+            lanchor,
+            within=(ax0, ay0, x + width - 1, ay0 + art_h),
+        )
+    page.box(x + 1, ay0 + art_h, x + width - 1, ay0 + art_h + 2, colour)
+
+    top = ay0 + art_h + 2
     pad = 10
     inner = (x + pad - 2, top, x + width - pad + 2, y + height - 2)
-    h_size = 24 if width_of(story["head"], "serif", 24) <= width - 2 * pad else 23.5
+    h_size = 23.5 if width_of(story["head"], "serif", 23.5) <= width - 2 * pad else 23.0
     head_lines = wrap_plain(story["head"], "serif", h_size, width - 2 * pad, 1)
-    page.text(x + pad, top + 28, head_lines[0], "serif", h_size, INK, within=inner)
-    page.text(x + pad, top + 52, story["deck"], "bold", 15, INK, within=inner)
+    page.text(x + pad, top + 24, head_lines[0], "serif", h_size, INK, within=inner)
+    page.text(x + pad, top + 46, story["deck"], "bold", 16.5, INK, within=inner)
 
 
 def gallery_card(page, card, x, y, width, height):
-    """Wide 324 x 168 open archival card: soft 1px hairline + 15px ribbon + panoramic art + giant 22px serif head."""
-    header_h = 25
+    """Wide 324 x 168 museum vector card: 15px ribbon + layered vector art + balanced zero-widow 21.5px Lato-Black head."""
+    header_h = 24
     art_h = 80
     page.outline_box(x, y, x + width, y + height, CARD_BG, HAIRLINE)
     colour = card["colour"]
@@ -323,14 +342,14 @@ def gallery_card(page, card, x, y, width, height):
         )
     page.box(x + 1, ay0 + art_h, x + width - 1, ay0 + art_h + 2, colour)
 
-    # ONE giant 20.5px Lato-Black sans-serif headline (zero serif hairlines -> razor-sharp at 300px!)
+    # ONE giant 21.5px Lato-Black sans-serif headline (balanced 1-2 lines, ZERO widows, razor-sharp at 300px!)
     text_top = ay0 + art_h + 2
     text_h = (y + height - 2) - text_top
     pad = 10
     text_w = width - 2 * pad
-    font_size = 20.5
-    line_step = 24.5
-    lines = wrap_plain(card["head"], "black", font_size, text_w, 2)
+    font_size = 21.5
+    line_step = 25.5
+    lines = wrap_balanced(card["head"], "black", font_size, text_w, 2)
     block_h = font_size + (len(lines) - 1) * line_step
     first_base = text_top + (text_h - block_h) / 2 + font_size * 0.84
     inner = (x + pad - 2, text_top, x + width - pad + 2, y + height - 2)
@@ -373,7 +392,7 @@ def global_bottom_strip(page, items, top, height):
             cy,
             text,
             "bold",
-            17.5,
+            18.5,
             WHITE,
             "lm",
             within=(cx0 + 10 + tag_w + 7, cy0, cx1 - 6, cy1),
@@ -466,7 +485,7 @@ def main():
     with open(target, "wb") as handle:
         handle.write(data)
     print(
-        f"{os.path.normpath(target)} [v10 / {stories.total_stories()} archival giant-type stories]: "
+        f"{os.path.normpath(target)} [v11 / {stories.total_stories()} museum flat-vector stories]: "
         f"{len(data)} bytes, filter plan {plan}, {len(page.placed)} text runs, {len(problems)} problem(s)"
     )
     if problems:
