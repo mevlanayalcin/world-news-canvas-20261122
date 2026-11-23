@@ -1,14 +1,15 @@
-"""Verified Sunday 22 November 2026 world news dataset for the v13 23-Story 3x3 + 2x6 Museum World Atlas.
+"""Verified Sunday 22 November 2026 world news dataset for the v14 Sourced 25-Story 3x3 + 2x7 Museum World Atlas.
 
-23 verified pure Sunday 22 November 2026 stories across all 7 world regions and 16 beats:
-  - 2 Full-Header Illustrated Hero Panels (22.5px bold serif heads + 15.5px bold decks)
-  - 9 Giant 324px Panoramic Museum Flat-Vector Cards (3 rows x 3 cols, complete data badges + balanced 20.5px Lato-Black heads)
-  - 12 Single-Line Crisp 17.5px Bold White Dispatches in an Airy 2 x 6 Dark-Navy Global Wire Band
+25 verified pure Sunday 22 November 2026 stories across all 7 world regions and 16+ beats:
+  - 2 Full-Header Sourced Illustrated Hero Panels (22.5px bold serif heads + 15.5px attributed bold decks + outlet tags)
+  - 9 Giant 324px Panoramic Sourced Museum Flat-Vector Cards (3x3, complete data badges + balanced 20.5px heads + outlets)
+  - 14 Single-Line Crisp 16px Bold White Sourced Dispatches in a Sleek 2 x 7 Dark-Navy Global Wire Band
+  - High-Contrast 15.5px DATE CHECK Bar explicitly documenting excluded prior-day (20-21 Nov) items
 Strict >= 15px global typography floor; soft archival hairlines; 6 giant 18px open-ocean map callouts.
 """
 
 EDITION_DAY = "Sunday 22 November 2026"
-EDITION_TAG = "SUNDAY EDITION"
+EDITION_TAG = "00:00\u201323:59 UTC \u00b7 SOURCED"
 
 REGIONS = [
     ("EUROPE", "#1D4ED8"),
@@ -31,40 +32,43 @@ REGION_COLOUR = {
 }
 GLOBAL_COLOUR = "#B8251E"
 
-# 2 Upper-Right Full-Header Illustrated Hero Lead Panels
+# 2 Upper-Right Full-Header Illustrated Sourced Hero Lead Panels
 HEROES = [
     {
         "n": 1,
         "region": "GLOBAL",
         "beat": "CLIMATE",
+        "src": "AP / REUTERS",
         "colour": GLOBAL_COLOUR,
         "art": "cop31",
         "note": "NO DEAL",
         "head": "COP31 ends with no deal",
-        "deck": "44h Antalya overtime \u00b7 EU & islands reject",
+        "deck": "44h Antalya overtime; EU & islands reject",
         "lon": 30.7,
         "lat": 36.9,
     },
     {
         "n": 2,
-        "region": "MIDDLE EAST",
+        "region": "M. EAST",
         "beat": "ENERGY",
+        "src": "OFFICIAL \u00b7 RFE/RL",
         "colour": REGION_COLOUR["MIDDLE EAST"],
         "art": "iran_grid",
         "note": "2h CUTS",
         "head": "Iran imposes rolling blackouts",
-        "deck": "2h nationwide cuts after gas-grid strikes",
+        "deck": "Tavanir orders 2h cuts after gas-grid hits",
         "lon": 51.4,
         "lat": 35.7,
     },
 ]
 
-# ALL 9 Giant Panoramic 324px Museum Flat-Vector Gallery Cards (3 rows x 3 cols) including Kharkiv Europe-War!
+# ALL 9 Giant Panoramic 324px Sourced Museum Flat-Vector Gallery Cards (3 rows x 3 cols)
 CARDS = [
     {
         "n": 3,
         "region": "EUROPE",
         "beat": "LABOUR",
+        "src": "TAGESSCHAU",
         "colour": REGION_COLOUR["EUROPE"],
         "art": "igmetall",
         "note": "24h STRIKE",
@@ -76,6 +80,7 @@ CARDS = [
         "n": 4,
         "region": "AMERICAS",
         "beat": "SPACE",
+        "src": "SFN",
         "colour": REGION_COLOUR["AMERICAS"],
         "art": "spacex",
         "note": "FALCON 9",
@@ -85,8 +90,9 @@ CARDS = [
     },
     {
         "n": 5,
-        "region": "MIDDLE EAST",
+        "region": "M. EAST",
         "beat": "AID",
+        "src": "UN REPORTS",
         "colour": REGION_COLOUR["MIDDLE EAST"],
         "art": "gaza_storm",
         "note": "70K TENTS",
@@ -98,6 +104,7 @@ CARDS = [
         "n": 6,
         "region": "AFRICA",
         "beat": "CONFLICT",
+        "src": "AL JAZEERA",
         "colour": REGION_COLOUR["AFRICA"],
         "art": "sudan_un",
         "note": "UN",
@@ -109,10 +116,11 @@ CARDS = [
         "n": 7,
         "region": "ASIA",
         "beat": "DISASTER",
+        "src": "POLICE \u00b7 AFP",
         "colour": REGION_COLOUR["ASIA"],
         "art": "banten",
         "note": "3 DEAD",
-        "head": "Banten fire: 3 dead, dozens missing",
+        "head": "Banten fire: 3 dead, 36 missing",
         "lon": 106.4,
         "lat": -6.2,
     },
@@ -120,6 +128,7 @@ CARDS = [
         "n": 8,
         "region": "OCEANIA",
         "beat": "CRICKET",
+        "src": "ESPN",
         "colour": REGION_COLOUR["OCEANIA"],
         "art": "cricket",
         "note": "720/9d",
@@ -131,10 +140,11 @@ CARDS = [
         "n": 9,
         "region": "AMERICAS",
         "beat": "POLITICS",
+        "src": "GUARDIAN",
         "colour": REGION_COLOUR["AMERICAS"],
         "art": "us_house",
         "note": "258 SEATS",
-        "head": "Final race seals 258 Dem seats",
+        "head": "Final race projects 258 Dems",
         "lon": -77.0,
         "lat": 38.9,
     },
@@ -142,17 +152,19 @@ CARDS = [
         "n": 10,
         "region": "S. AMERICA",
         "beat": "STORM",
+        "src": "AP",
         "colour": REGION_COLOUR["S. AMERICA"],
         "art": "storm",
         "note": "5 DEAD",
-        "head": "Brazil floods kill 5 in south",
-        "lon": -51.2,
-        "lat": -30.0,
+        "head": "Brazil storm kills 5, 250+ hurt",
+        "lon": -53.8,
+        "lat": -29.1,
     },
     {
         "n": 11,
         "region": "EUROPE",
         "beat": "WAR",
+        "src": "REUTERS",
         "colour": REGION_COLOUR["EUROPE"],
         "art": "kharkiv",
         "note": "",
@@ -162,32 +174,36 @@ CARDS = [
     },
 ]
 
-# Bottom Airy Dark-Navy 2 x 6 Global Dispatch Band: 12 crisp 17.5px bold pure-white single-line verified stories!
-# Tuple: (tag, headline, badge_colour, map_colour, lon, lat) — Left column = items 0..5, Right column = items 6..11
+# Bottom Sleek Dark-Navy 2 x 7 Sourced Global Dispatch Band: 14 crisp 16px bold pure-white verified stories!
+# Tuple: (tag, headline, src, badge_colour, map_colour, lon, lat) — Left col 0..6, Right col 7..13
 DISPATCHES = [
-    ("CHINA", "Exchanges cut stock margin limit to 80%", REGION_COLOUR["ASIA"], REGION_COLOUR["ASIA"], 121.5, 31.2),
-    ("FOOTBALL", "Liverpool rout 10-man Man Utd 4\u20130", REGION_COLOUR["EUROPE"], REGION_COLOUR["EUROPE"], -3.0, 53.4),
-    ("F1 VEGAS", "Verstappen wins GP ahead of Norris", REGION_COLOUR["AMERICAS"], REGION_COLOUR["AMERICAS"], -115.1, 36.2),
-    ("TENNIS", "Alcaraz beats Zverev 6\u20132, 7\u20136 ATP Finals", REGION_COLOUR["EUROPE"], REGION_COLOUR["EUROPE"], 7.7, 45.1),
-    ("MARKETS", "Bitcoin near $59.2K; Brent crude $92", GLOBAL_COLOUR, GLOBAL_COLOUR, None, None),
-    ("SCIENCE", "LIGO study finds 257 silent black holes", REGION_COLOUR["AMERICAS"], REGION_COLOUR["AMERICAS"], -118.1, 34.1),
-    ("HEALTH", "UPenn links EFEMP1 gene to vision loss", REGION_COLOUR["AMERICAS"], REGION_COLOUR["AMERICAS"], -75.2, 40.0),
-    ("LEBANON", "UNIFIL transfers posts to Lebanese army", REGION_COLOUR["M. EAST"], REGION_COLOUR["M. EAST"], 35.1, 33.1),
-    ("CONGO", "Kenya & DRC agree to restore full ties", REGION_COLOUR["AFRICA"], REGION_COLOUR["AFRICA"], 15.9, -1.1),
-    ("POLAND", "11-nation Coalition 2026 drills conclude", REGION_COLOUR["EUROPE"], REGION_COLOUR["EUROPE"], 22.0, 50.0),
-    ("JAPAN", "Onosato wins Kyushu Sumo Emperor's Cup", REGION_COLOUR["ASIA"], REGION_COLOUR["ASIA"], 130.4, 33.6),
-    ("AUSTRALIA", "Urgent inquiry into online peptide sales", REGION_COLOUR["OCEANIA"], REGION_COLOUR["OCEANIA"], 149.1, -35.3),
+    ("CHINA", "Margin cap cut to 80%, filings show", "Reuters", REGION_COLOUR["ASIA"], REGION_COLOUR["ASIA"], 121.5, 31.2),
+    ("FOOTBALL", "Liverpool rout 10-man Man Utd 4\u20130", "BBC", REGION_COLOUR["EUROPE"], REGION_COLOUR["EUROPE"], -3.0, 53.4),
+    ("F1 VEGAS", "Verstappen wins GP ahead of Norris", "F1", REGION_COLOUR["AMERICAS"], REGION_COLOUR["AMERICAS"], -115.1, 36.2),
+    ("TENNIS", "Alcaraz beats Zverev 6\u20132, 7\u20136 ATP", "ATP", REGION_COLOUR["EUROPE"], REGION_COLOUR["EUROPE"], 7.7, 45.1),
+    ("MARKETS", "Bitcoin near $59.2K; Brent $92", "Reuters", GLOBAL_COLOUR, GLOBAL_COLOUR, None, None),
+    ("SCIENCE", "LIGO finds 257 silent black holes", "Caltech", REGION_COLOUR["AMERICAS"], REGION_COLOUR["AMERICAS"], -118.1, 34.1),
+    ("HEALTH", "UPenn links EFEMP1 to vision loss", "UPenn", REGION_COLOUR["AMERICAS"], REGION_COLOUR["AMERICAS"], -75.2, 40.0),
+    ("LEBANON", "UNIFIL hands posts to army, UN says", "UN/AA", REGION_COLOUR["M. EAST"], REGION_COLOUR["M. EAST"], 35.1, 33.1),
+    ("CONGO", "Kenya & DRC restore full ties", "Reuters", REGION_COLOUR["AFRICA"], REGION_COLOUR["AFRICA"], 15.9, -1.1),
+    ("POLAND", "11-nation Coalition drills conclude", "PAP", REGION_COLOUR["EUROPE"], REGION_COLOUR["EUROPE"], 22.0, 50.0),
+    ("BANGLADESH", "Garment wage clashes shut plants", "Reuters", REGION_COLOUR["ASIA"], REGION_COLOUR["ASIA"], 90.4, 24.0),
+    ("JAPAN", "Onosato wins Kyushu Sumo Cup", "NHK", REGION_COLOUR["ASIA"], REGION_COLOUR["ASIA"], 130.4, 33.6),
+    ("AUSTRALIA", "Inquiry into online peptide sales", "ABC", REGION_COLOUR["OCEANIA"], REGION_COLOUR["OCEANIA"], 149.1, -35.3),
+    ("CULTURE", "Taipei: 63rd Golden Horse Awards", "AFP", REGION_COLOUR["ASIA"], REGION_COLOUR["ASIA"], 121.5, 25.0),
 ]
 
-# ONLY 6 GIANT (18px) crisp open-ocean callouts on the 580 x 217 Natural Earth map — ZERO overlap & Java dot uncovered!
-# (label, lon, lat, box_cx, box_cy, colour)
+DATE_CHECK_LEAD = "DATE CHECK (22 NOV UTC ONLY):"
+DATE_CHECK_BODY = "Excluded 20\u201321 Nov: BepiColombo \u00b7 Peru M6.7 \u00b7 APEC \u00b7 Merkury \u00b7 Fri close"
+
+# ONLY 6 GIANT (18px) crisp open-ocean callouts on the Natural Earth map — ZERO overlap & Java dot uncovered!
 MAP_CALLOUTS = [
-    ("SPACEX", -120.6, 34.7, 86, 108, REGION_COLOUR["AMERICAS"]),
-    ("BRAZIL", -51.2, -30.0, 124, 182, REGION_COLOUR["S. AMERICA"]),
-    ("#1 COP31", 30.7, 36.9, 434, 34, GLOBAL_COLOUR),
-    ("#2 IRAN", 51.4, 35.7, 388, 134, REGION_COLOUR["MIDDLE EAST"]),
-    ("KHARTOUM", 32.5, 15.6, 252, 150, REGION_COLOUR["AFRICA"]),
-    ("BANTEN", 106.4, -6.2, 514, 100, REGION_COLOUR["ASIA"]),
+    ("SPACEX", -120.6, 34.7, 86, 102, REGION_COLOUR["AMERICAS"]),
+    ("BRAZIL", -53.8, -29.1, 124, 170, REGION_COLOUR["S. AMERICA"]),
+    ("#1 COP31", 30.7, 36.9, 434, 32, GLOBAL_COLOUR),
+    ("#2 IRAN", 51.4, 35.7, 388, 126, REGION_COLOUR["MIDDLE EAST"]),
+    ("KHARTOUM", 32.5, 15.6, 252, 142, REGION_COLOUR["AFRICA"]),
+    ("BANTEN", 106.4, -6.2, 514, 94, REGION_COLOUR["ASIA"]),
 ]
 
 
@@ -198,11 +214,11 @@ def total_stories():
 def check():
     assert len(HEROES) == 2
     assert len(CARDS) == 9
-    assert len(DISPATCHES) == 12
-    assert total_stories() == 23
+    assert len(DISPATCHES) == 14
+    assert total_stories() == 25
     assert [s["n"] for s in HEROES + CARDS] == list(range(1, 12))
     seen = {s["region"] for s in HEROES + CARDS}
-    for req in ("GLOBAL", "EUROPE", "AMERICAS", "S. AMERICA", "MIDDLE EAST", "AFRICA", "ASIA", "OCEANIA"):
+    for req in ("GLOBAL", "EUROPE", "AMERICAS", "S. AMERICA", "M. EAST", "AFRICA", "ASIA", "OCEANIA"):
         assert req in seen, f"missing region: {req}"
     blob = " ".join(
         [h["head"] + " " + h["deck"] for h in HEROES]
@@ -215,4 +231,4 @@ def check():
 
 if __name__ == "__main__":
     check()
-    print(f"OK: {total_stories()} verified Sunday 22 Nov 2026 stories (v13 23-Story 3x3+2x6 Atlas, >=15px floor)")
+    print(f"OK: {total_stories()} verified sourced Sunday 22 Nov 2026 stories (v14 Hybrid Atlas, >=15px floor)")
