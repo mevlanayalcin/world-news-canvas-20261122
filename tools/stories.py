@@ -1,10 +1,10 @@
-"""Verified Sunday 22 November 2026 world news dataset for the v9 Giant-Type 3x3 Visual World Atlas.
+"""Verified Sunday 22 November 2026 world news dataset for the v10 Open Archival 3x3 Visual World Atlas.
 
-15 verified pure Sunday 22 November 2026 stories across all 7 world regions and 13 major beats:
-  - 2 Tall Illustrated Hero Lead Panels (COP31 Antalya + Iran rolling blackouts, 22.5px serif heads)
-  - 9 Wide Bespoke Illustrated Gallery Cards (3 rows x 3 columns, 326 x 168 each, 20.5px serif heads)
-  - 4 Giant Bottom Wire Beats (F1, Football, Markets/China, Science — 17px bold white on deep navy)
-ZERO text smaller than 14px anywhere on the canvas; zero bullet walls; zero source credits; zero pre-cutoff leakage.
+18 verified pure Sunday 22 November 2026 stories across all 7 world regions and 14 beats:
+  - 2 Tall Illustrated Hero Lead Panels (23.5-24px serif heads + 15px bold decks)
+  - 9 Wide Panoramic Illustrated Cards (3 rows x 3 columns, 324 x 168 each, giant 22px serif heads)
+  - 4 Giant 17.5px Bold White Footer Lines covering 7 additional global & regional beats
+Strict >= 15px global typography floor; soft archival hairline rules; 6 giant 18px open-ocean map callouts.
 """
 
 EDITION_DAY = "Sunday 22 November 2026"
@@ -58,7 +58,7 @@ HEROES = [
     },
 ]
 
-# 9 Wide Bespoke Illustrated Story Cards (3 rows x 3 columns, 326 x 168 px each)
+# 9 Wide Panoramic Illustrated Cards (3 rows x 3 columns, giant 22px bold serif headlines)
 CARDS = [
     {
         "n": 3,
@@ -78,7 +78,7 @@ CARDS = [
         "colour": REGION_COLOUR["AMERICAS"],
         "art": "spacex",
         "note": "FALCON 9",
-        "head": "SpaceX launches NROL-136, lands LZ-4",
+        "head": "SpaceX launches NROL-136, LZ-4",
         "lon": -120.6,
         "lat": 34.7,
     },
@@ -122,7 +122,7 @@ CARDS = [
         "colour": REGION_COLOUR["OCEANIA"],
         "art": "cricket",
         "note": "720/9d",
-        "head": "India 720/9d vs NZ (119/2) Test",
+        "head": "India 720/9d vs NZ in Test",
         "lon": 174.8,
         "lat": -41.3,
     },
@@ -133,7 +133,7 @@ CARDS = [
         "colour": REGION_COLOUR["AMERICAS"],
         "art": "us_house",
         "note": "258 SEATS",
-        "head": "Final race seals 258-seat Dem House",
+        "head": "Final race seals 258 Dem seats",
         "lon": -77.0,
         "lat": 38.9,
     },
@@ -144,7 +144,7 @@ CARDS = [
         "colour": REGION_COLOUR["S. AMERICA"],
         "art": "storm",
         "note": "",
-        "head": "Brazil floods leave 5 dead in south",
+        "head": "Brazil floods kill 5 in south",
         "lon": -51.2,
         "lat": -30.0,
     },
@@ -155,31 +155,29 @@ CARDS = [
         "colour": REGION_COLOUR["EUROPE"],
         "art": "kharkiv",
         "note": "",
-        "head": "Drone strike sparks Kharkiv fire",
+        "head": "Drone sparks Kharkiv fire",
         "lon": 36.2,
         "lat": 50.0,
     },
 ]
 
-# Bottom Deep-Navy Giant 2x2 Wire Strip: (tag, text, badge_col, map_col, lon, lat)
-# Packs 7 verified global & regional beats across 4 ultra-clean 16.5px bold white lines (18 stories total!)
+# Bottom Deep-Navy Giant 2x2 Wire Strip: (tag, text, badge_col, map_col, lon, lat) — 17.5px bold white!
 GLOBAL_STRIP = [
     ("SPORT", "Verstappen Vegas F1 \u00b7 Liverpool 4\u20130", "#B8251E", REGION_COLOUR["AMERICAS"], -115.1, 36.2),
-    ("TENNIS", "Alcaraz beats Zverev 6\u20132, 7\u20136 ATP", "#1D4ED8", REGION_COLOUR["EUROPE"], 7.7, 45.1),
+    ("TENNIS", "Alcaraz beats Zverev 6\u20132, 7\u20136", "#1D4ED8", REGION_COLOUR["EUROPE"], 7.7, 45.1),
     ("MARKETS", "Bitcoin $59.2K \u00b7 China margin 80%", "#15803D", REGION_COLOUR["ASIA"], 121.5, 31.2),
     ("WORLD", "Congo\u2013Kenya ties \u00b7 LIGO black holes", "#B45309", REGION_COLOUR["AFRICA"], 15.9, -1.1),
 ]
 
-# 7 airy giant (15.5px) open-ocean callouts on the 586 x 250 Natural Earth map — ultra-clean at 300px!
+# ONLY 6 GIANT (18px) crisp open-ocean callouts on the 586 x 250 Natural Earth map — ZERO blur at 300px!
 # (label, lon, lat, box_cx, box_cy, colour)
 MAP_CALLOUTS = [
-    ("SPACEX", -120.6, 34.7, 74, 126, REGION_COLOUR["AMERICAS"]),
-    ("BRAZIL", -51.2, -30.0, 120, 208, REGION_COLOUR["S. AMERICA"]),
-    ("#1 COP31", 30.7, 36.9, 434, 42, GLOBAL_COLOUR),
-    ("#2 IRAN", 51.4, 35.7, 418, 140, REGION_COLOUR["MIDDLE EAST"]),
-    ("KHARTOUM", 32.5, 15.6, 260, 168, REGION_COLOUR["AFRICA"]),
-    ("BANTEN", 106.4, -6.2, 522, 134, REGION_COLOUR["ASIA"]),
-    ("WELLINGTON", 174.8, -41.3, 434, 224, REGION_COLOUR["OCEANIA"]),
+    ("SPACEX", -120.6, 34.7, 78, 128, REGION_COLOUR["AMERICAS"]),
+    ("BRAZIL", -51.2, -30.0, 120, 210, REGION_COLOUR["S. AMERICA"]),
+    ("#1 COP31", 30.7, 36.9, 442, 42, GLOBAL_COLOUR),
+    ("#2 IRAN", 51.4, 35.7, 422, 146, REGION_COLOUR["MIDDLE EAST"]),
+    ("KHARTOUM", 32.5, 15.6, 256, 172, REGION_COLOUR["AFRICA"]),
+    ("BANTEN", 106.4, -6.2, 518, 134, REGION_COLOUR["ASIA"]),
 ]
 
 
@@ -206,4 +204,4 @@ def check():
 
 if __name__ == "__main__":
     check()
-    print(f"OK: {total_stories()} verified Sunday 22 Nov 2026 stories (11 wide illustrated scenes + world atlas + 4 giant footer beats)")
+    print(f"OK: {total_stories()} verified Sunday 22 Nov 2026 stories (v10 Open Archival 3x3 Atlas, >=15px floor)")

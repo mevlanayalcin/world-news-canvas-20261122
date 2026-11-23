@@ -174,16 +174,16 @@ def art_cop31(a):
     for i in range(1, 8):
         a.rect(i * 44 - 0.6, 0, i * 44 + 0.6, 86, "#126572")
     a.rect(0, 86, 352, 100, "#093E46")
-    a.rect(12, 31, 130, 95, "#072F35")
-    a.rect(8, 28, 126, 92, "#FBFAF4")
-    a.label(67, 46, "FOSSIL FUELS", 14, "#141923", "black", "mm")
-    a.rect(16, 58, 118, 82, "#C0271B")
-    a.label(67, 70, "OMITTED", 14, "#FFFFFF", "black", "mm")
-    a.disc(174, 52, 32, "#093B43")
-    a.disc(174, 51, 30, "#3D94D6")
-    a.poly([(160, 34), (171, 30), (180, 33), (182, 41), (175, 45), (177, 54), (170, 65), (162, 57), (157, 48), (153, 43)], "#7DC98B")
-    a.poly([(184, 35), (194, 32), (200, 41), (197, 51), (189, 55), (184, 47)], "#7DC98B")
-    a.poly([(186, 60), (193, 58), (196, 65), (191, 71), (185, 68)], "#7DC98B")
+    a.rect(12, 31, 134, 95, "#072F35")
+    a.rect(8, 28, 130, 92, "#FBFAF4")
+    a.label(69, 46, "FOSSIL FUELS", 15, "#141923", "black", "mm")
+    a.rect(16, 58, 122, 82, "#C0271B")
+    a.label(69, 70, "OMITTED", 15, "#FFFFFF", "black", "mm")
+    a.disc(176, 52, 31, "#093B43")
+    a.disc(176, 51, 29, "#3D94D6")
+    a.poly([(162, 34), (173, 30), (182, 33), (184, 41), (177, 45), (179, 54), (172, 65), (164, 57), (159, 48), (155, 43)], "#7DC98B")
+    a.poly([(186, 35), (196, 32), (202, 41), (199, 51), (191, 55), (186, 47)], "#7DC98B")
+    a.poly([(188, 60), (195, 58), (198, 65), (193, 71), (187, 68)], "#7DC98B")
     a.rect(220, 16, 230, 74, "#FBFAF4")
     a.disc(225, 16, 5.0, "#FBFAF4")
     a.disc(225, 77, 10.5, "#FBFAF4")
@@ -192,7 +192,7 @@ def art_cop31(a):
     for y in (26, 38, 50, 62):
         a.rect(230, y - 0.6, 235, y + 0.6, "#FBFAF4")
     a.label(238, 35, "1.5\u00b0C", 18, "#FFFFFF", "black", "ls")
-    a.label(238, 59, "NO DEAL", 14, "#FDE68A", "black", "ls")
+    a.label(238, 60, "NO DEAL", 15, "#FDE68A", "black", "ls")
     a.rect(298, 77, 346, 84, "#5B3413")
     a.rect(294, 83, 349, 87, "#7A4A1E")
     a.rotbox(334, 56, 8.0, 40, 38, "#B7772F")
@@ -239,11 +239,11 @@ def art_iran_grid(a):
             for col in range(int((width - 4) // 7)):
                 if (row * 2 + col * 3 + index) % 4 == 0:
                     a.rect(x + 3 + col * 7, top + 4 + row * 8, x + 6.5 + col * 7, top + 7.5 + row * 8, "#1E293B")
-    a.rect(224, 10, 346, 62, "#475569")
-    a.rect(226, 12, 344, 60, "#0B1124")
-    a.rect(226, 12, 233, 60, "#EF4444")
-    a.label(289, 28, a.note or "2h CUTS", 18, "#FDE68A", "black", "mm")
-    a.label(289, 50, "BLACKOUTS", 14, "#FFFFFF", "black", "mm")
+    a.rect(220, 10, 346, 62, "#475569")
+    a.rect(222, 12, 344, 60, "#0B1124")
+    a.rect(222, 12, 229, 60, "#EF4444")
+    a.label(287, 28, a.note or "2h CUTS", 18, "#FDE68A", "black", "mm")
+    a.label(287, 50, "BLACKOUTS", 15, "#FFFFFF", "black", "mm")
 
 
 # ---------------------------------------------------------- 12 gallery scenes
@@ -339,8 +339,8 @@ def art_sudan_un(a):
     for wx in (106, 130, 154, 178):
         a.rect(wx, 56, wx + 14, 68, "#CBD5E1")
     a.rect(144, 71, 166, 84, "#475569")
-    a.disc(124, 71, 13, "#2574B9")
-    a.label(124, 71, a.note or "UN", 14, "#FFFFFF", "black", "mm")
+    a.disc(124, 71, 14, "#2574B9")
+    a.label(124, 71, a.note or "UN", 15, "#FFFFFF", "black", "mm")
     smoke(a, ((204, 34, 17), (226, 22, 19), (252, 14, 17), (278, 10, 14)), "#3F3F46")
     a.star(198, 46, 21, 9.5, 8, 12, "#E4572E")
     a.star(198, 46, 13, 6.0, 8, 34, "#F6A21B")
@@ -609,12 +609,12 @@ class Atlas:
         width,
         height,
         scale=4,
-        sea="#BFD8EA",
-        sea_edge="#6B8CA6",
-        land="#EAE0C8",
-        coast="#8A7E66",
-        paper="#F5F1E8",
-        grid="#A8C6DC",
+        sea="#DCEAF6",
+        sea_edge="#8FAEC7",
+        land="#EFE5CF",
+        coast="#9B8F78",
+        paper="#FAF6EE",
+        grid="#C8DCEA",
     ):
         self.width, self.height, self.scale = width, height, scale
         x_edge, _ = natural_earth(180.0, 0.0)
