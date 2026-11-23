@@ -1,9 +1,9 @@
-"""Verified Sunday 22 November 2026 world news dataset for the v12 26-Story Museum Flat-Vector World Atlas.
+"""Verified Sunday 22 November 2026 world news dataset for the v13 23-Story 3x3 + 2x6 Museum World Atlas.
 
-26 verified pure Sunday 22 November 2026 stories across all 7 world regions and 16 beats:
-  - 2 Full-Header Illustrated Hero Panels (23px bold serif heads + 16px bold decks)
-  - 8 Wide Museum Flat-Vector Gallery Cards (2 rows x 4 columns, complete data badges + balanced 19.5px Lato-Black heads)
-  - 16 Single-Line Crisp 16px Bold White Dispatches in a Sleek 2 x 8 Dark-Navy Global Wire Band
+23 verified pure Sunday 22 November 2026 stories across all 7 world regions and 16 beats:
+  - 2 Full-Header Illustrated Hero Panels (22.5px bold serif heads + 15.5px bold decks)
+  - 9 Giant 324px Panoramic Museum Flat-Vector Cards (3 rows x 3 cols, complete data badges + balanced 20.5px Lato-Black heads)
+  - 12 Single-Line Crisp 17.5px Bold White Dispatches in an Airy 2 x 6 Dark-Navy Global Wire Band
 Strict >= 15px global typography floor; soft archival hairlines; 6 giant 18px open-ocean map callouts.
 """
 
@@ -59,7 +59,7 @@ HEROES = [
     },
 ]
 
-# 8 Museum Flat-Vector Illustrated Gallery Cards (2 rows x 4 columns, complete data badges)
+# ALL 9 Giant Panoramic 324px Museum Flat-Vector Gallery Cards (3 rows x 3 cols) including Kharkiv Europe-War!
 CARDS = [
     {
         "n": 3,
@@ -85,9 +85,9 @@ CARDS = [
     },
     {
         "n": 5,
-        "region": "M. EAST",
+        "region": "MIDDLE EAST",
         "beat": "AID",
-        "colour": REGION_COLOUR["M. EAST"],
+        "colour": REGION_COLOUR["MIDDLE EAST"],
         "art": "gaza_storm",
         "note": "70K TENTS",
         "head": "Gaza storms flood 70,000 tents",
@@ -112,7 +112,7 @@ CARDS = [
         "colour": REGION_COLOUR["ASIA"],
         "art": "banten",
         "note": "3 DEAD",
-        "head": "Banten fire: dozens missing",
+        "head": "Banten fire: 3 dead, dozens missing",
         "lon": 106.4,
         "lat": -6.2,
     },
@@ -134,7 +134,7 @@ CARDS = [
         "colour": REGION_COLOUR["AMERICAS"],
         "art": "us_house",
         "note": "258 SEATS",
-        "head": "Dems seal 258 House seats",
+        "head": "Final race seals 258 Dem seats",
         "lon": -77.0,
         "lat": 38.9,
     },
@@ -149,12 +149,22 @@ CARDS = [
         "lon": -51.2,
         "lat": -30.0,
     },
+    {
+        "n": 11,
+        "region": "EUROPE",
+        "beat": "WAR",
+        "colour": REGION_COLOUR["EUROPE"],
+        "art": "kharkiv",
+        "note": "",
+        "head": "Drone sparks Kharkiv fire",
+        "lon": 36.2,
+        "lat": 50.0,
+    },
 ]
 
-# Bottom Sleek Dark-Navy Global Dispatch Band: 2 columns x 8 rows = 16 single-line verified Sunday 22 Nov stories!
-# Tuple: (tag, headline, badge_colour, map_colour, lon, lat) — Left column = items 0..7, Right column = items 8..15
+# Bottom Airy Dark-Navy 2 x 6 Global Dispatch Band: 12 crisp 17.5px bold pure-white single-line verified stories!
+# Tuple: (tag, headline, badge_colour, map_colour, lon, lat) — Left column = items 0..5, Right column = items 6..11
 DISPATCHES = [
-    ("UKRAINE", "Drone strike sparks fire in Kharkiv", REGION_COLOUR["EUROPE"], REGION_COLOUR["EUROPE"], 36.2, 50.0),
     ("CHINA", "Exchanges cut stock margin limit to 80%", REGION_COLOUR["ASIA"], REGION_COLOUR["ASIA"], 121.5, 31.2),
     ("FOOTBALL", "Liverpool rout 10-man Man Utd 4\u20130", REGION_COLOUR["EUROPE"], REGION_COLOUR["EUROPE"], -3.0, 53.4),
     ("F1 VEGAS", "Verstappen wins GP ahead of Norris", REGION_COLOUR["AMERICAS"], REGION_COLOUR["AMERICAS"], -115.1, 36.2),
@@ -167,20 +177,17 @@ DISPATCHES = [
     ("POLAND", "11-nation Coalition 2026 drills conclude", REGION_COLOUR["EUROPE"], REGION_COLOUR["EUROPE"], 22.0, 50.0),
     ("JAPAN", "Onosato wins Kyushu Sumo Emperor's Cup", REGION_COLOUR["ASIA"], REGION_COLOUR["ASIA"], 130.4, 33.6),
     ("AUSTRALIA", "Urgent inquiry into online peptide sales", REGION_COLOUR["OCEANIA"], REGION_COLOUR["OCEANIA"], 149.1, -35.3),
-    ("BAHRAIN", "U.S. Embassy flags Gulf security threats", REGION_COLOUR["M. EAST"], REGION_COLOUR["M. EAST"], 50.6, 26.2),
-    ("ISRAEL", "Eisenkot\u2013Likud coalition talks stall", REGION_COLOUR["M. EAST"], REGION_COLOUR["M. EAST"], 34.8, 32.1),
-    ("S. AFRICA", "DA floats 137-council coalition pact", REGION_COLOUR["AFRICA"], REGION_COLOUR["AFRICA"], 28.0, -26.2),
 ]
 
-# ONLY 6 GIANT (18px) crisp open-ocean callouts on the Natural Earth map — ZERO overlap & Java Banten dot uncovered!
+# ONLY 6 GIANT (18px) crisp open-ocean callouts on the 580 x 217 Natural Earth map — ZERO overlap & Java dot uncovered!
 # (label, lon, lat, box_cx, box_cy, colour)
 MAP_CALLOUTS = [
-    ("SPACEX", -120.6, 34.7, 78, 122, REGION_COLOUR["AMERICAS"]),
-    ("BRAZIL", -51.2, -30.0, 118, 202, REGION_COLOUR["S. AMERICA"]),
-    ("#1 COP31", 30.7, 36.9, 442, 38, GLOBAL_COLOUR),
-    ("#2 IRAN", 51.4, 35.7, 392, 148, REGION_COLOUR["MIDDLE EAST"]),
-    ("KHARTOUM", 32.5, 15.6, 254, 166, REGION_COLOUR["AFRICA"]),
-    ("BANTEN", 106.4, -6.2, 524, 110, REGION_COLOUR["ASIA"]),
+    ("SPACEX", -120.6, 34.7, 86, 108, REGION_COLOUR["AMERICAS"]),
+    ("BRAZIL", -51.2, -30.0, 124, 182, REGION_COLOUR["S. AMERICA"]),
+    ("#1 COP31", 30.7, 36.9, 434, 34, GLOBAL_COLOUR),
+    ("#2 IRAN", 51.4, 35.7, 388, 134, REGION_COLOUR["MIDDLE EAST"]),
+    ("KHARTOUM", 32.5, 15.6, 252, 150, REGION_COLOUR["AFRICA"]),
+    ("BANTEN", 106.4, -6.2, 514, 100, REGION_COLOUR["ASIA"]),
 ]
 
 
@@ -190,12 +197,12 @@ def total_stories():
 
 def check():
     assert len(HEROES) == 2
-    assert len(CARDS) == 8
-    assert len(DISPATCHES) == 16
-    assert total_stories() == 26
-    assert [s["n"] for s in HEROES + CARDS] == list(range(1, 11))
+    assert len(CARDS) == 9
+    assert len(DISPATCHES) == 12
+    assert total_stories() == 23
+    assert [s["n"] for s in HEROES + CARDS] == list(range(1, 12))
     seen = {s["region"] for s in HEROES + CARDS}
-    for req in ("GLOBAL", "EUROPE", "AMERICAS", "S. AMERICA", "M. EAST", "AFRICA", "ASIA", "OCEANIA"):
+    for req in ("GLOBAL", "EUROPE", "AMERICAS", "S. AMERICA", "MIDDLE EAST", "AFRICA", "ASIA", "OCEANIA"):
         assert req in seen, f"missing region: {req}"
     blob = " ".join(
         [h["head"] + " " + h["deck"] for h in HEROES]
@@ -208,4 +215,4 @@ def check():
 
 if __name__ == "__main__":
     check()
-    print(f"OK: {total_stories()} verified Sunday 22 Nov 2026 stories (v12 26-Story Museum Atlas, >=15px floor)")
+    print(f"OK: {total_stories()} verified Sunday 22 Nov 2026 stories (v13 23-Story 3x3+2x6 Atlas, >=15px floor)")
