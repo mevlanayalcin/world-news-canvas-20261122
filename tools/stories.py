@@ -1,10 +1,10 @@
-"""Verified Sunday 22 November 2026 world news dataset for the v8 Illustrated Visual World Atlas.
+"""Verified Sunday 22 November 2026 world news dataset for the v9 Giant-Type 3x3 Visual World Atlas.
 
-18 verified pure Sunday 22 November 2026 stories across all 7 world regions and 13+ major beats:
-  - 2 Tall Illustrated Hero Lead Panels (COP31 Antalya + Iran rolling blackouts)
-  - 12 Bespoke Illustrated Gallery Cards (3 rows x 4 columns — every story clear from picture + bold 17.5px headline)
-  - 4 Bold Bottom Wire Beats (Markets, Science, Health, Tennis — 15.5px bold white on deep navy)
-Zero bullet walls, zero tiny sub-captions, zero fussy source credits, zero pre-cutoff leakage.
+15 verified pure Sunday 22 November 2026 stories across all 7 world regions and 13 major beats:
+  - 2 Tall Illustrated Hero Lead Panels (COP31 Antalya + Iran rolling blackouts, 22.5px serif heads)
+  - 9 Wide Bespoke Illustrated Gallery Cards (3 rows x 3 columns, 326 x 168 each, 20.5px serif heads)
+  - 4 Giant Bottom Wire Beats (F1, Football, Markets/China, Science — 17px bold white on deep navy)
+ZERO text smaller than 14px anywhere on the canvas; zero bullet walls; zero source credits; zero pre-cutoff leakage.
 """
 
 EDITION_DAY = "Sunday 22 November 2026"
@@ -13,14 +13,21 @@ EDITION_TAG = "SUNDAY EDITION"
 REGIONS = [
     ("EUROPE", "#1D4ED8"),
     ("AMERICAS", "#6D28D9"),
-    ("MIDDLE EAST", "#9A6700"),
+    ("M. EAST", "#9A6700"),
     ("AFRICA", "#15803D"),
     ("ASIA", "#C2410C"),
     ("OCEANIA", "#0E7490"),
 ]
 
-REGION_COLOUR = {name: colour for name, colour in REGIONS}
-REGION_COLOUR["S. AMERICA"] = "#7E22CE"
+REGION_COLOUR = {
+    "EUROPE": "#1D4ED8",
+    "AMERICAS": "#6D28D9",
+    "S. AMERICA": "#7E22CE",
+    "MIDDLE EAST": "#9A6700",
+    "AFRICA": "#15803D",
+    "ASIA": "#C2410C",
+    "OCEANIA": "#0E7490",
+}
 GLOBAL_COLOUR = "#B8251E"
 
 # 2 Upper-Right Tall Illustrated Hero Lead Panels
@@ -33,7 +40,7 @@ HEROES = [
         "art": "cop31",
         "note": "NO DEAL",
         "head": "COP31 ends with no deal",
-        "deck": "44h Antalya overtime \u00b7 EU & islands reject draft",
+        "deck": "44h Antalya overtime \u00b7 EU & islands reject",
         "lon": 30.7,
         "lat": 36.9,
     },
@@ -51,7 +58,7 @@ HEROES = [
     },
 ]
 
-# 12 Bespoke Illustrated Visual Story Cards (3 rows x 4 columns)
+# 9 Wide Bespoke Illustrated Story Cards (3 rows x 3 columns, 326 x 168 px each)
 CARDS = [
     {
         "n": 3,
@@ -115,7 +122,7 @@ CARDS = [
         "colour": REGION_COLOUR["OCEANIA"],
         "art": "cricket",
         "note": "720/9d",
-        "head": "India 720/9d vs NZ (119/2) in Test",
+        "head": "India 720/9d vs NZ (119/2) Test",
         "lon": 174.8,
         "lat": -41.3,
     },
@@ -152,74 +159,39 @@ CARDS = [
         "lon": 36.2,
         "lat": 50.0,
     },
-    {
-        "n": 12,
-        "region": "ASIA",
-        "beat": "MARKETS",
-        "colour": REGION_COLOUR["ASIA"],
-        "art": "china_market",
-        "note": "80%",
-        "head": "China cuts stock margin to 80%",
-        "lon": 121.5,
-        "lat": 31.2,
-    },
-    {
-        "n": 13,
-        "region": "EUROPE",
-        "beat": "SPORT",
-        "colour": REGION_COLOUR["EUROPE"],
-        "art": "anfield",
-        "note": "LIV 4\u20130 MUN",
-        "head": "Liverpool rout Man Utd 4\u20130 at Anfield",
-        "lon": -3.0,
-        "lat": 53.4,
-    },
-    {
-        "n": 14,
-        "region": "AMERICAS",
-        "beat": "F1",
-        "colour": REGION_COLOUR["AMERICAS"],
-        "art": "vegas",
-        "note": "",
-        "head": "Verstappen wins Las Vegas F1 GP",
-        "lon": -115.1,
-        "lat": 36.2,
-    },
 ]
 
-# Bottom Deep-Navy Global & Regional Wire Strip (6 crisp 14.5px bold white beats — >=2 stories on every continent!)
+# Bottom Deep-Navy Giant 2x2 Wire Strip: (tag, text, badge_col, map_col, lon, lat)
+# Packs 7 verified global & regional beats across 4 ultra-clean 16.5px bold white lines (18 stories total!)
 GLOBAL_STRIP = [
-    ("MARKETS", "Bitcoin near $59.2K; Brent crude $92/bbl", "#15803D", None, None),
-    ("SCIENCE", "LIGO study of 257 mergers finds silent black holes", "#1D4ED8", None, None),
-    ("TENNIS", "Alcaraz beats Zverev 6\u20132, 7\u20136 for ATP Finals", "#B45309", 7.7, 45.1),
-    ("AFRICA", "Congo summit: Kenya & DRC restore full ties", REGION_COLOUR["AFRICA"], 15.9, -1.1),
-    ("ASIA", "Onosato wins Kyushu Sumo Emperor's Cup", REGION_COLOUR["ASIA"], 130.4, 33.6),
-    ("HEALTH", "Australia orders urgent online peptide probe", REGION_COLOUR["OCEANIA"], 149.1, -35.3),
+    ("SPORT", "Verstappen Vegas F1 \u00b7 Liverpool 4\u20130", "#B8251E", REGION_COLOUR["AMERICAS"], -115.1, 36.2),
+    ("TENNIS", "Alcaraz beats Zverev 6\u20132, 7\u20136 ATP", "#1D4ED8", REGION_COLOUR["EUROPE"], 7.7, 45.1),
+    ("MARKETS", "Bitcoin $59.2K \u00b7 China margin 80%", "#15803D", REGION_COLOUR["ASIA"], 121.5, 31.2),
+    ("WORLD", "Congo\u2013Kenya ties \u00b7 LIGO black holes", "#B45309", REGION_COLOUR["AFRICA"], 15.9, -1.1),
 ]
 
-# 7 giant bold (14.5px) open-ocean callouts on the 600 x 260 Natural Earth map — ultra-clean at 300px!
+# 7 airy giant (15.5px) open-ocean callouts on the 586 x 250 Natural Earth map — ultra-clean at 300px!
 # (label, lon, lat, box_cx, box_cy, colour)
 MAP_CALLOUTS = [
-    ("SPACEX", -120.6, 34.7, 74, 130, REGION_COLOUR["AMERICAS"]),
-    ("BRAZIL", -51.2, -30.0, 124, 214, REGION_COLOUR["S. AMERICA"]),
-    ("EUROPE", 10.0, 53.5, 224, 38, REGION_COLOUR["EUROPE"]),
-    ("#1 COP31", 30.7, 36.9, 448, 44, GLOBAL_COLOUR),
-    ("#2 IRAN", 51.4, 35.7, 430, 146, REGION_COLOUR["MIDDLE EAST"]),
-    ("KHARTOUM", 32.5, 15.6, 268, 174, REGION_COLOUR["AFRICA"]),
-    ("BANTEN", 106.4, -6.2, 536, 142, REGION_COLOUR["ASIA"]),
-    ("WELLINGTON", 174.8, -41.3, 452, 232, REGION_COLOUR["OCEANIA"]),
+    ("SPACEX", -120.6, 34.7, 74, 126, REGION_COLOUR["AMERICAS"]),
+    ("BRAZIL", -51.2, -30.0, 120, 208, REGION_COLOUR["S. AMERICA"]),
+    ("#1 COP31", 30.7, 36.9, 434, 42, GLOBAL_COLOUR),
+    ("#2 IRAN", 51.4, 35.7, 418, 140, REGION_COLOUR["MIDDLE EAST"]),
+    ("KHARTOUM", 32.5, 15.6, 260, 168, REGION_COLOUR["AFRICA"]),
+    ("BANTEN", 106.4, -6.2, 522, 134, REGION_COLOUR["ASIA"]),
+    ("WELLINGTON", 174.8, -41.3, 434, 224, REGION_COLOUR["OCEANIA"]),
 ]
 
 
 def total_stories():
-    return len(HEROES) + len(CARDS) + len(GLOBAL_STRIP)
+    return len(HEROES) + len(CARDS) + 7
 
 
 def check():
     assert len(HEROES) == 2
-    assert len(CARDS) == 12
-    assert len(GLOBAL_STRIP) == 6
-    assert [s["n"] for s in HEROES + CARDS] == list(range(1, 15))
+    assert len(CARDS) == 9
+    assert len(GLOBAL_STRIP) == 4
+    assert [s["n"] for s in HEROES + CARDS] == list(range(1, 12))
     seen = {s["region"] for s in HEROES + CARDS}
     for req in ("GLOBAL", "EUROPE", "AMERICAS", "S. AMERICA", "MIDDLE EAST", "AFRICA", "ASIA", "OCEANIA"):
         assert req in seen, f"missing region: {req}"
@@ -234,4 +206,4 @@ def check():
 
 if __name__ == "__main__":
     check()
-    print(f"OK: {total_stories()} verified Sunday 22 Nov 2026 stories (14 bespoke visual scenes + world atlas + 4 wire beats)")
+    print(f"OK: {total_stories()} verified Sunday 22 Nov 2026 stories (11 wide illustrated scenes + world atlas + 4 giant footer beats)")
