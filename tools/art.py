@@ -1,8 +1,8 @@
-"""Bespoke vector illustrations and Natural Earth world atlas for the Sunday 22 November 2026 front page.
+"""Bespoke vector illustrations and Natural Earth world atlas for the Sunday 22 November 2026 visual front page.
 
-Every graphic is drawn with Pillow vector primitives on a 4x supersampled canvas and box-filtered down so edges
-stay razor sharp without photos or external assets. Hero scenes adapt cleanly to compact side-panel ratios,
-and regional mini-illustrations suppress micro-labels so every icon reads cleanly at 300px thumbnail size.
+Every scene is drawn with Pillow vector primitives on a 4x supersampled canvas and box-filtered down so edges
+stay razor sharp without photos or external assets. Circles, stars and rotated bars use pixel-isotropic radii
+so globes, wheels, domes and blasts remain strictly round at every hero and gallery-card aspect ratio.
 """
 
 import json
@@ -24,7 +24,6 @@ class Art:
         self.scale = scale
         self.note = note
         self.compact = height < 140
-        self.mini = width < 180
         self.image = Image.new("RGB", (width * scale, height * scale), "#000000")
         self.draw = ImageDraw.Draw(self.image)
         self.kx = width * scale / UNITS_W
@@ -49,6 +48,11 @@ class Art:
         px, py = cx * self.kx, cy * self.ky
         r = radius * self.kr
         self.draw.ellipse([px - r, py - r, px + r, py + r], fill=colour)
+
+    def oval(self, cx, cy, rx, ry, colour):
+        self.draw.ellipse(
+            [(cx - rx) * self.kx, (cy - ry) * self.ky, (cx + rx) * self.kx, (cy + ry) * self.ky], fill=colour
+        )
 
     def ring(self, cx, cy, radius, colour, width=1.0):
         px, py = cx * self.kx, cy * self.ky
@@ -104,8 +108,7 @@ class Art:
             travelled += length
 
     def label(self, x, y, text, size, colour, font="bold", anchor="ls"):
-        if not self.mini:
-            self.labels.append((x * self.width / UNITS_W, y * self.height / UNITS_H, text, size, colour, font, anchor))
+        self.labels.append((x * self.width / UNITS_W, y * self.height / UNITS_H, text, size, colour, font, anchor))
 
     def finish(self):
         return self.image.resize((self.width, self.height), Image.BOX), self.labels
@@ -117,6 +120,18 @@ def ellipse_points(cx, cy, rx, ry, start_deg, end_deg, count=48):
         t = math.radians(start_deg + (end_deg - start_deg) * i / count)
         points.append((cx + rx * math.cos(t), cy + ry * math.sin(t)))
     return points
+
+
+def sprinkle(count, seed):
+    state = seed
+    out = []
+    for _ in range(count):
+        state = (state * 1103515245 + 12345) % 2147483648
+        x = state / 2147483648.0
+        state = (state * 1103515245 + 12345) % 2147483648
+        y = state / 2147483648.0
+        out.append((x, y))
+    return out
 
 
 def smoke(a, puffs, colour):
@@ -154,7 +169,7 @@ def flame(a, cx, base, width, height):
 
 
 def art_cop31(a):
-    """COP31 Antalya collapse: uncrossed draft omitting fossil fuels, Earth globe, 1.5C thermometer & gavel."""
+    """COP31 Antalya plenary: uncrossed draft omitting fossil fuels, Earth globe, 1.5C thermometer & gavel."""
     a.bg("#0E5560")
     for i in range(1, 8):
         a.rect(i * 44 - 0.6, 0, i * 44 + 0.6, 86, "#126572")
@@ -165,13 +180,11 @@ def art_cop31(a):
     a.rect(18, 56, 114, 79, "#C0271B")
     a.label(66, 67.5, "OMITTED", 12.5, "#FFFFFF", "black", "mm")
     a.rect(18, 84, 88, 87, "#C4CBD3")
-    # Round Earth globe
     a.disc(174, 52, 33, "#093B43")
     a.disc(174, 51, 31, "#3D94D6")
     a.poly([(160, 34), (171, 30), (180, 33), (182, 41), (175, 45), (177, 54), (170, 65), (162, 57), (157, 48), (153, 43)], "#7DC98B")
     a.poly([(184, 35), (194, 32), (200, 41), (197, 51), (189, 55), (184, 47)], "#7DC98B")
     a.poly([(186, 60), (193, 58), (196, 65), (191, 71), (185, 68)], "#7DC98B")
-    # Thermometer
     a.rect(222, 16, 232, 74, "#FBFAF4")
     a.disc(227, 16, 5.0, "#FBFAF4")
     a.disc(227, 77, 10.5, "#FBFAF4")
@@ -181,7 +194,6 @@ def art_cop31(a):
         a.rect(232, y - 0.6, 237, y + 0.6, "#FBFAF4")
     a.label(240, 34, "1.5\u00b0C", 16.5, "#FFFFFF", "black", "ls")
     a.label(240, 56, "NO DEAL", 12.5, "#FDE68A", "black", "ls")
-    # Raised gavel
     a.rect(294, 77, 346, 84, "#5B3413")
     a.rect(290, 83, 349, 87, "#7A4A1E")
     a.rotbox(332, 56, 8.0, 42, 38, "#B7772F")
@@ -197,13 +209,11 @@ def art_iran_grid(a):
     a.rect(0, 50, 352, 100, "#172140")
     a.poly([(0, 72), (48, 44), (104, 56), (168, 34), (232, 52), (294, 40), (352, 56), (352, 100), (0, 100)], "#1F2B4E")
     a.poly([(148, 42), (168, 34), (186, 41), (174, 44), (168, 40), (158, 44)], "#475982")
-    # Milad Tower silhouette
     a.poly([(208, 86), (213, 34), (219, 34), (224, 86)], "#0B1124")
     a.poly([(205, 34), (227, 34), (223, 24), (209, 24)], "#131C38")
     a.rect(207, 29, 225, 31.5, "#334155")
     a.rect(215.2, 8, 216.8, 24, "#1E293B")
     a.disc(216, 8, 2.2, "#EF4444")
-    # High-voltage steel lattice pylon
     a.line([(72, 90), (88, 28), (94, 28), (110, 90)], "#94A3B8", 2.2)
     a.line([(78, 66), (104, 66)], "#94A3B8", 1.7)
     a.line([(83, 47), (99, 47)], "#94A3B8", 1.7)
@@ -217,7 +227,6 @@ def art_iran_grid(a):
     a.dash([(178, 43), (206, 50), (232, 48)], "#475569", 1.2, 3.5, 3.5)
     a.star(172, 42, 16, 6.0, 7, 14, "#F59E0B")
     a.star(172, 42, 8.5, 3.2, 7, 36, "#FEF08A")
-    # Half-lit, half-blacked-out blocks
     lit_blocks = ((4, 70, 26), (34, 62, 24), (62, 74, 24), (92, 66, 28), (124, 60, 28), (156, 72, 24))
     for index, (x, top, width) in enumerate(lit_blocks):
         a.rect(x, top, x + width, 100, "#0A0F1F")
@@ -239,148 +248,318 @@ def art_iran_grid(a):
     a.label(292, 47, "BLACKOUTS", 11.5, "#FFFFFF", "black", "mm")
 
 
-# --------------------------------------------------- regional lead mini-scenes
+# ---------------------------------------------------------- 12 gallery scenes
 
 
 def art_igmetall(a):
-    """German industrial plant halted by 24h union strikes: chimneys, barred gearwheel & crimson picket flags."""
-    a.bg("#D9E5F0")
+    """German industrial plant halted by 24h union strikes: chimneys, barred gearwheel, crimson picket banners."""
+    a.bg("#DCE6F0")
     a.rect(0, 78, 352, 100, "#7C8794")
     a.rect(0, 76, 352, 79, "#4B5563")
-    a.poly([(36, 52), (41, 14), (52, 14), (57, 52)], "#475569")
-    a.poly([(68, 52), (73, 20), (84, 20), (89, 52)], "#475569")
-    a.rect(40, 21, 53, 27, "#C81E1E")
-    a.rect(72, 27, 85, 33, "#C81E1E")
-    a.rect(14, 52, 212, 78, "#334155")
+    a.poly([(38, 52), (43, 16), (53, 16), (58, 52)], "#475569")
+    a.poly([(68, 52), (73, 22), (83, 22), (88, 52)], "#475569")
+    a.rect(42, 22, 54, 27, "#C81E1E")
+    a.rect(72, 28, 84, 33, "#C81E1E")
+    a.rect(18, 52, 198, 78, "#334155")
     for i in range(4):
-        x = 14 + i * 48
-        a.poly([(x, 52), (x, 36), (x + 48, 52)], "#1E293B")
-    for x in (28, 66, 104, 142, 180):
-        a.rect(x, 60, x + 22, 71, "#94A3B8")
-    # Bold cogwheel with red halt slash
-    a.disc(154, 46, 20, "#475569")
+        x = 18 + i * 44
+        a.poly([(x, 52), (x, 37), (x + 44, 52)], "#1E293B")
+    for x in (30, 64, 98, 132, 166):
+        a.rect(x, 60, x + 20, 70, "#94A3B8")
+    a.disc(142, 48, 19, "#475569")
     for i in range(8):
-        a.rotbox(154, 46, 46, 7.0, i * 22.5, "#475569")
-    a.disc(154, 46, 9.5, "#D9E5F0")
-    a.rotbox(154, 46, 50, 6.5, -35, "#C81E1E")
-    # Crimson picket flags & strikers
-    for x, top in ((232, 22), (268, 30), (304, 24)):
-        a.rect(x, top, x + 3.5, 86, "#1E293B")
-        a.poly([(x + 3.5, top), (x + 38, top + 7), (x + 3.5, top + 24)], "#C81E1E")
-    for sx in (228, 260, 294, 326):
-        a.disc(sx, 72, 7.0, "#141923")
-        a.poly([(sx - 9, 96), (sx - 7, 79), (sx + 7, 79), (sx + 9, 96)], "#141923")
+        a.rotbox(142, 48, 44, 6.5, i * 22.5, "#475569")
+    a.disc(142, 48, 8.5, "#DCE6F0")
+    a.rotbox(142, 48, 46, 5.8, -35, "#C81E1E")
+    for x, top in ((212, 28), (242, 36), (270, 30)):
+        a.rect(x, top, x + 2.8, 84, "#1E293B")
+        a.poly([(x + 2.8, top), (x + 30, top + 6), (x + 2.8, top + 20)], "#C81E1E")
+    for sx in (208, 234, 260, 286):
+        a.disc(sx, 72, 6.0, "#141923")
+        a.poly([(sx - 7.5, 95), (sx - 6, 78), (sx + 6, 78), (sx + 7.5, 95)], "#141923")
+    a.rect(294, 34, 346, 70, "#141923")
+    a.rect(296, 36, 344, 68, "#C81E1E")
+    a.rect(318.8, 70, 321.2, 92, "#141923")
+    a.label(320, 52, a.note or "24h", 14, "#FFFFFF", "black", "mm")
 
 
 def art_spacex(a):
-    """Vandenberg SLC-4E dawn liftoff: Falcon 9 rising on radiant gold flame above coastal ridge."""
-    a.bg("#142642")
-    a.rect(0, 44, 352, 72, "#29466E")
-    a.rect(0, 66, 352, 100, "#DF8B49")
-    a.poly([(0, 100), (0, 82), (82, 76), (156, 84), (246, 77), (352, 84), (352, 100)], "#182234")
-    # Launch tower
-    a.rect(92, 30, 100, 86, "#475569")
-    a.rect(108, 38, 114, 86, "#334155")
-    a.line([(114, 42), (144, 50)], "#94A3B8", 2.4)
-    # Steam cloud
-    smoke(a, ((148, 86, 20), (178, 84, 22), (210, 86, 20), (240, 88, 17), (122, 90, 16)), "#E2E8F0")
-    smoke(a, ((166, 82, 14), (198, 82, 15)), "#FFFFFF")
-    # Exhaust flame
-    a.poly([(168, 54), (192, 54), (210, 90), (150, 90)], "#F97316")
-    a.poly([(172, 54), (188, 54), (198, 86), (162, 86)], "#FACC15")
-    a.poly([(176, 54), (184, 54), (189, 80), (171, 80)], "#FFFBEB")
-    # Falcon 9
-    a.poly([(172, 18), (180, 4), (188, 18)], "#FFFFFF")
-    a.rect(172, 18, 188, 28, "#FFFFFF")
-    a.rect(174, 28, 186, 56, "#F1F5F9")
-    a.rect(174, 33, 186, 38, "#1E293B")
-    # Bright stars top-right
-    for sx, sy in ((264, 20), (298, 32), (324, 16), (48, 22)):
-        a.disc(sx, sy, 2.2, "#FDE68A")
+    """Vandenberg SLC-4E dawn liftoff: Falcon 9 rising on radiant flame above launch tower."""
+    a.bg("#162844")
+    a.rect(0, 44, 352, 74, "#2B466E")
+    a.rect(0, 68, 352, 100, "#D98A4E")
+    a.poly([(0, 100), (0, 82), (76, 76), (146, 84), (240, 78), (352, 85), (352, 100)], "#1A2234")
+    a.rect(104, 34, 110, 86, "#475569")
+    a.rect(118, 40, 122, 86, "#334155")
+    for y in (44, 54, 64, 74):
+        a.line([(106, y), (120, y + 6)], "#64748B", 1.3)
+        a.line([(120, y), (106, y + 6)], "#64748B", 1.3)
+    a.line([(122, 46), (144, 52)], "#94A3B8", 2.0)
+    smoke(a, ((148, 86, 17), (170, 84, 19), (194, 86, 18), (218, 88, 16), (128, 90, 14)), "#E2E8F0")
+    smoke(a, ((160, 82, 12), (186, 82, 13), (208, 86, 11)), "#FFFFFF")
+    a.poly([(168, 56), (184, 56), (198, 88), (154, 88)], "#F97316")
+    a.poly([(171, 56), (181, 56), (190, 86), (162, 86)], "#FACC15")
+    a.poly([(174, 56), (178, 56), (182, 80), (170, 80)], "#FFFBEB")
+    a.poly([(170, 16), (176, 5), (182, 16)], "#FFFFFF")
+    a.rect(170, 16, 182, 26, "#FFFFFF")
+    a.rect(172, 26, 180, 56, "#F1F5F9")
+    a.rect(172, 31, 180, 36, "#1E293B")
+    a.rect(168.5, 32, 172, 35, "#334155")
+    a.rect(180, 32, 183.5, 35, "#334155")
+    a.rect(224, 18, 342, 48, "#0F172A")
+    a.rect(226, 20, 340, 46, "#1E293B")
+    a.rect(226, 20, 232, 46, "#38BDF8")
+    a.label(286, 33, a.note or "NROL-136", 12.5, "#FDE68A", "black", "mm")
 
 
 def art_gaza_storm(a):
-    """Winter storm over flooded Gaza displacement tents with urgent medical-aid cross symbol."""
+    """Winter storm over flooded Gaza displacement tents with urgent white & crimson medical-aid badge."""
     a.bg("#475569")
-    smoke(a, ((38, 12, 26), (94, 8, 30), (154, 12, 32), (216, 6, 30), (278, 12, 28), (332, 14, 24)), "#273142")
-    for x0 in range(12, 352, 22):
-        a.line([(x0 + 14, 34), (x0, 74)], "#93C5FD", 1.3)
-    # Flooded water basin
+    smoke(a, ((38, 12, 24), (94, 8, 28), (154, 12, 30), (216, 6, 28), (278, 12, 26), (332, 14, 22)), "#273142")
+    for x0 in range(12, 352, 20):
+        a.line([(x0 + 14, 34), (x0, 74)], "#93C5FD", 1.1)
     a.rect(0, 76, 352, 100, "#1D4E89")
     for y, x0, x1 in ((82, 16, 90), (88, 130, 220), (93, 250, 336), (84, 240, 310)):
-        a.rect(x0, y, x1, y + 2.0, "#60A5FA")
-    # Tents standing in floodwater
-    for tx, tw, th, col in ((22, 68, 32, "#E2E8F0"), (96, 78, 36, "#F8FAFC"), (180, 72, 34, "#CBD5E1")):
+        a.rect(x0, y, x1, y + 1.8, "#60A5FA")
+    for tx, tw, th, col in ((20, 68, 32, "#E2E8F0"), (94, 78, 36, "#F8FAFC"), (178, 72, 34, "#CBD5E1")):
         a.poly([(tx, 78), (tx + tw / 2, 78 - th), (tx + tw, 78)], col)
         a.poly([(tx + tw * 0.36, 78), (tx + tw / 2, 78 - th * 0.55), (tx + tw * 0.64, 78)], "#334155")
-    # Crisp white & crimson medical aid cross badge (insulin crisis)
-    a.disc(302, 54, 25, "#FFFFFF")
-    a.rect(294, 38, 310, 70, "#DC2626")
-    a.rect(284, 47, 320, 61, "#DC2626")
+    a.disc(300, 52, 24, "#FFFFFF")
+    a.rect(292.5, 36, 307.5, 68, "#DC2626")
+    a.rect(283, 45, 317, 59, "#DC2626")
 
 
 def art_sudan_un(a):
     """Khartoum skyline: damaged UN humanitarian compound under smoke plume with attack drone overhead."""
     a.bg("#E6C697")
-    a.disc(48, 28, 13, "#FAF0D7")
+    a.disc(52, 28, 12, "#FAF0D7")
     a.rect(0, 82, 352, 100, "#A98F6B")
-    for x, top, width in ((8, 56, 40), (54, 48, 38), (234, 52, 46), (288, 46, 52)):
+    for x, top, width in ((8, 56, 38), (52, 48, 38), (226, 52, 44), (276, 46, 42), (322, 58, 26)):
         a.rect(x, top, x + width, 84, "#6C5B48")
-    # UN compound
-    a.rect(98, 40, 224, 84, "#F8FAFC")
-    a.rect(98, 40, 224, 52, "#2574B9")
-    for wx in (110, 138, 166):
-        a.rect(wx, 58, wx + 16, 70, "#CBD5E1")
-    a.disc(132, 68, 12, "#2574B9")
-    # Blast & smoke plume
-    smoke(a, ((212, 34, 20), (238, 22, 22), (266, 14, 20), (296, 10, 17)), "#3F3F46")
-    a.star(206, 46, 24, 11, 8, 12, "#E4572E")
-    a.star(206, 46, 14, 6.5, 8, 34, "#F6A21B")
-    a.star(206, 46, 7, 3.5, 8, 12, "#FFE08A")
-    # Attack drone
-    a.poly([(280, 26), (324, 14), (316, 28), (328, 40)], "#1E293B")
-    a.dash([(276, 28), (246, 36), (222, 42)], "#334155", 1.8, 4.0, 3.5)
+    a.rect(96, 40, 214, 84, "#F8FAFC")
+    a.rect(96, 40, 214, 50, "#2574B9")
+    for wx in (106, 130, 154, 178):
+        a.rect(wx, 56, wx + 14, 68, "#CBD5E1")
+    a.rect(144, 71, 166, 84, "#475569")
+    a.disc(124, 71, 11, "#2574B9")
+    a.label(124, 71, a.note or "UN", 10, "#FFFFFF", "black", "mm")
+    smoke(a, ((204, 34, 17), (226, 22, 19), (252, 14, 17), (278, 10, 14)), "#3F3F46")
+    a.star(198, 46, 21, 9.5, 8, 12, "#E4572E")
+    a.star(198, 46, 13, 6.0, 8, 34, "#F6A21B")
+    a.star(198, 46, 6.5, 3.2, 8, 12, "#FFE08A")
+    a.poly([(276, 26), (314, 16), (306, 28), (318, 38)], "#1E293B")
+    a.dash([(272, 28), (244, 35), (220, 42)], "#334155", 1.5, 3.8, 3.2)
 
 
 def art_banten(a):
-    """Saw-tooth Indonesian factory ablaze under dark smoke column, fire engine spraying water arc."""
+    """Saw-tooth Indonesian factory ablaze under dark smoke column, fire engine playing water arc."""
     a.bg("#F1E2D0")
-    smoke(a, ((92, 32, 22), (126, 20, 24), (164, 12, 23), (206, 8, 21), (248, 8, 18), (288, 10, 15)), "#4B4B55")
+    smoke(a, ((94, 34, 20), (124, 22, 22), (158, 14, 21), (194, 10, 19), (230, 8, 17), (264, 8, 14)), "#4B4B55")
     a.rect(0, 84, 352, 100, "#B9A88F")
-    a.rect(18, 52, 216, 84, "#7C8794")
+    a.rect(20, 54, 214, 84, "#7C8794")
     for i in range(5):
-        x = 18 + i * 40
-        a.poly([(x, 52), (x, 36), (x + 40, 52)], "#5E6875")
-    for x in (34, 76, 118, 160):
-        a.rect(x, 62, x + 22, 76, "#2A2F38")
-    flame(a, 68, 52, 24, 32)
-    flame(a, 118, 52, 18, 24)
-    # Red fire engine & blue water stream
-    a.rect(254, 58, 332, 82, "#C81E1E")
-    a.rect(310, 48, 340, 82, "#C81E1E")
-    a.rect(316, 54, 334, 66, "#CFE8FF")
-    a.rect(254, 72, 340, 76, "#FFFFFF")
-    a.disc(276, 84, 9.0, "#141923")
-    a.disc(318, 84, 9.0, "#141923")
-    a.line(ellipse_points(200, 60, 66, 30, 0, -112, 26), "#2563EB", 3.5)
+        x = 20 + i * 38
+        a.poly([(x, 54), (x, 38), (x + 38, 54)], "#5E6875")
+    for x in (36, 74, 112, 150):
+        a.rect(x, 64, x + 20, 76, "#2A2F38")
+    flame(a, 68, 54, 22, 28)
+    flame(a, 114, 54, 16, 22)
+    a.rect(258, 60, 330, 82, "#C81E1E")
+    a.rect(310, 52, 338, 82, "#C81E1E")
+    a.rect(316, 56, 332, 67, "#CFE8FF")
+    a.rect(258, 73, 338, 76, "#FFFFFF")
+    a.disc(278, 84, 8.0, "#141923")
+    a.disc(318, 84, 8.0, "#141923")
+    a.line(ellipse_points(202, 62, 64, 28, 0, -112, 26), "#2563EB", 2.8)
 
 
 def art_cricket(a):
-    """Wellington Basin Reserve pitch: sunlit green outfield, stumps, bat & crimson cricket ball."""
+    """Wellington Basin Reserve pitch: stumps, bat, crimson ball and bold 720/9d scoreboard."""
     a.bg("#2F8F4E")
     for i in range(0, 8, 2):
         a.rect(i * 44, 0, i * 44 + 44, 100, "#37A05A")
-    a.rect(0, 0, 352, 18, "#BFE3F2")
-    a.rect(0, 16, 352, 21, "#256F3D")
-    a.poly([(114, 100), (154, 32), (214, 32), (254, 100)], "#D9C59A")
-    a.rect(140, 58, 228, 60.5, "#FFFFFF")
-    for x in (168, 184, 200):
-        a.rect(x - 2.6, 34, x + 2.6, 86, "#F0C36A")
-    a.rect(164, 31, 204, 36, "#8A5422")
-    a.rotbox(96, 38, 6.5, 22, 24, "#334155")
-    a.rotbox(82, 62, 18, 56, 24, "#E3C58F")
-    a.disc(278, 70, 16, "#B91C1C")
-    a.line(ellipse_points(278, 70, 13, 5.0, 200, 340, 12), "#FFFFFF", 1.8)
+    a.rect(0, 0, 352, 16, "#BFE3F2")
+    a.rect(0, 14, 352, 18, "#256F3D")
+    a.poly([(114, 100), (146, 34), (198, 34), (230, 100)], "#D9C59A")
+    a.rect(136, 56, 208, 58, "#FFFFFF")
+    for x in (160, 172, 184):
+        a.rect(x - 2.0, 38, x + 2.0, 84, "#F0C36A")
+    a.rect(157, 36, 187, 40, "#8A5422")
+    a.rotbox(94, 40, 5.5, 20, 24, "#334155")
+    a.rotbox(82, 62, 15, 52, 24, "#E3C58F")
+    a.disc(116, 84, 9.0, "#A01818")
+    a.line(ellipse_points(116, 84, 7.5, 3.0, 200, 340, 10), "#FFFFFF", 1.2)
+    a.rect(232, 22, 344, 66, "#141923")
+    a.rect(236, 26, 340, 62, "#1F2937")
+    a.rect(284, 66, 292, 90, "#141923")
+    a.label(288, 44, a.note or "720/9d", 14.5, "#FDE68A", "black", "mm")
+
+
+def art_us_house(a):
+    """U.S. Capitol dome silhouetted on evening navy + crisp 258-seat blue majority gauge above 218 threshold."""
+    a.bg("#162B54")
+    for sx, sy in ((26, 16), (62, 26), (178, 16), (206, 28)):
+        a.disc(sx, sy, 1.8, "#FDE68A")
+    # Capitol silhouette left-centre
+    a.rect(18, 66, 186, 100, "#E2E8F0")
+    a.rect(24, 74, 180, 96, "#CBD5E1")
+    for cx in range(32, 176, 14):
+        a.rect(cx, 74, cx + 6, 94, "#94A3B8")
+    # Dome tiers
+    a.rect(70, 50, 134, 66, "#F8FAFC")
+    for cx in range(76, 130, 10):
+        a.rect(cx, 53, cx + 4, 64, "#94A3B8")
+    a.poly(ellipse_points(102, 50, 30, 26, 180, 360, 24), "#FFFFFF")
+    a.rect(96, 16, 108, 25, "#F8FAFC")
+    a.rect(100.5, 7, 103.5, 16, "#FDE68A")
+    # Bold 258-seat majority bar card right
+    a.rect(202, 14, 342, 86, "#0B1328")
+    a.rect(204, 16, 340, 84, "#1E293B")
+    a.label(272, 34, a.note or "258 SEATS", 13.5, "#FDE68A", "black", "mm")
+    # Progress bar (258 / 435 = 59.3% blue; 218 threshold white tick)
+    a.rect(214, 54, 330, 72, "#B91C1C")
+    a.rect(214, 54, 286, 72, "#2563EB")
+    a.rect(271, 48, 274, 78, "#FFFFFF")
+
+
+def art_storm(a):
+    """Southern Brazil supercell: storm clouds, lightning bolts, houses with lifting roofs and hazard triangle."""
+    a.bg("#5A6880")
+    smoke(a, ((40, 12, 24), (86, 6, 26), (140, 10, 28), (196, 4, 26), (250, 10, 28), (306, 6, 24), (340, 14, 20)), "#333D50")
+    smoke(a, ((70, 22, 16), (128, 26, 18), (190, 22, 17), (248, 27, 16), (300, 22, 15)), "#414C62")
+    for x0 in range(-10, 352, 16):
+        a.line([(x0 + 14, 40), (x0, 84)], "#93B4D8", 0.9)
+    a.poly([(164, 28), (182, 28), (171, 50), (184, 50), (156, 84), (167, 56), (154, 56)], "#FDE047")
+    a.poly([(268, 26), (282, 26), (274, 44), (284, 44), (262, 72), (270, 49), (260, 49)], "#FDE047")
+    a.rect(0, 84, 352, 100, "#3E5A3A")
+    for index, (x, width) in enumerate(((20, 48), (90, 42), (212, 46), (284, 48))):
+        a.rect(x, 66, x + width, 86, "#D9C3A3")
+        a.rect(x + width / 2 - 4, 74, x + width / 2 + 4, 86, "#6B4A2B")
+        if index == 1:
+            a.poly([(x - 4, 66), (x + 12, 54), (x + 20, 60), (x + 12, 66)], "#9A4A12")
+        else:
+            a.poly([(x - 4, 66), (x + width / 2, 50), (x + width + 4, 66)], "#9A4A12")
+    a.poly([(308, 48), (342, 48), (325, 22)], "#F97316")
+    a.rect(323.5, 30, 326.5, 40, "#141923")
+    a.rect(323.5, 42, 326.5, 45, "#141923")
+
+
+def art_kharkiv(a):
+    """Pre-dawn Kharkiv blocks ablaze under rising smoke with delta-wing attack drone overhead."""
+    a.bg("#1A2947")
+    a.poly([(210, 100), (232, 30), (252, 30), (268, 100)], "#22355C")
+    a.poly([(120, 100), (96, 34), (114, 30), (160, 100)], "#22355C")
+    blocks = ((8, 54, 46), (60, 40, 40), (104, 60, 34), (144, 46, 52), (202, 58, 40), (248, 42, 44), (298, 56, 48))
+    for index, (x, top, width) in enumerate(blocks):
+        a.rect(x, top, x + width, 100, "#0E1629")
+        for row in range(int((96 - top) // 9)):
+            for column in range(int((width - 6) // 9)):
+                if (row * 5 + column * 3 + index * 2) % 5 < 2:
+                    a.rect(x + 5 + column * 9, top + 6 + row * 9, x + 9 + column * 9, top + 10.5 + row * 9, "#F5D76E")
+    smoke(a, ((172, 30, 15), (192, 22, 17), (214, 16, 16), (236, 13, 14), (160, 40, 11)), "#55607A")
+    flame(a, 170, 47, 19, 28)
+    flame(a, 152, 60, 9, 14)
+    a.poly([(284, 28), (322, 18), (314, 30), (326, 41)], "#D7DFEE")
+    a.dash([(280, 30), (256, 36), (234, 44)], "#C9D2E3", 1.5, 3.8, 3.0)
+
+
+def art_china_market(a):
+    """Shanghai/Shenzhen equities rebound chart on deep crimson-navy with bold 80% margin-cut plaque."""
+    a.bg("#1B1426")
+    for gy in (25, 50, 75):
+        a.rect(0, gy, 352, gy + 0.8, "#2F2640")
+    for gx in (56, 112, 168, 224):
+        a.rect(gx, 0, gx + 0.8, 100, "#2F2640")
+    # Volume bars bottom
+    vols = ((16, 20), (38, 28), (60, 24), (82, 34), (104, 26), (126, 32), (148, 42), (170, 50), (192, 56))
+    for i, (vx, vh) in enumerate(vols):
+        a.rect(vx, 100 - vh * 0.55, vx + 14, 100, "#DC2626" if i < 4 else "#16A34A")
+    # Rebound trend line + glowing arrow
+    pts = [(16, 62), (46, 72), (76, 78), (108, 66), (140, 52), (172, 34), (206, 20)]
+    a.line(pts, "#22C55E", 3.2)
+    a.poly([(206, 20), (190, 22), (202, 35)], "#22C55E")
+    a.disc(108, 66, 4.2, "#FDE68A")
+    # Crisp 80% margin cut plaque right
+    a.rect(220, 14, 342, 84, "#DC2626")
+    a.rect(223, 17, 339, 81, "#0F172A")
+    a.rect(223, 17, 339, 25, "#DC2626")
+    a.label(281, 47, a.note or "80%", 18, "#FDE68A", "black", "mm")
+    a.label(281, 69, "MARGIN", 12, "#FFFFFF", "black", "mm")
+
+
+def art_anfield(a):
+    """Floodlit Anfield night match: green pitch, goal net, football, red card and LIV 4-0 MUN scoreboard."""
+    a.bg("#0E1729")
+    a.poly([(24, 14), (72, 42), (44, 42)], "#1E2E4D")
+    a.poly([(328, 14), (308, 42), (280, 42)], "#1E2E4D")
+    a.rect(18, 10, 32, 16, "#E2E8F0")
+    a.rect(320, 10, 334, 16, "#E2E8F0")
+    a.rect(0, 40, 352, 100, "#1D703E")
+    for i in range(0, 8, 2):
+        a.rect(i * 44, 40, i * 44 + 44, 100, "#24834A")
+    a.rect(0, 38, 352, 41, "#B8251E")
+    a.poly([(30, 86), (62, 56), (178, 56), (210, 86)], "#1D703E")
+    a.line([(30, 86), (62, 56), (178, 56), (210, 86), (30, 86)], "#FFFFFF", 1.5)
+    a.rect(76, 30, 164, 56, "#163B2A")
+    for gx in range(84, 164, 10):
+        a.line([(gx, 32), (gx, 56)], "#94A3B8", 0.7)
+    for gy in (38, 45, 51):
+        a.line([(76, gy), (164, gy)], "#94A3B8", 0.7)
+    a.line([(76, 56), (76, 30), (164, 30), (164, 56)], "#FFFFFF", 2.5)
+    a.dash([(108, 76), (124, 62), (140, 44)], "#FDE68A", 1.8, 4, 3)
+    a.disc(144, 41, 8.0, "#FFFFFF")
+    a.star(144, 41, 3.8, 2.3, 5, -90, "#141923")
+    a.rotbox(40, 62, 15, 21, -12, "#DC2626")
+    a.rect(192, 20, 346, 66, "#141923")
+    a.rect(194, 22, 344, 64, "#1F2937")
+    a.rect(194, 22, 344, 29, "#C81E1E")
+    a.rect(264, 66, 274, 92, "#141923")
+    a.label(269, 47, a.note or "LIV 4\u20130 MUN", 12.5, "#FDE68A", "black", "mm")
+
+
+def art_vegas(a):
+    """Las Vegas GP night race: neon Strip skyline, glowing Sphere, F1 car at speed and chequered flag."""
+    a.bg("#140E2C")
+    for x, y in sprinkle(24, 23):
+        a.disc(4 + x * 344, 2 + y * 30, 0.9, "#B9B4E8")
+    towers = ((6, 42, 24), (32, 30, 20), (54, 46, 30), (86, 36, 18), (228, 32, 22), (252, 44, 26), (306, 36, 18), (326, 26, 22))
+    neon = ("#F472B6", "#22D3EE", "#FBBF24", "#A78BFA")
+    for index, (x, top, width) in enumerate(towers):
+        a.rect(x, top, x + width, 70, "#2B2056")
+        a.rect(x, top, x + width, top + 1.8, neon[index % 4])
+        for row in range(int((66 - top) // 7)):
+            for column in range(int(width // 6)):
+                if (row * 3 + column * 5 + index) % 4 != 0:
+                    a.rect(x + 2.2 + column * 6, top + 5 + row * 7, x + 4.6 + column * 6, top + 8 + row * 7, neon[(row + column + index) % 4])
+    a.rect(144, 6, 274, 28, "#F472B6")
+    a.rect(146, 8, 272, 26, "#231848")
+    a.label(209, 17, "LAS VEGAS", 12.5, "#FDE68A", "black", "mm")
+    a.disc(286, 52, 18, "#D9770B")
+    a.disc(286, 52, 15.5, "#F59E0B")
+    a.disc(281, 48, 8.5, "#FCD34D")
+    a.rect(0, 68, 352, 100, "#23262F")
+    for i in range(22):
+        a.rect(i * 16, 66, i * 16 + 8, 69.5, "#E11D48" if i % 2 == 0 else "#F8FAFC")
+    a.rect(94, 55, 114, 59, "#E11D48")
+    a.rect(94, 55, 98, 76, "#1B2B6B")
+    a.poly([(102, 78), (104, 68), (126, 62), (146, 58), (152, 52), (158, 52), (160, 58), (176, 62), (196, 68), (224, 76), (226, 80), (102, 80)], "#1B2B6B")
+    a.poly([(126, 66), (176, 66), (196, 71), (126, 71)], "#E11D48")
+    a.poly([(196, 71), (224, 76), (226, 80), (206, 80)], "#FBBF24")
+    a.disc(163, 57, 4.8, "#FBBF24")
+    for cx in (122, 198):
+        a.disc(cx, 78, 11.5, "#0B0D14")
+        a.disc(cx, 78, 5.2, "#8B93A7")
+        a.disc(cx, 78, 2.2, "#FBBF24")
+    a.rect(329, 30, 331.4, 90, "#C7CBD6")
+    for row in range(4):
+        for column in range(5):
+            a.rect(
+                331.4 - (column + 1) * 5.8,
+                30 + row * 5.6,
+                331.4 - column * 5.8,
+                35.6 + row * 5.6,
+                "#F8FAFC" if (row + column) % 2 == 0 else "#0B0D14",
+            )
 
 
 SCENES = {
@@ -392,6 +571,12 @@ SCENES = {
     "sudan_un": art_sudan_un,
     "banten": art_banten,
     "cricket": art_cricket,
+    "us_house": art_us_house,
+    "storm": art_storm,
+    "kharkiv": art_kharkiv,
+    "china_market": art_china_market,
+    "anfield": art_anfield,
+    "vegas": art_vegas,
 }
 
 
@@ -487,17 +672,17 @@ class Atlas:
         x, y = self.spot(lon, lat)
         return x * self.scale, y * self.scale
 
-    def dot(self, lon, lat, colour, radius=5.0, halo="#FFFFFF"):
+    def dot(self, lon, lat, colour, radius=5.4, halo="#FFFFFF"):
         s = self.scale
         x, y = self.spot(lon, lat)
         self.draw.ellipse(
-            [(x - radius - 1.4) * s, (y - radius - 1.4) * s, (x + radius + 1.4) * s, (y + radius + 1.4) * s],
+            [(x - radius - 1.5) * s, (y - radius - 1.5) * s, (x + radius + 1.5) * s, (y + radius + 1.5) * s],
             fill=halo,
         )
         self.draw.ellipse([(x - radius) * s, (y - radius) * s, (x + radius) * s, (y + radius) * s], fill=colour)
         return x, y
 
-    def hero_pin(self, lon, lat, colour, radius=9.2):
+    def hero_pin(self, lon, lat, colour, radius=9.4):
         s = self.scale
         x, y = self.spot(lon, lat)
         self.draw.ellipse(

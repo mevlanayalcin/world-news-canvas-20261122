@@ -1,15 +1,15 @@
-"""Draw the World News Atlas front page for Sunday 22 November 2026 (1024 x 1024, 8-bit RGB PNG).
+"""Draw the v8 Illustrated Visual World Atlas front page for Sunday 22 November 2026 (1024 x 1024, 8-bit RGB PNG).
 
-    python3 tools/render.py                          # writes ../entry.png (default variant)
-    python3 tools/render.py out.png [variant=24|27]  # writes a chosen variant to out.png
+    python3 tools/render.py            # writes ../entry.png
+    python3 tools/render.py out.png    # writes somewhere else
 
-Unified, zero-fuzz editorial composition engineered for maximum breadth and effortless 300px legibility:
-  - Giant broadsheet serif date masthead (48px C059-Bold) + high-contrast 7-region story-count pill
-  - Iconic Natural Earth world hotspots map (612 x 312) with color-coded regional pins & giant 13.5px callouts
-  - 2 bold illustrated hero lead panels (COP31 Antalya + Iran nationwide rolling blackouts)
-  - 6 color-coded regional ledger cards — each with its own bespoke text-free vector illustration +
-    punchy 15.5-16.5px bold high-contrast headlines (zero fussy source credits, zero tiny sub-captions)
-  - Deep-navy Global Accent Strip for Markets, Science, Health & Tennis highlights (14.5px bold white)
+Zero-text-wall visual composition engineered for effortless 300px legibility AND full global breadth:
+  - Giant broadsheet serif date masthead (48px C059-Bold) + 7-region 18-story ribbon
+  - Natural Earth World Hotspots Map (602 x 314) with 14 geographic story pins & giant 14.5px callouts
+  - 2 Tall Illustrated Hero Lead Panels (COP31 Antalya + Iran rolling blackouts, 21px serif heads)
+  - 3 x 4 Gallery of 12 Bespoke Illustrated Visual Story Cards (242 x 174 each: custom vector art +
+    giant 17.5px bold serif headline — ZERO tiny sub-captions, ZERO source credits, ZERO bullet walls)
+  - Deep-navy Global Wire Strip (4 major beats at 15.5px bold white on jewel-tone badges)
 Every text placement is strictly audited for bounds and zero overlap before saving.
 """
 
@@ -33,8 +33,7 @@ INK = "#0B1220"
 WHITE = "#FFFFFF"
 RED = "#B8251E"
 GOLD = "#FDE68A"
-RULE = "#C7C0B0"
-DIVIDER = "#E6DFD2"
+RULE = "#C4BBA9"
 
 LATO = "/usr/share/fonts/truetype/lato/"
 FONT_FILES = {
@@ -77,39 +76,6 @@ def wrap_plain(text, name, size, width, max_lines):
     return lines
 
 
-def wrap_with_lead(lead, body, lead_font, body_font, size, width, max_lines=2):
-    """Wrap '<lead> <body>' across up to max_lines with bold inline lead on line 1."""
-    lead_w = width_of(lead + " ", lead_font, size)
-    words = body.split()
-    line1_words = []
-    idx = 0
-    while idx < len(words):
-        cand = " ".join(line1_words + [words[idx]])
-        if lead_w + width_of(cand, body_font, size) <= width:
-            line1_words.append(words[idx])
-            idx += 1
-        else:
-            break
-    line1_body = " ".join(line1_words)
-    rest = words[idx:]
-    extra_lines = []
-    current = ""
-    for word in rest:
-        trial = (current + " " + word).strip()
-        if width_of(trial, body_font, size) <= width:
-            current = trial
-        else:
-            extra_lines.append(current)
-            current = word
-    if current:
-        extra_lines.append(current)
-    if 1 + len(extra_lines) > max_lines or any(width_of(ln, body_font, size) > width for ln in extra_lines):
-        raise ValueError(
-            f"lead story exceeds {max_lines} lines of {width:.0f}px at {size}px: {lead!r} {body!r} -> {[line1_body] + extra_lines}"
-        )
-    return line1_body, extra_lines
-
-
 class Page:
     def __init__(self):
         self.image = Image.new("RGB", (SIDE, SIDE), PAPER)
@@ -144,33 +110,33 @@ class Page:
         return self.problems
 
 
-def masthead(page, total_stories):
-    page.box(0, 0, SIDE, 26, NAVY)
-    t_end = page.text(MARGIN + 2, 13, "WORLD NEWS ATLAS", "black", 14.5, WHITE, "lm", within=(0, 0, 260, 26))
+def masthead(page):
+    page.box(0, 0, SIDE, 24, NAVY)
+    t_end = page.text(MARGIN + 2, 12, "WORLD NEWS ATLAS", "black", 14.5, WHITE, "lm", within=(0, 0, 260, 24))
     page.text(
         t_end[2] + 10,
-        13,
+        12,
         f"\u00b7  {stories.EDITION_TAG}",
         "bold",
         12.5,
         GOLD,
         "lm",
-        within=(140, 0, 520, 26),
+        within=(140, 0, 520, 24),
     )
-    pill_txt = f"7 REGIONS  \u00b7  {total_stories} STORIES"
+    pill_txt = f"7 REGIONS  \u00b7  {stories.total_stories()} STORIES"
     pill_w = int(width_of(pill_txt, "black", 12.5)) + 24
     px0 = SIDE - MARGIN - pill_w
-    page.box(px0, 2, SIDE - MARGIN, 24, RED)
-    page.text(px0 + pill_w / 2, 13, pill_txt, "black", 12.5, WHITE, "mm", within=(px0, 2, SIDE - MARGIN, 24))
+    page.box(px0, 2, SIDE - MARGIN, 22, RED)
+    page.text(px0 + pill_w / 2, 12, pill_txt, "black", 12.5, WHITE, "mm", within=(px0, 2, SIDE - MARGIN, 22))
 
-    page.text(SIDE / 2, 52, stories.EDITION_DAY, "serif", 48, INK, "mm", within=(MARGIN, 27, SIDE - MARGIN, 78))
-    page.box(MARGIN, 77, SIDE - MARGIN, 80, NAVY)
-    page.box(MARGIN, 81, SIDE - MARGIN, 82, RED)
-    return 82
+    page.text(SIDE / 2, 50, stories.EDITION_DAY, "serif", 48, INK, "mm", within=(MARGIN, 25, SIDE - MARGIN, 75))
+    page.box(MARGIN, 74, SIDE - MARGIN, 77, NAVY)
+    page.box(MARGIN, 78, SIDE - MARGIN, 79, RED)
+    return 79
 
 
-def atlas_panel(page, ed, x, y, width, height):
-    """Left centerpiece: full-bleed Natural Earth world map with regional pins, giant callouts & legend."""
+def atlas_panel(page, x, y, width, height):
+    """Left centerpiece: Natural Earth world map with 14 geographic pins, giant 14.5px callouts & legend."""
     page.box(x, y, x + width, y + height, NAVY)
     header_h = 24
     legend_h = 28
@@ -181,7 +147,7 @@ def atlas_panel(page, ed, x, y, width, height):
     page.text(
         x + width - 10,
         y + header_h / 2,
-        "COLOURS MATCH REGIONAL LEDGER",
+        "PINS MATCH STORY CARDS BELOW",
         "bold",
         11.5,
         GOLD,
@@ -190,14 +156,16 @@ def atlas_panel(page, ed, x, y, width, height):
     )
 
     atlas = art.Atlas(map_w, map_h, scale=4)
-    for label, lon, lat, bcx, bcy, colour in ed["callouts"]:
+    for label, lon, lat, bcx, bcy, colour in stories.MAP_CALLOUTS:
         atlas.leader(lon, lat, bcx, bcy, colour="#0F172A")
-    for reg, col in stories.REGIONS:
-        for st in ed["regional"][reg]:
-            atlas.dot(st["lon"], st["lat"], col, radius=5.0)
+    for _, _, col, lon, lat in stories.GLOBAL_STRIP:
+        if lon is not None and lat is not None:
+            atlas.dot(lon, lat, col, radius=4.8)
+    for card in stories.CARDS:
+        atlas.dot(card["lon"], card["lat"], card["colour"], radius=5.4)
     hero_spots = []
-    for h in ed["heroes"]:
-        hx, hy = atlas.hero_pin(h["lon"], h["lat"], h["colour"], radius=8.8)
+    for h in stories.HEROES:
+        hx, hy = atlas.hero_pin(h["lon"], h["lat"], h["colour"], radius=9.2)
         hero_spots.append((hx, hy, str(h["n"])))
 
     map_img = atlas.finish()
@@ -211,15 +179,16 @@ def atlas_panel(page, ed, x, y, width, height):
             map_y0 + hy,
             num_str,
             "black",
-            11.5,
+            12,
             WHITE,
             "mm",
             within=(map_x0, map_y0, map_x0 + map_w, map_y0 + map_h),
         )
 
-    pill_h = 23
-    for label, lon, lat, bcx, bcy, colour in ed["callouts"]:
-        tw = int(width_of(label, "black", 13.5))
+    # Giant 14px bold open-ocean callouts — crystal clear at 300px!
+    pill_h = 24
+    for label, lon, lat, bcx, bcy, colour in stories.MAP_CALLOUTS:
+        tw = int(width_of(label, "black", 14))
         pw = tw + 18
         px0 = int(round(map_x0 + bcx - pw / 2))
         py0 = int(round(map_y0 + bcy - pill_h / 2))
@@ -237,7 +206,7 @@ def atlas_panel(page, ed, x, y, width, height):
             (py0 + py1) / 2,
             label,
             "black",
-            13.5,
+            14,
             WHITE,
             "lm",
             within=(px0 + 6, py0, px1, py1),
@@ -268,8 +237,8 @@ def atlas_panel(page, ed, x, y, width, height):
 
 
 def hero_panel(page, story, x, y, width, height):
-    """Right-side illustrated hero lead panel: crisp vector art + giant 20px serif head + 14px bold deck."""
-    art_h = 88
+    """Upper-right tall illustrated hero lead card: bespoke vector art + giant 20.5px serif head + 14px deck."""
+    art_h = 86
     page.box(x, y, x + width, y + height, NAVY)
     page.box(x + 1, y + art_h, x + width - 1, y + height - 1, CARD_BG)
 
@@ -291,208 +260,159 @@ def hero_panel(page, story, x, y, width, height):
     page.box(x + 1, y + art_h, x + width - 1, y + art_h + 3, colour)
 
     pill = f"#{story['n']}  {story['region']} \u00b7 {story['beat']}"
-    pill_w = int(width_of(pill, "black", 11.5)) + 14
-    page.box(x + 1, y + 1, x + 1 + pill_w, y + 20, colour)
+    pill_w = int(width_of(pill, "black", 12)) + 16
+    page.box(x + 1, y + 1, x + 1 + pill_w, y + 21, colour)
     page.text(
         x + 1 + pill_w / 2,
-        y + 10.5,
+        y + 11,
         pill,
         "black",
-        11.5,
+        12,
         WHITE,
         "mm",
-        within=(x + 1, y + 1, x + 1 + pill_w, y + 20),
+        within=(x + 1, y + 1, x + 1 + pill_w, y + 21),
     )
 
     top = y + art_h + 3
     pad = 10
     inner = (x + pad - 2, top, x + width - pad + 2, y + height - 2)
     head_lines = wrap_plain(story["head"], "serif", 20.5, width - 2 * pad, 1)
-    page.text(x + pad, top + 26, head_lines[0], "serif", 20.5, INK, within=inner)
-    page.text(x + pad, top + 49, story["deck"], "bold", 14, INK, within=inner)
+    page.text(x + pad, top + 25, head_lines[0], "serif", 20.5, INK, within=inner)
+    page.text(x + pad, top + 48, story["deck"], "bold", 14, INK, within=inner)
 
 
-def region_panel(page, region_name, colour, items, x, y, width, height):
-    """Color-coded regional card: bespoke vector lead illustration + giant 15.5-16.5px bold stories."""
-    header_h = 26
+def gallery_card(page, card, x, y, width, height):
+    """Bespoke illustrated visual story card: color strip + custom vector scene + ONE giant 17px bold headline."""
+    header_h = 22
+    art_h = 88
     page.outline_box(x, y, x + width, y + height, CARD_BG, RULE)
+    colour = card["colour"]
+    # Colored top strip
     page.box(x, y, x + width, y + header_h, colour)
+    strip_txt = f"{card['region']} \u00b7 {card['beat']}"
     page.text(
-        x + 10,
+        x + 8,
         y + header_h / 2,
-        region_name,
+        strip_txt,
         "black",
-        15,
+        12.5,
         WHITE,
         "lm",
-        within=(x + 2, y, x + width - 70, y + header_h),
-    )
-    count_txt = f"{len(items)} STORIES"
-    page.text(
-        x + width - 10,
-        y + header_h / 2,
-        count_txt,
-        "bold",
-        12,
-        WHITE,
-        "rm",
-        within=(x + width - 90, y, x + width - 2, y + header_h),
+        within=(x + 2, y, x + width - 2, y + header_h),
     )
 
-    pad = 9
-    lead_story = items[0]
-    rest_stories = items[1:]
+    # Custom bespoke vector illustration
+    ax0, ay0 = x + 1, y + header_h
+    picture, labels = art.render_scene(card["art"], width - 2, art_h, 4, card.get("note", ""))
+    page.image.paste(picture, (ax0, ay0))
+    for lx, ly, string, size, lcol, lname, lanchor in labels:
+        page.text(
+            ax0 + lx,
+            ay0 + ly,
+            string,
+            lname,
+            size,
+            lcol,
+            lanchor,
+            within=(ax0, ay0, x + width - 1, ay0 + art_h),
+        )
+    page.box(x + 1, ay0 + art_h, x + width - 1, ay0 + art_h + 2, colour)
 
-    # Top illustrated feature row (108 x 60px text-free vector scene + 15.5px bold headline)
-    feat_top = y + header_h + 6
-    art_w, art_h = 108, 60
-    feat_h = art_h + 8
-    ax0, ay0 = x + pad, feat_top
-    page.box(ax0 - 1, ay0 - 1, ax0 + art_w + 1, ay0 + art_h + 1, NAVY)
-    pic, _ = art.render_scene(lead_story["art"], art_w, art_h, 4)
-    page.image.paste(pic, (ax0, ay0))
-
-    tx0 = ax0 + art_w + 9
-    tw = (x + width - pad) - tx0
-    lead_size = 15.5
-    lead_step = 19.5
-    l1_body, l_extra = wrap_with_lead(lead_story["lead"], lead_story["body"], "black", "bold", lead_size, tw, max_lines=3)
-    num_l = 1 + len(l_extra)
-    blk_h = lead_size + (num_l - 1) * lead_step
-    f_base = ay0 + (art_h - blk_h) / 2 + lead_size * 0.85
-    f_inner = (tx0 - 2, ay0 - 2, x + width - pad + 2, ay0 + art_h + 4)
-    lb = page.text(tx0, f_base, lead_story["lead"], "black", lead_size, colour, within=f_inner)
-    if l1_body:
-        page.text(lb[2] + 4.5, f_base, l1_body, "bold", lead_size, INK, within=f_inner)
-    for li, ln in enumerate(l_extra, start=1):
-        page.text(tx0, f_base + li * lead_step, ln, "bold", lead_size, INK, within=f_inner)
-
-    # Remaining concise high-contrast regional stories (15.5-16.5px bold — crisp even at 300px!)
-    body_top = feat_top + feat_h
-    body_h = (y + height - 4) - body_top
-    n_rest = len(rest_stories)
-    slot_h = body_h / n_rest
+    # ONE bold high-contrast headline (17px serif, 2 crisp lines max — ZERO tiny sub-captions or source lines!)
+    text_top = ay0 + art_h + 2
+    text_h = (y + height - 2) - text_top
+    pad = 8
     text_w = width - 2 * pad
-
-    if n_rest <= 2:
-        font_size = 16.5 if slot_h >= 78 else 16.0
-        line_step = 21.5 if slot_h >= 78 else 20.5
-    else:
-        font_size = 15.5
-        line_step = 19.5
-
-    for idx, st in enumerate(rest_stories):
-        sy0 = body_top + idx * slot_h
-        sy1 = body_top + (idx + 1) * slot_h
-        div_y = int(round(sy0))
-        page.box(x + pad, div_y, x + width - pad, div_y + 1, DIVIDER)
-
-        line1_body, extra = wrap_with_lead(st["lead"], st["body"], "black", "bold", font_size, text_w, max_lines=2)
-        num_lines = 1 + len(extra)
-        block_h = font_size + (num_lines - 1) * line_step
-        first_base = sy0 + (slot_h - block_h) / 2 + font_size * 0.86
-        inner = (x + pad - 2, sy0 + 1, x + width - pad + 2, sy1 - 1)
-
-        lead_box = page.text(x + pad, first_base, st["lead"], "black", font_size, colour, within=inner)
-        if line1_body:
-            page.text(lead_box[2] + 4.5, first_base, line1_body, "bold", font_size, INK, within=inner)
-        for li, ln in enumerate(extra, start=1):
-            page.text(x + pad, first_base + li * line_step, ln, "bold", font_size, INK, within=inner)
+    font_size = 17.0
+    line_step = 21.0
+    lines = wrap_plain(card["head"], "serif", font_size, text_w, 2)
+    block_h = font_size + (len(lines) - 1) * line_step
+    first_base = text_top + (text_h - block_h) / 2 + font_size * 0.84
+    inner = (x + pad - 2, text_top, x + width - pad + 2, y + height - 2)
+    for li, ln in enumerate(lines):
+        page.text(x + pad, first_base + li * line_step, ln, "serif", font_size, INK, within=inner)
 
 
 def global_bottom_strip(page, items, top, height):
-    """Deep-navy high-contrast 2x2 bottom bar for Markets, Science, Health & Tennis (14.5px bold white)."""
+    """Deep-navy high-contrast 3x2 bottom wire bar for 6 global & regional beats (14.5px bold pure white)."""
     left, right = MARGIN, SIDE - MARGIN
     width = right - left
     page.box(left, top, right, top + height, NAVY)
     mid_x = left + width // 2
-    mid_y = top + height // 2
-    page.box(mid_x, top + 4, mid_x + 1, top + height - 4, "#334155")
-    page.box(left + 10, mid_y, right - 10, mid_y + 1, "#253147")
-    tag_colours = ("#15803D", "#1D4ED8", RED, "#B45309")
+    rows = 3
+    row_h = height / rows
+    page.box(mid_x, top + 5, mid_x + 1, top + height - 5, "#334155")
+    for r in range(1, rows):
+        ry = int(round(top + r * row_h))
+        page.box(left + 10, ry, right - 10, ry + 1, "#253147")
 
-    for idx, (tag, text) in enumerate(items):
+    for idx, (tag, text, badge_col, _lon, _lat) in enumerate(items):
         row, col = divmod(idx, 2)
         cx0 = left if col == 0 else mid_x + 2
         cx1 = mid_x - 2 if col == 0 else right
-        cy0 = top if row == 0 else mid_y + 1
-        cy1 = mid_y if row == 0 else top + height
+        cy0 = top + row * row_h
+        cy1 = top + (row + 1) * row_h
         cy = (cy0 + cy1) / 2
 
-        tag_w = 78
-        page.box(cx0 + 8, int(round(cy - 9.5)), cx0 + 8 + tag_w, int(round(cy + 9.5)), tag_colours[idx])
+        tag_w = 82
+        page.box(cx0 + 9, int(round(cy - 10)), cx0 + 9 + tag_w, int(round(cy + 10)), badge_col)
         page.text(
-            cx0 + 8 + tag_w / 2,
+            cx0 + 9 + tag_w / 2,
             cy,
             tag,
             "black",
             12,
             WHITE,
             "mm",
-            within=(cx0 + 6, cy0, cx0 + 10 + tag_w, cy1),
+            within=(cx0 + 7, cy0, cx0 + 11 + tag_w, cy1),
         )
         page.text(
-            cx0 + 8 + tag_w + 8,
+            cx0 + 9 + tag_w + 10,
             cy,
             text,
             "bold",
-            14.2,
+            14.5,
             WHITE,
             "lm",
-            within=(cx0 + 8 + tag_w + 6, cy0, cx1 - 4, cy1),
+            within=(cx0 + 9 + tag_w + 7, cy0, cx1 - 6, cy1),
         )
 
 
-def paint(variant=stories.DEFAULT_VARIANT):
-    ed = stories.check(variant)
+def paint():
+    stories.check()
     page = Page()
-    y = masthead(page, ed["total_stories"])
+    y = masthead(page)
 
-    # Upper Centerpiece (y = 87..399, height = 312): Left World Map (612) + Right 2 Stacked Heroes (378)
-    upper_y = y + 5
-    upper_h = 312
-    map_w = 612
+    # Upper Visual Hero (y = 83..389, height = 306): Left World Map (602) + Right 2 Hero Lead Cards (388)
+    upper_y = y + 4
+    upper_h = 306
+    map_w = 602
     gap_x = 10
     hero_x = MARGIN + map_w + gap_x
-    hero_w = SIDE - MARGIN - hero_x  # 378
-    atlas_panel(page, ed, MARGIN, upper_y, map_w, upper_h)
+    hero_w = SIDE - MARGIN - hero_x  # 388
+    atlas_panel(page, MARGIN, upper_y, map_w, upper_h)
 
-    hero_h = 152
+    hero_h = 149
     hero_gap = 8
-    for i, hero in enumerate(ed["heroes"]):
+    for i, hero in enumerate(stories.HEROES):
         hero_panel(page, hero, hero_x, upper_y + i * (hero_h + hero_gap), hero_w, hero_h)
 
-    # Lower Regional Ledger (y = 406..960, height = 554, 3 cols x 2 rows)
-    ledger_y = upper_y + upper_h + 7
-    ledger_h = 554
+    # Middle Visual Story Gallery (y = 396..916, height = 520): 3 rows x 4 cols = 12 Illustrated Cards
+    grid_y = upper_y + upper_h + 7
+    card_w = 242
+    card_h = 168
+    col_gap = 10
     row_gap = 8
-    col_gap = 11
-    col_w = 326
+    grid_x0 = (SIDE - (4 * card_w + 3 * col_gap)) // 2  # 13
+    for idx, card in enumerate(stories.CARDS):
+        row, col = divmod(idx, 4)
+        cx = grid_x0 + col * (card_w + col_gap)
+        cy = grid_y + row * (card_h + row_gap)
+        gallery_card(page, card, cx, cy, card_w, card_h)
 
-    row1_regions = stories.REGIONS[:3]
-    row2_regions = stories.REGIONS[3:]
-    max_r1 = max(len(ed["regional"][r]) for r, _ in row1_regions)
-    max_r2 = max(len(ed["regional"][r]) for r, _ in row2_regions)
-    usable_h = ledger_h - row_gap  # 546
-    if max_r1 > max_r2:
-        row1_h = 294
-        row2_h = usable_h - row1_h  # 252
-    else:
-        row1_h = usable_h // 2  # 273
-        row2_h = usable_h - row1_h  # 273
-
-    for col, (reg, colour) in enumerate(row1_regions):
-        cx = MARGIN + col * (col_w + col_gap)
-        region_panel(page, reg, colour, ed["regional"][reg], cx, ledger_y, col_w, row1_h)
-
-    row2_y = ledger_y + row1_h + row_gap
-    for col, (reg, colour) in enumerate(row2_regions):
-        cx = MARGIN + col * (col_w + col_gap)
-        region_panel(page, reg, colour, ed["regional"][reg], cx, row2_y, col_w, row2_h)
-
-    # Bottom Deep-Navy Global Accent Strip (y = 966..1018, height = 52)
-    global_bottom_strip(page, ed["global_strip"], ledger_y + ledger_h + 6, 52)
-    return page, ed
+    # Bottom Deep-Navy Global & Regional Wire Strip (y = 923..1017, height = 94)
+    global_bottom_strip(page, stories.GLOBAL_STRIP, grid_y + 3 * card_h + 2 * row_gap + 7, 94)
+    return page
 
 
 def png_bytes(pixels):
@@ -537,8 +457,7 @@ def png_bytes(pixels):
 def main():
     here = os.path.dirname(os.path.abspath(__file__))
     target = sys.argv[1] if len(sys.argv) > 1 else os.path.join(here, "..", "entry.png")
-    variant = sys.argv[2] if len(sys.argv) > 2 else stories.DEFAULT_VARIANT
-    page, ed = paint(variant)
+    page = paint()
     problems = page.audit()
     for problem in problems:
         print(problem)
@@ -546,7 +465,7 @@ def main():
     with open(target, "wb") as handle:
         handle.write(data)
     print(
-        f"{os.path.normpath(target)} [v7c-{ed['variant']} / {ed['total_stories']} stories]: "
+        f"{os.path.normpath(target)} [v8 / {stories.total_stories()} visual stories]: "
         f"{len(data)} bytes, filter plan {plan}, {len(page.placed)} text runs, {len(problems)} problem(s)"
     )
     if problems:

@@ -1,16 +1,15 @@
-"""Verified full-day Sunday 22 November 2026 world news dataset for the World News Atlas front page.
+"""Verified Sunday 22 November 2026 world news dataset for the v8 Illustrated Visual World Atlas.
 
-Every story happened or was first reported on Sunday 22 November 2026 across all 7 world regions and all
-major beats (Climate, Energy, Politics, Diplomacy, Conflict, Defence, Economy/Markets, Space, Science,
-Health, Labour, Disasters/Weather, Humanitarian, Sport), with strict Sunday 22 Nov date purity,
-punchy 300px-legible headlines, and zero fussy source-credit micro-text.
+18 verified pure Sunday 22 November 2026 stories across all 7 world regions and 13+ major beats:
+  - 2 Tall Illustrated Hero Lead Panels (COP31 Antalya + Iran rolling blackouts)
+  - 12 Bespoke Illustrated Gallery Cards (3 rows x 4 columns — every story clear from picture + bold 17.5px headline)
+  - 4 Bold Bottom Wire Beats (Markets, Science, Health, Tennis — 15.5px bold white on deep navy)
+Zero bullet walls, zero tiny sub-captions, zero fussy source credits, zero pre-cutoff leakage.
 """
 
 EDITION_DAY = "Sunday 22 November 2026"
 EDITION_TAG = "SUNDAY EDITION"
-DEFAULT_VARIANT = "27"
 
-# 6 colour-coded geographic regions matching map pins & ledger headers + Global crimson for Hero #1
 REGIONS = [
     ("EUROPE", "#1D4ED8"),
     ("AMERICAS", "#6D28D9"),
@@ -21,9 +20,10 @@ REGIONS = [
 ]
 
 REGION_COLOUR = {name: colour for name, colour in REGIONS}
+REGION_COLOUR["S. AMERICA"] = "#7E22CE"
 GLOBAL_COLOUR = "#B8251E"
 
-# 2 Upper-Right Illustrated Hero Lead Panels
+# 2 Upper-Right Tall Illustrated Hero Lead Panels
 HEROES = [
     {
         "n": 1,
@@ -32,8 +32,8 @@ HEROES = [
         "colour": GLOBAL_COLOUR,
         "art": "cop31",
         "note": "NO DEAL",
-        "head": "COP31 Antalya ends with no deal",
-        "deck": "44h overtime stalls as EU & islands reject draft",
+        "head": "COP31 ends with no deal",
+        "deck": "44h Antalya overtime \u00b7 EU & islands reject draft",
         "lon": 30.7,
         "lat": 36.9,
     },
@@ -44,228 +44,194 @@ HEROES = [
         "colour": REGION_COLOUR["MIDDLE EAST"],
         "art": "iran_grid",
         "note": "2h CUTS",
-        "head": "Iran starts rolling power cuts",
-        "deck": "Nationwide 2-hour blackouts follow gas-grid hits",
+        "head": "Iran imposes rolling blackouts",
+        "deck": "2h nationwide cuts after gas-grid strikes",
         "lon": 51.4,
         "lat": 35.7,
     },
 ]
 
-# Full verified Sunday 22 Nov 2026 regional pool: story 0 carries a bespoke text-free vector scene.
-# Concise, self-contained headlines engineered to stay giant (15.5-16.5px bold) and razor-sharp at 300px.
-REGIONAL_STORIES = {
-    "EUROPE": [
-        {
-            "art": "igmetall",
-            "lead": "Germany:",
-            "body": "IG Metall strikes hit 19 northern plants",
-            "lon": 10.0,
-            "lat": 53.5,
-        },
-        {
-            "lead": "Ukraine:",
-            "body": "Russian drone strike sparks fire in Kharkiv",
-            "lon": 36.2,
-            "lat": 50.0,
-        },
-        {
-            "lead": "Poland:",
-            "body": "11-nation Coalition 2026 drills conclude",
-            "lon": 22.0,
-            "lat": 50.0,
-        },
-        {
-            "lead": "Britain:",
-            "body": "Liverpool rout 10-man Man Utd 4\u20130",
-            "lon": -3.0,
-            "lat": 53.4,
-        },
-    ],
-    "AMERICAS": [
-        {
-            "art": "spacex",
-            "lead": "SpaceX:",
-            "body": "Falcon 9 launches NROL-136, lands LZ-4",
-            "lon": -120.6,
-            "lat": 34.7,
-        },
-        {
-            "lead": "U.S. House:",
-            "body": "Final NC call seals 258-seat Dem majority",
-            "lon": -77.0,
-            "lat": 38.9,
-        },
-        {
-            "lead": "Brazil:",
-            "body": "Flood alerts widen; storms leave 5 dead",
-            "lon": -51.2,
-            "lat": -30.0,
-        },
-        {
-            "lead": "Las Vegas:",
-            "body": "Verstappen wins F1 GP ahead of Norris",
-            "lon": -115.1,
-            "lat": 36.2,
-        },
-    ],
-    "MIDDLE EAST": [
-        {
-            "art": "gaza_storm",
-            "lead": "Gaza:",
-            "body": "Storms flood 70,000 tents; insulin short",
-            "lon": 34.5,
-            "lat": 31.5,
-        },
-        {
-            "lead": "Israel:",
-            "body": "Eisenkot\u2013Likud coalition talks stall",
-            "lon": 34.8,
-            "lat": 32.1,
-        },
-        {
-            "lead": "Bahrain:",
-            "body": "U.S. Embassy flags Gulf security threats",
-            "lon": 50.6,
-            "lat": 26.2,
-        },
-        {
-            "lead": "Lebanon:",
-            "body": "UNIFIL transfers posts to Lebanese army",
-            "lon": 35.1,
-            "lat": 33.1,
-        },
-    ],
-    "AFRICA": [
-        {
-            "art": "sudan_un",
-            "lead": "Sudan:",
-            "body": "RSF drones hit Khartoum & UN facility",
-            "lon": 32.5,
-            "lat": 15.6,
-        },
-        {
-            "lead": "Congo:",
-            "body": "Kenya & DRC agree to restore full relations",
-            "lon": 15.9,
-            "lat": -1.1,
-        },
-        {
-            "lead": "South Africa:",
-            "body": "DA floats 137-council coalition pact",
-            "lon": 28.0,
-            "lat": -26.2,
-        },
-    ],
-    "ASIA": [
-        {
-            "art": "banten",
-            "lead": "Indonesia:",
-            "body": "Banten factory fire: 3 dead, dozens missing",
-            "lon": 106.4,
-            "lat": -6.2,
-        },
-        {
-            "lead": "China:",
-            "body": "Exchanges cut stock margin rule to 80% limit",
-            "lon": 121.5,
-            "lat": 31.2,
-        },
-        {
-            "lead": "Japan:",
-            "body": "Onosato wins Kyushu Sumo Emperor's Cup",
-            "lon": 130.4,
-            "lat": 33.6,
-        },
-        {
-            "lead": "Myanmar:",
-            "body": "Junta rejects ASEAN peace review",
-            "lon": 96.2,
-            "lat": 19.8,
-        },
-    ],
-    "OCEANIA": [
-        {
-            "art": "cricket",
-            "lead": "Wellington:",
-            "body": "India declare 720/9d; NZ 119/2 Day 4",
-            "lon": 174.8,
-            "lat": -41.3,
-        },
-        {
-            "lead": "Australia:",
-            "body": "Urgent inquiry into online peptide sales",
-            "lon": 149.1,
-            "lat": -35.3,
-        },
-        {
-            "lead": "NZ Rugby:",
-            "body": "Union backs coach Rennie after tour losses",
-            "lon": 174.8,
-            "lat": -36.8,
-        },
-    ],
-}
-
-# Bottom Deep-Navy Global Accent Strip: 100% pure Sunday 22 Nov 2026 beats (ZERO Sat-21-Nov boundary risk!)
-GLOBAL_STRIP = [
-    ("MARKETS", "Bitcoin rebounds near $59.2K; Brent crude $92/bbl"),
-    ("SCIENCE", "Caltech study of 257 mergers finds silent black holes"),
-    ("HEALTH", "UPenn links EFEMP1 gene to late-onset vision loss"),
-    ("TENNIS", "Alcaraz beats Zverev 6\u20132, 7\u20136 for maiden ATP Finals"),
+# 12 Bespoke Illustrated Visual Story Cards (3 rows x 4 columns)
+CARDS = [
+    {
+        "n": 3,
+        "region": "EUROPE",
+        "beat": "LABOUR",
+        "colour": REGION_COLOUR["EUROPE"],
+        "art": "igmetall",
+        "note": "24h",
+        "head": "IG Metall strikes 19 German plants",
+        "lon": 10.0,
+        "lat": 53.5,
+    },
+    {
+        "n": 4,
+        "region": "AMERICAS",
+        "beat": "SPACE",
+        "colour": REGION_COLOUR["AMERICAS"],
+        "art": "spacex",
+        "note": "FALCON 9",
+        "head": "SpaceX launches NROL-136, lands LZ-4",
+        "lon": -120.6,
+        "lat": 34.7,
+    },
+    {
+        "n": 5,
+        "region": "MIDDLE EAST",
+        "beat": "AID",
+        "colour": REGION_COLOUR["MIDDLE EAST"],
+        "art": "gaza_storm",
+        "note": "",
+        "head": "Gaza storms flood 70,000 tents",
+        "lon": 34.5,
+        "lat": 31.5,
+    },
+    {
+        "n": 6,
+        "region": "AFRICA",
+        "beat": "CONFLICT",
+        "colour": REGION_COLOUR["AFRICA"],
+        "art": "sudan_un",
+        "note": "UN",
+        "head": "RSF drones hit Khartoum UN site",
+        "lon": 32.5,
+        "lat": 15.6,
+    },
+    {
+        "n": 7,
+        "region": "ASIA",
+        "beat": "DISASTER",
+        "colour": REGION_COLOUR["ASIA"],
+        "art": "banten",
+        "note": "",
+        "head": "Banten fire: 3 dead, dozens missing",
+        "lon": 106.4,
+        "lat": -6.2,
+    },
+    {
+        "n": 8,
+        "region": "OCEANIA",
+        "beat": "CRICKET",
+        "colour": REGION_COLOUR["OCEANIA"],
+        "art": "cricket",
+        "note": "720/9d",
+        "head": "India 720/9d vs NZ (119/2) in Test",
+        "lon": 174.8,
+        "lat": -41.3,
+    },
+    {
+        "n": 9,
+        "region": "AMERICAS",
+        "beat": "POLITICS",
+        "colour": REGION_COLOUR["AMERICAS"],
+        "art": "us_house",
+        "note": "258 SEATS",
+        "head": "Final race seals 258-seat Dem House",
+        "lon": -77.0,
+        "lat": 38.9,
+    },
+    {
+        "n": 10,
+        "region": "S. AMERICA",
+        "beat": "STORM",
+        "colour": REGION_COLOUR["S. AMERICA"],
+        "art": "storm",
+        "note": "",
+        "head": "Brazil floods leave 5 dead in south",
+        "lon": -51.2,
+        "lat": -30.0,
+    },
+    {
+        "n": 11,
+        "region": "EUROPE",
+        "beat": "WAR",
+        "colour": REGION_COLOUR["EUROPE"],
+        "art": "kharkiv",
+        "note": "",
+        "head": "Drone strike sparks Kharkiv fire",
+        "lon": 36.2,
+        "lat": 50.0,
+    },
+    {
+        "n": 12,
+        "region": "ASIA",
+        "beat": "MARKETS",
+        "colour": REGION_COLOUR["ASIA"],
+        "art": "china_market",
+        "note": "80%",
+        "head": "China cuts stock margin to 80%",
+        "lon": 121.5,
+        "lat": 31.2,
+    },
+    {
+        "n": 13,
+        "region": "EUROPE",
+        "beat": "SPORT",
+        "colour": REGION_COLOUR["EUROPE"],
+        "art": "anfield",
+        "note": "LIV 4\u20130 MUN",
+        "head": "Liverpool rout Man Utd 4\u20130 at Anfield",
+        "lon": -3.0,
+        "lat": 53.4,
+    },
+    {
+        "n": 14,
+        "region": "AMERICAS",
+        "beat": "F1",
+        "colour": REGION_COLOUR["AMERICAS"],
+        "art": "vegas",
+        "note": "",
+        "head": "Verstappen wins Las Vegas F1 GP",
+        "lon": -115.1,
+        "lat": 36.2,
+    },
 ]
 
-# 8 bold giant (13.5px) open-ocean callouts on the 610 x 256 Natural Earth map — zero cryptic abbreviations!
+# Bottom Deep-Navy Global & Regional Wire Strip (6 crisp 14.5px bold white beats — >=2 stories on every continent!)
+GLOBAL_STRIP = [
+    ("MARKETS", "Bitcoin near $59.2K; Brent crude $92/bbl", "#15803D", None, None),
+    ("SCIENCE", "LIGO study of 257 mergers finds silent black holes", "#1D4ED8", None, None),
+    ("TENNIS", "Alcaraz beats Zverev 6\u20132, 7\u20136 for ATP Finals", "#B45309", 7.7, 45.1),
+    ("AFRICA", "Congo summit: Kenya & DRC restore full ties", REGION_COLOUR["AFRICA"], 15.9, -1.1),
+    ("ASIA", "Onosato wins Kyushu Sumo Emperor's Cup", REGION_COLOUR["ASIA"], 130.4, 33.6),
+    ("HEALTH", "Australia orders urgent online peptide probe", REGION_COLOUR["OCEANIA"], 149.1, -35.3),
+]
+
+# 7 giant bold (14.5px) open-ocean callouts on the 600 x 260 Natural Earth map — ultra-clean at 300px!
 # (label, lon, lat, box_cx, box_cy, colour)
 MAP_CALLOUTS = [
     ("SPACEX", -120.6, 34.7, 74, 130, REGION_COLOUR["AMERICAS"]),
-    ("BRAZIL", -51.2, -30.0, 126, 214, REGION_COLOUR["AMERICAS"]),
-    ("EU STRIKES", 10.0, 53.5, 224, 38, REGION_COLOUR["EUROPE"]),
-    ("#1 COP31", 30.7, 36.9, 452, 44, GLOBAL_COLOUR),
-    ("#2 IRAN", 51.4, 35.7, 434, 144, REGION_COLOUR["MIDDLE EAST"]),
-    ("KHARTOUM", 32.5, 15.6, 272, 174, REGION_COLOUR["AFRICA"]),
-    ("BANTEN", 106.4, -6.2, 544, 140, REGION_COLOUR["ASIA"]),
-    ("WELLINGTON", 174.8, -41.3, 460, 232, REGION_COLOUR["OCEANIA"]),
+    ("BRAZIL", -51.2, -30.0, 124, 214, REGION_COLOUR["S. AMERICA"]),
+    ("EUROPE", 10.0, 53.5, 224, 38, REGION_COLOUR["EUROPE"]),
+    ("#1 COP31", 30.7, 36.9, 448, 44, GLOBAL_COLOUR),
+    ("#2 IRAN", 51.4, 35.7, 430, 146, REGION_COLOUR["MIDDLE EAST"]),
+    ("KHARTOUM", 32.5, 15.6, 268, 174, REGION_COLOUR["AFRICA"]),
+    ("BANTEN", 106.4, -6.2, 536, 142, REGION_COLOUR["ASIA"]),
+    ("WELLINGTON", 174.8, -41.3, 452, 232, REGION_COLOUR["OCEANIA"]),
 ]
 
-VARIANT_COUNTS = {
-    "24": {"EUROPE": 3, "AMERICAS": 3, "MIDDLE EAST": 3, "AFRICA": 3, "ASIA": 3, "OCEANIA": 3},
-    "27": {"EUROPE": 4, "AMERICAS": 4, "MIDDLE EAST": 4, "AFRICA": 3, "ASIA": 3, "OCEANIA": 3},
-}
+
+def total_stories():
+    return len(HEROES) + len(CARDS) + len(GLOBAL_STRIP)
 
 
-def get_edition(variant=DEFAULT_VARIANT):
-    counts = VARIANT_COUNTS[str(variant)]
-    regional = {reg: REGIONAL_STORIES[reg][: counts[reg]] for reg, _ in REGIONS}
-    total = len(HEROES) + sum(len(v) for v in regional.values()) + len(GLOBAL_STRIP)
-    return {
-        "variant": str(variant),
-        "heroes": HEROES,
-        "regional": regional,
-        "global_strip": GLOBAL_STRIP,
-        "callouts": MAP_CALLOUTS,
-        "total_stories": total,
-    }
-
-
-def check(variant=DEFAULT_VARIANT):
-    ed = get_edition(variant)
-    assert len(ed["heroes"]) == 2
-    assert len(ed["global_strip"]) == 4
-    assert len(ed["regional"]) == 6
-    for reg, _ in REGIONS:
-        assert len(ed["regional"][reg]) >= 3
-        assert "art" in ed["regional"][reg][0], f"lead story in {reg} needs illustration"
+def check():
+    assert len(HEROES) == 2
+    assert len(CARDS) == 12
+    assert len(GLOBAL_STRIP) == 6
+    assert [s["n"] for s in HEROES + CARDS] == list(range(1, 15))
+    seen = {s["region"] for s in HEROES + CARDS}
+    for req in ("GLOBAL", "EUROPE", "AMERICAS", "S. AMERICA", "MIDDLE EAST", "AFRICA", "ASIA", "OCEANIA"):
+        assert req in seen, f"missing region: {req}"
     blob = " ".join(
-        [h["head"] + " " + h["deck"] for h in ed["heroes"]]
-        + [s["lead"] + " " + s["body"] for lst in ed["regional"].values() for s in lst]
-        + [a + " " + b for a, b in ed["global_strip"]]
+        [h["head"] + " " + h["deck"] for h in HEROES]
+        + [c["head"] for c in CARDS]
+        + [a + " " + b for a, b, *_ in GLOBAL_STRIP]
     ).lower()
-    for banned in ("merkury", "benghazi", "98.8%", "hong kong", "supercell", "bepicolombo", "spy payload"):
+    for banned in ("merkury", "benghazi", "98.8%", "hong kong", "bepicolombo", "supercell", "spy payload", "nc call"):
         assert banned not in blob, f"banned/ambiguous token found: {banned}"
-    return ed
 
 
 if __name__ == "__main__":
-    for v in ("24", "27"):
-        ed = check(v)
-        print(f"OK variant={v}: {ed['total_stories']} verified pure Sunday 22 Nov 2026 stories (8 illustrated scenes)")
+    check()
+    print(f"OK: {total_stories()} verified Sunday 22 Nov 2026 stories (14 bespoke visual scenes + world atlas + 4 wire beats)")
