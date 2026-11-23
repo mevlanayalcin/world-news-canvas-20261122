@@ -198,8 +198,8 @@ def art_cop31(a):
     a.rect(220.5, 25, 225.5, 73, "#DC2626")
     for y in (24, 36, 48, 60):
         a.rect(228, y - 0.6, 233, y + 0.6, "#FBFAF4")
-    a.label(236, 33, "1.5\u00b0C", 18.5, "#FFFFFF", "black", "ls")
-    a.label(236, 60, "NO DEAL", 15.5, "#FDE68A", "black", "ls")
+    a.label(236, 33, "1.5\u00b0C", 16.5, "#FFFFFF", "black", "ls")
+    a.label(236, 58, a.note or "NO DEAL", 14.0, "#FDE68A", "black", "ls")
     # Wooden gavel + brass band + sound block
     a.rect(298, 75, 346, 82, "#5B3413")
     a.rect(294, 81, 349, 86, "#7A4A1E")
@@ -363,7 +363,7 @@ def art_sudan_un(a):
     a.rect(144, 71, 166, 84, "#475569")
     a.disc(122, 66, 16, "#FFFFFF")
     a.disc(122, 66, 14.5, "#1D6FA5")
-    a.label(122, 66, a.note or "UN", 16, "#FFFFFF", "black", "mm")
+    a.label(122, 66, "UN", 14.5, "#FFFFFF", "black", "mm")
     smoke(a, ((204, 34, 17), (226, 22, 19), (252, 14, 17), (278, 10, 14)), "#3F3F46")
     a.star(198, 46, 22, 9.8, 8, 12, "#E4572E")
     a.star(198, 46, 13.5, 6.2, 8, 34, "#F6A21B")
@@ -371,6 +371,11 @@ def art_sudan_un(a):
     # Crisp dark delta-wing drone
     a.poly([(276, 26), (316, 15), (308, 27), (320, 38)], "#0F172A")
     a.dash([(272, 28), (244, 35), (220, 42)], "#1E293B", 1.6, 3.8, 3.2)
+    if a.note and a.note != "UN":
+        a.rect(236, 62, 346, 94, "#64748B")
+        a.rect(238, 64, 344, 92, "#0F172A")
+        a.rect(238, 64, 245, 92, "#DC2626")
+        a.label(294, 78, a.note, 14.5, "#FDE68A", "black", "mm")
 
 
 def art_banten(a):
@@ -573,9 +578,9 @@ def art_vegas(a):
             for column in range(int(width // 6)):
                 if (row * 3 + column * 5 + index) % 4 != 0:
                     a.rect(x + 2.2 + column * 6, top + 5 + row * 7, x + 4.6 + column * 6, top + 8 + row * 7, neon[(row + column + index) % 4])
-    a.rect(144, 6, 274, 28, "#F472B6")
-    a.rect(146, 8, 272, 26, "#231848")
-    a.label(209, 17, "LAS VEGAS", 12.5, "#FDE68A", "black", "mm")
+    a.rect(104, 6, 284, 32, "#F472B6")
+    a.rect(106, 8, 282, 30, "#231848")
+    a.label(194, 19, a.note or "LAS VEGAS", 12.0, "#FDE68A", "black", "mm")
     a.disc(286, 52, 18, "#D9770B")
     a.disc(286, 52, 15.5, "#F59E0B")
     a.disc(281, 48, 8.5, "#FCD34D")
@@ -604,9 +609,132 @@ def art_vegas(a):
             )
 
 
+def art_dymer(a):
+    """Kyiv-region Dymer five-story residential block hit at dawn: blasted corner, flames, rescue lights & 11 KILLED."""
+    a.bg("#182540")
+    a.rect(0, 36, 352, 74, "#24375C")
+    a.rect(0, 74, 352, 100, "#1E293B")
+    # Background Kyiv blocks
+    for bx, btop, bw in ((6, 46, 40), (272, 42, 34), (312, 52, 36)):
+        a.rect(bx, btop, bx + bw, 84, "#0F172A")
+        for r in range(3):
+            for c in range(2):
+                a.rect(bx + 6 + c * 12, btop + 8 + r * 11, bx + 12 + c * 12, btop + 13 + r * 11, "#334155")
+    # Five-story apartment building with damaged upper-right section
+    a.rect(58, 28, 224, 88, "#CBD5E1")
+    a.rect(58, 28, 224, 33, "#64748B")
+    # Jagged impact crater upper-right of apartment block
+    a.poly([(164, 26), (226, 26), (226, 62), (206, 56), (192, 64), (178, 52), (166, 42)], "#182540")
+    # Remaining intact windows
+    for row in range(4):
+        wy = 38 + row * 12
+        for col in range(5):
+            wx = 68 + col * 20
+            if row < 2 and col >= 4:
+                continue
+            a.rect(wx, wy, wx + 11, wy + 7, "#FDE047" if (row + col) % 4 == 0 else "#1E293B")
+    # Rising smoke & blaze at impact site
+    smoke(a, ((188, 26, 17), (210, 16, 19), (236, 10, 18), (262, 8, 15)), "#475569")
+    flame(a, 192, 56, 24, 32)
+    flame(a, 172, 50, 12, 18)
+    # Rubble pile + red/blue emergency rescue beacons at base
+    a.poly([(162, 88), (186, 74), (218, 78), (242, 88)], "#64748B")
+    a.rect(246, 72, 294, 88, "#C81E1E")
+    a.rect(254, 67, 264, 72, "#38BDF8")
+    a.disc(258, 88, 6.0, "#0F172A")
+    a.disc(284, 88, 6.0, "#0F172A")
+    # Crisp 11 KILLED plaque
+    a.rect(222, 10, 344, 46, "#64748B")
+    a.rect(224, 12, 342, 44, "#0F172A")
+    a.rect(224, 12, 231, 44, "#DC2626")
+    a.label(286, 28, a.note or "11 KILLED", 15.5, "#FDE68A", "black", "mm")
+
+
+def art_manchester_evac(a):
+    """Manchester Co-op Live concert arena evacuation: curved bowl, haze plume, crowd exiting & 12,000 EVAC badge."""
+    a.bg("#1E293B")
+    a.rect(0, 62, 352, 100, "#334155")
+    # Curved arena roof & illuminated exterior facade
+    a.poly([(22, 76), (44, 34), (168, 26), (258, 38), (276, 76)], "#475569")
+    a.poly([(36, 76), (52, 44), (168, 37), (246, 46), (262, 76)], "#0F172A")
+    for gx in range(56, 244, 24):
+        a.rect(gx, 48, gx + 14, 72, "#38BDF8" if gx % 48 == 8 else "#1E40AF")
+    # Pale greenish-grey irritant haze curling out of main exit
+    smoke(a, ((124, 62, 16), (146, 52, 19), (170, 44, 18), (192, 54, 14)), "#A7F3D0")
+    smoke(a, ((134, 60, 11), (158, 50, 13)), "#D1FAE5")
+    # Crowd silhouettes streaming cleanly outward
+    for sx in (58, 80, 102, 128, 152, 178, 204, 230):
+        a.disc(sx, 77, 4.6, "#F8FAFC")
+        a.poly([(sx - 5.5, 96), (sx - 4.2, 82), (sx + 4.2, 82), (sx + 5.5, 96)], "#F8FAFC")
+    # Crisp 12,000 EVAC badge
+    a.rect(198, 10, 346, 46, "#64748B")
+    a.rect(200, 12, 344, 44, "#0F172A")
+    a.rect(200, 12, 207, 44, "#EF4444")
+    a.label(276, 28, a.note or "12,000 EVAC", 13.5, "#FDE68A", "black", "mm")
+
+
+def art_korea_resign(a):
+    """South Korea Education Minister resignation over Suneung AI rules: exam sheet, empty podium & RESIGNS badge."""
+    a.bg("#E2E8F0")
+    a.rect(0, 74, 352, 100, "#CBD5E1")
+    # Subtle Taegeuk crimson & cobalt stripe along top
+    a.rect(0, 0, 176, 8, "#C81E1E")
+    a.rect(176, 0, 352, 8, "#1D4ED8")
+    # Exam sheet with AI warning circle left
+    a.rect(18, 18, 112, 84, "#FFFFFF")
+    a.rect(18, 18, 112, 26, "#1E293B")
+    for ry in (36, 48, 60, 72):
+        a.rect(28, ry, 88, ry + 3.5, "#94A3B8")
+    a.disc(104, 66, 17, "#DC2626")
+    a.disc(104, 66, 12.5, "#FFFFFF")
+    a.rotbox(104, 66, 26, 4.2, -45, "#DC2626")
+    # Empty ministerial podium center
+    a.rect(150, 46, 202, 54, "#7C4A21")
+    a.rect(158, 54, 194, 88, "#5B3413")
+    a.rect(172, 34, 174.5, 46, "#1E293B")
+    a.disc(173, 33, 3.0, "#1E293B")
+    a.rect(180, 36, 182.5, 46, "#1E293B")
+    a.disc(181, 35, 3.0, "#1E293B")
+    # Stepping-down crimson arrow
+    a.line([(164, 24), (192, 24), (210, 40)], "#DC2626", 3.0)
+    a.poly([(214, 44), (200, 42), (210, 30)], "#DC2626")
+    # Bold RESIGNS plaque right
+    a.rect(218, 22, 344, 64, "#0F172A")
+    a.rect(220, 24, 342, 62, "#B8251E")
+    a.label(281, 43, a.note or "RESIGNS", 14.5, "#FFFFFF", "black", "mm")
+
+
+def art_tennis_atp(a):
+    """Turin ATP Finals indoor hardcourt: blue court, white lines, racket, yellow ball, trophy & 6-2, 7-6 scoreboard."""
+    a.bg("#1E3A8A")
+    a.rect(0, 0, 352, 26, "#0F172A")
+    # Indoor blue court perspective
+    a.poly([(14, 96), (56, 30), (226, 30), (268, 96)], "#2563EB")
+    a.line([(14, 96), (56, 30), (226, 30), (268, 96), (14, 96)], "#FFFFFF", 2.0)
+    a.line([(42, 54), (240, 54)], "#FFFFFF", 2.2)
+    a.line([(141, 30), (141, 96)], "#93C5FD", 1.3)
+    # Tennis racket & bright neon-yellow ball
+    a.ring(92, 52, 20, "#F8FAFC", 3.2)
+    a.rotbox(112, 76, 6.0, 28, -36, "#F59E0B")
+    a.disc(158, 46, 9.5, "#D9F99D")
+    a.ring(158, 46, 9.5, "#65A30D", 1.4)
+    # Golden ATP trophy silhouette left
+    a.poly([(194, 82), (214, 82), (208, 72), (200, 72)], "#F59E0B")
+    a.rect(201, 58, 207, 72, "#FBBF24")
+    a.poly([(192, 42), (216, 42), (211, 58), (197, 58)], "#FDE047")
+    # Scoreboard plaque right
+    a.rect(226, 18, 346, 66, "#64748B")
+    a.rect(228, 20, 344, 64, "#0F172A")
+    a.rect(228, 20, 235, 64, "#F59E0B")
+    a.label(289, 42, a.note or "6\u20132, 7\u20136", 14.5, "#FDE68A", "black", "mm")
+
+
 SCENES = {
     "cop31": art_cop31,
+    "dymer": art_dymer,
     "iran_grid": art_iran_grid,
+    "manchester_evac": art_manchester_evac,
+    "korea_resign": art_korea_resign,
     "igmetall": art_igmetall,
     "spacex": art_spacex,
     "gaza_storm": art_gaza_storm,
@@ -619,6 +747,7 @@ SCENES = {
     "china_market": art_china_market,
     "anfield": art_anfield,
     "vegas": art_vegas,
+    "tennis_atp": art_tennis_atp,
 }
 
 
